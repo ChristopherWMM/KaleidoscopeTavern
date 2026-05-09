@@ -4,6 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.brew.BarrelBlockEntity
 import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.brew.TapBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
+import com.github.ysbbbbbb.kaleidoscopetavern.init.ModParticles;
 import com.github.ysbbbbbb.kaleidoscopetavern.util.VoxelShapeUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -117,11 +118,11 @@ public class TapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock 
 
                 // 播放滴水粒子效果
                 if (level.getBlockEntity(pos) instanceof TapBlockEntity tapEntity) {
-                    ParticleOptions particle = ParticleTypes.DRIPPING_DRIPSTONE_WATER;
+                    ParticleOptions particle = ModParticles.WATER_TAP_DRIP.get();
                     // 燃烧瓶很特殊
                     // FIXME: 应该用 tag 来决定粒子的效果？
                     if (barrelEntity.getOutput().getStackInSlot(0).is(ModItems.MOLOTOV.get())) {
-                        particle = ParticleTypes.DRIPPING_DRIPSTONE_LAVA;
+                        particle = ModParticles.LAVA_TAP_DRIP.get();
                     }
                     tapEntity.setParticle(particle);
                     tapEntity.setState(TAKE_DRINK_STATE);

@@ -23,6 +23,7 @@ public class KaleidoscopeTavern {
         ModEntities.ENTITY_TYPES.register(modEventBus);
         ModRecipes.RECIPE_SERIALIZERS.register(modEventBus);
         ModTreeDecoratorTypes.TREE_DECORATOR_TYPES.register(modEventBus);
+        ModParticles.PARTICLES.register(modEventBus);
     }
 
     public static ResourceLocation modLoc(String path) {
