@@ -166,6 +166,7 @@ public class BlockStateGenerator extends BlockStateProvider {
         drink(ModBlocks.WHISKEY.get(), "whiskey");
         drink(ModBlocks.ICE_WINE.get(), "ice_wine");
         drink(ModBlocks.VINEGAR.get(), "vinegar");
+        drink(ModBlocks.WATERMELON_JUICE.get(), "watermelon_juice");
 
         // 桌子
         table();

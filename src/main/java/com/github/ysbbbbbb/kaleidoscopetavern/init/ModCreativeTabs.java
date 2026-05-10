@@ -39,6 +39,7 @@ public interface ModCreativeTabs {
                 output.accept(ModItems.BRANDY.get());
                 output.accept(ModItems.CARIGNAN.get());
                 output.accept(ModItems.WHISKEY.get());
+                output.accept(ModItems.WATERMELON_JUICE.get());
             }).build());
 
     RegistryObject<CreativeModeTab> TAVERN_DECO_TAB = TABS.register("tavern_deco", () -> CreativeModeTab.builder()

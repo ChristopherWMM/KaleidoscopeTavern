@@ -240,6 +240,16 @@ public interface ModBlocks {
             Block.box(2, 0, 2, 14, 16, 14)
     ).build());
 
+    RegistryObject<Block> WATERMELON_JUICE = BLOCKS.register("watermelon_juice", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
     // BlockEntity
     RegistryObject<BlockEntityType<ChalkboardBlockEntity>> CHALKBOARD_BE = BLOCK_ENTITIES.register(
             "chalkboard", () -> BlockEntityType.Builder
@@ -296,7 +306,8 @@ public interface ModBlocks {
             "drink", () -> BlockEntityType.Builder
                     .of(DrinkBlockEntity::new,
                             WINE.get(), CHAMPAGNE.get(), VODKA.get(), BRANDY.get(), CARIGNAN.get(),
-                            SAKURA_WINE.get(), PLUM_WINE.get(), WHISKEY.get(), ICE_WINE.get(), VINEGAR.get()
+                            SAKURA_WINE.get(), PLUM_WINE.get(), WHISKEY.get(), ICE_WINE.get(), VINEGAR.get(),
+                            WATERMELON_JUICE.get()
                     ).build(null)
     );
 

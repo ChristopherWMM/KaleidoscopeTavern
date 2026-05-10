@@ -365,7 +365,7 @@ public class BarrelBlockEntity extends BaseBlockEntity implements IBarrel {
      * @param tapPos 水龙头所处的位置
      */
     @Override
-    public boolean canTapExtract(Level level, BlockPos tapPos, LivingEntity user) {
+    public boolean canTapExtract(Level level, BlockPos tapPos, @Nullable LivingEntity user) {
         // 检查是否处于酿造状态
         if (!this.isBrewing()) {
             this.tip(user, "tap_extract_not_brewing");

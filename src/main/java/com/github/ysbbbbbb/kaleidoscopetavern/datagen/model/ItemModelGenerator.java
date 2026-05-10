@@ -94,6 +94,7 @@ public class ItemModelGenerator extends ItemModelProvider {
         basicItem(ModItems.WHISKEY.get());
         basicItem(ModItems.ICE_WINE.get());
         basicItem(ModItems.VINEGAR.get());
+        basicItem(ModItems.WATERMELON_JUICE.get());
     }
 
     private void sofa(String color) {

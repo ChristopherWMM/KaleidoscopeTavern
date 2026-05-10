@@ -3,8 +3,12 @@ package com.github.ysbbbbbb.kaleidoscopetavern.init.register;
 import com.github.ysbbbbbb.kaleidoscopetavern.KaleidoscopeTavern;
 import com.github.ysbbbbbb.kaleidoscopetavern.block.brew.BottleBlock;
 import com.github.ysbbbbbb.kaleidoscopetavern.block.dispenser.BottleBlockDispenseBehavior;
+import com.github.ysbbbbbb.kaleidoscopetavern.game.tap.TapBehaviorManager;
+import com.github.ysbbbbbb.kaleidoscopetavern.game.tap.impl.*;
+import com.github.ysbbbbbb.kaleidoscopetavern.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopetavern.item.BottleBlockItem;
 import com.github.ysbbbbbb.kaleidoscopetavern.network.NetworkHandler;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -16,7 +20,18 @@ public class CommonRegistry {
     @SubscribeEvent
     public static void onSetupEvent(FMLCommonSetupEvent event) {
         event.enqueueWork(NetworkHandler::init);
+        event.enqueueWork(CommonRegistry::addTapBehavior);
         event.enqueueWork(CommonRegistry::addDispenserBehavior);
+    }
+
+    private static void addTapBehavior() {
+        TapBehaviorManager.register(ModBlocks.BARREL.get(), new BarrelTapBehavior());
+        TapBehaviorManager.register(Blocks.WATER_CAULDRON, new WaterCauldronTapBehavior());
+        TapBehaviorManager.register(Blocks.LAVA_CAULDRON, new LavaCauldronTapBehavior());
+        TapBehaviorManager.register(Blocks.BEE_NEST, new BeehiveTapBehavior());
+        TapBehaviorManager.register(Blocks.BEEHIVE, new BeehiveTapBehavior());
+        TapBehaviorManager.register(Blocks.DRAGON_HEAD, new DragonHeadTapBehavior());
+        TapBehaviorManager.register(Blocks.MELON, new WatermelonTapBehavior());
     }
 
     private static void addDispenserBehavior() {
