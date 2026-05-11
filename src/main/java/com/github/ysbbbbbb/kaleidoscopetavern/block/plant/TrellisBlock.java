@@ -1,13 +1,11 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.block.plant;
 
+import com.github.ysbbbbbb.kaleidoscopetavern.api.event.PlantGrapeEvent;
 import com.github.ysbbbbbb.kaleidoscopetavern.block.properties.TrellisType;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -30,6 +28,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.MinecraftForge;
 import org.jetbrains.annotations.Nullable;
 
 import static com.github.ysbbbbbb.kaleidoscopetavern.block.plant.ITrellis.*;
@@ -64,20 +63,9 @@ public class TrellisBlock extends Block implements SimpleWaterloggedBlock, ITrel
         if (type != TrellisType.SINGLE) {
             return super.use(state, level, pos, player, hand, hitResult);
         }
-        // 并且下方是泥土，那么可以种植
-        BlockState belowState = level.getBlockState(pos.below());
-        if (belowState.is(BlockTags.DIRT)) {
-            BlockState plantedState = ModBlocks.GRAPEVINE_TRELLIS.get()
-                    .defaultBlockState()
-                    .setValue(WATERLOGGED, state.getValue(WATERLOGGED));
-            level.setBlockAndUpdate(pos, plantedState);
-            level.playSound(null, pos, SoundEvents.CROP_PLANTED, SoundSource.BLOCKS);
-            if (!player.isCreative()) {
-                itemInHand.shrink(1);
-            }
-            return InteractionResult.SUCCESS;
-        }
-        return super.use(state, level, pos, player, hand, hitResult);
+        // 通过事件来执行各种不同的种植逻辑
+        MinecraftForge.EVENT_BUS.post(new PlantGrapeEvent(state, level, pos, player, hand, hitResult));
+        return InteractionResult.SUCCESS;
     }
 
     @Override

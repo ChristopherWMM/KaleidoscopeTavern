@@ -130,9 +130,13 @@ public class BlockStateGenerator extends BlockStateProvider {
         simpleBlock(ModBlocks.WILD_GRAPEVINE_PLANT.get(), new ModelFile.UncheckedModelFile(modLoc("block/plant/wild_grapevine_plant")));
         // 藤架
         trellis(ModBlocks.TRELLIS);
-        grapevineTrellis(ModBlocks.GRAPEVINE_TRELLIS);
+        grapevineTrellis(ModBlocks.GRAPEVINE_TRELLIS, "grapevine_trellis");
+        grapevineTrellis(ModBlocks.ICE_GRAPEVINE_TRELLIS, "ice_grapevine_trellis");
+        grapevineTrellis(ModBlocks.GOLD_GRAPEVINE_TRELLIS, "gold_grapevine_trellis");
         // 葡萄作物
-        grapeCrop(ModBlocks.GRAPE_CROP);
+        grapeCrop(ModBlocks.GRAPE_CROP, "grape_crop");
+        grapeCrop(ModBlocks.ICE_GRAPE_CROP, "ice_grape_crop");
+        grapeCrop(ModBlocks.GOLD_GRAPE_CROP, "gold_grape_crop");
 
         // 果盆
         pressingTub(ModBlocks.PRESSING_TUB);
@@ -281,16 +285,16 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void grapevineTrellis(RegistryObject<Block> block) {
+    private void grapevineTrellis(RegistryObject<Block> block, String grapeType) {
         getVariantBuilder(block.get()).forAllStates(blockState -> {
             int age = blockState.getValue(GrapevineTrellisBlock.AGE);
             var type = blockState.getValue(TrellisBlock.TYPE);
 
             ResourceLocation file;
             if (type == TrellisType.SINGLE) {
-                file = modLoc("block/plant/grapevine_trellis/%s_stage%d".formatted(type, age));
+                file = modLoc("block/plant/%s/%s_stage%d".formatted(grapeType, type, age));
             } else {
-                file = modLoc("block/plant/grapevine_trellis/%s".formatted(type));
+                file = modLoc("block/plant/%s/%s".formatted(grapeType, type));
             }
 
             ModelFile.UncheckedModelFile modelFile = new ModelFile.UncheckedModelFile(file);
@@ -298,10 +302,10 @@ public class BlockStateGenerator extends BlockStateProvider {
         });
     }
 
-    private void grapeCrop(RegistryObject<Block> block) {
+    private void grapeCrop(RegistryObject<Block> block, String grapeType) {
         getVariantBuilder(block.get()).forAllStates(blockState -> {
             int age = blockState.getValue(GrapeCropBlock.AGE);
-            ResourceLocation file = modLoc("block/plant/grape_crop/stage%d".formatted(age));
+            ResourceLocation file = modLoc("block/plant/%s/stage%d".formatted(grapeType, age));
             ModelFile.UncheckedModelFile modelFile = new ModelFile.UncheckedModelFile(file);
             return ConfiguredModel.builder().modelFile(modelFile).build();
         });

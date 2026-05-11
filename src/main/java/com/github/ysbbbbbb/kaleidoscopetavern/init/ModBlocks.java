@@ -9,6 +9,7 @@ import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.deco.BarStoolBlockEnti
 import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.deco.ChalkboardBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.deco.SandwichBlockEntity;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -123,10 +124,39 @@ public interface ModBlocks {
     RegistryObject<Block> WILD_GRAPEVINE_PLANT = BLOCKS.register("wild_grapevine_plant", WildGrapevinePlantBlock::new);
     // 藤架
     RegistryObject<Block> TRELLIS = BLOCKS.register("trellis", TrellisBlock::new);
+
     // 葡萄藤
-    RegistryObject<Block> GRAPEVINE_TRELLIS = BLOCKS.register("grapevine_trellis", GrapevineTrellisBlock::new);
+    RegistryObject<Block> GRAPEVINE_TRELLIS = BLOCKS.register("grapevine_trellis", () -> new GrapevineTrellisBlock(
+            (state, level, pos, random) -> 0.25F,
+            () -> ModBlocks.GRAPE_CROP.get().defaultBlockState()
+    ));
+    RegistryObject<Block> ICE_GRAPEVINE_TRELLIS = BLOCKS.register("ice_grapevine_trellis", () -> new GrapevineTrellisBlock(
+            (state, level, pos, random) ->
+                    level.getBiome(pos).get().getBaseTemperature() < 0.15F ? 0.8F : 0.25F,
+            () -> ModBlocks.ICE_GRAPE_CROP.get().defaultBlockState()
+    ));
+    RegistryObject<Block> GOLD_GRAPEVINE_TRELLIS = BLOCKS.register("gold_grapevine_trellis", () -> new GrapevineTrellisBlock(
+            (state, level, pos, random) ->
+                    level.getBiome(pos).get().getBaseTemperature() > 1.0F ? 0.8F : 0.25F,
+            () -> ModBlocks.GOLD_GRAPE_CROP.get().defaultBlockState()
+    ));
+
     // 葡萄
-    RegistryObject<Block> GRAPE_CROP = BLOCKS.register("grape_crop", GrapeCropBlock::new);
+    RegistryObject<Block> GRAPE_CROP = BLOCKS.register("grape_crop", () -> new GrapeCropBlock(
+            (state, level, pos, random) -> 0.25F,
+            () -> new ItemStack(ModItems.GRAPE.get(), 3)
+    ));
+    RegistryObject<Block> ICE_GRAPE_CROP = BLOCKS.register("ice_grape_crop", () -> new GrapeCropBlock(
+            (state, level, pos, random) ->
+                    level.getBiome(pos).get().getBaseTemperature() < 0.15F ? 0.8F : 0.25F,
+            () -> new ItemStack(ModItems.ICE_GRAPE.get(), 3)
+    ));
+    RegistryObject<Block> GOLD_GRAPE_CROP = BLOCKS.register("gold_grape_crop", () -> new GrapeCropBlock(
+            (state, level, pos, random) ->
+                    level.getBiome(pos).get().getBaseTemperature() > 1.0F ? 0.8F : 0.25F,
+            () -> new ItemStack(ModItems.GOLD_GRAPE.get(), 3)
+    ));
+
 
     // 果盆
     RegistryObject<Block> PRESSING_TUB = BLOCKS.register("pressing_tub", PressingTubBlock::new);

@@ -16,6 +16,9 @@ public interface ModCreativeTabs {
             .displayItems((par, output) -> {
                 output.accept(ModItems.GRAPEVINE.get());
                 output.accept(ModItems.GRAPE.get());
+                output.accept(ModItems.ICE_GRAPE.get());
+                output.accept(ModItems.GOLD_GRAPE.get());
+                output.accept(ModItems.GREEN_GRAPE.get());
                 output.accept(ModItems.TRELLIS.get());
 
                 output.accept(ModItems.PRESSING_TUB.get());
@@ -23,6 +26,9 @@ public interface ModCreativeTabs {
                 output.accept(ModItems.TAP.get());
 
                 output.accept(ModItems.GRAPE_BUCKET.get());
+                output.accept(ModItems.ICE_GRAPE_BUCKET.get());
+                output.accept(ModItems.GOLD_GRAPE_BUCKET.get());
+                output.accept(ModItems.GREEN_GRAPE_BUCKET.get());
                 output.accept(ModItems.SWEET_BERRIES_BUCKET.get());
                 output.accept(ModItems.GLOW_BERRIES_BUCKET.get());
 

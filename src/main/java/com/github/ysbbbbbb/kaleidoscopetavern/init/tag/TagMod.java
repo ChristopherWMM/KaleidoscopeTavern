@@ -33,6 +33,10 @@ public interface TagMod {
      * 可以坐在上面的方块
      */
     TagKey<Block> SITTABLE = blockTag("sittable");
+    /**
+     * 藤架
+     */
+    TagKey<Block> GRAPEVINE_TRELLISES = blockTag("grapevine_trellises");
 
     static TagKey<Item> itemTag(String name) {
         return TagKey.create(Registries.ITEM, KaleidoscopeTavern.modLoc(name));

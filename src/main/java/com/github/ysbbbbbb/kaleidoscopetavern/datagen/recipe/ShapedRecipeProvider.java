@@ -136,7 +136,7 @@ public class ShapedRecipeProvider extends ModRecipeProvider {
                 .save(consumer);
 
         // 藤架
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModItems.TRELLIS.get(), 16)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModItems.TRELLIS.get(), 8)
                 .pattern("G")
                 .pattern("G")
                 .pattern("G")

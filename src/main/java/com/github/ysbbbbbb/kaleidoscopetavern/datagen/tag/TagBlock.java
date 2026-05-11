@@ -141,22 +141,38 @@ public class TagBlock extends BlockTagsProvider {
                 .add(ModBlocks.WILD_GRAPEVINE_PLANT.get())
                 .add(ModBlocks.GRAPEVINE_TRELLIS.get());
 
+        this.tag(TagMod.GRAPEVINE_TRELLISES).add(
+                ModBlocks.GRAPEVINE_TRELLIS.get(),
+                ModBlocks.ICE_GRAPEVINE_TRELLIS.get(),
+                ModBlocks.GOLD_GRAPEVINE_TRELLIS.get()
+        );
+
         // 兼容静谧四季模组
         this.tag(TagCommon.SPRING_CROPS_BLOCK).add(
                 ModBlocks.GRAPEVINE_TRELLIS.get()
         );
         this.tag(TagCommon.SUMMER_CROPS_BLOCK).add(
                 ModBlocks.GRAPEVINE_TRELLIS.get(),
-                ModBlocks.GRAPE_CROP.get()
+                ModBlocks.GOLD_GRAPEVINE_TRELLIS.get(),
+                ModBlocks.GRAPE_CROP.get(),
+                ModBlocks.GOLD_GRAPE_CROP.get()
         );
         this.tag(TagCommon.AUTUMN_CROPS_BLOCK).add(
                 ModBlocks.GRAPE_CROP.get()
+        );
+        this.tag(TagCommon.WINTER_CROPS_BLOCK).add(
+                ModBlocks.ICE_GRAPEVINE_TRELLIS.get(),
+                ModBlocks.ICE_GRAPE_CROP.get()
         );
 
         // 节气模组：湿度
         this.tag(TagCommon.AVERAGE_MOIST).add(
                 ModBlocks.GRAPEVINE_TRELLIS.get(),
-                ModBlocks.GRAPE_CROP.get()
+                ModBlocks.ICE_GRAPEVINE_TRELLIS.get(),
+                ModBlocks.GOLD_GRAPEVINE_TRELLIS.get(),
+                ModBlocks.GRAPE_CROP.get(),
+                ModBlocks.ICE_GRAPE_CROP.get(),
+                ModBlocks.GOLD_GRAPE_CROP.get()
         );
     }
 }

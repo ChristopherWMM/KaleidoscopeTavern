@@ -112,11 +112,17 @@ public interface ModItems {
     RegistryObject<Item> TRELLIS = ITEMS.register("trellis", () -> new BlockItem(ModBlocks.TRELLIS.get(), new Item.Properties()));
     // 葡萄
     RegistryObject<Item> GRAPE = ITEMS.register("grape", () -> new Item(new Item.Properties().food(ModFoods.GRAPE)));
+    RegistryObject<Item> ICE_GRAPE = ITEMS.register("ice_grape", () -> new Item(new Item.Properties().food(ModFoods.GRAPE)));
+    RegistryObject<Item> GOLD_GRAPE = ITEMS.register("gold_grape", () -> new Item(new Item.Properties().food(ModFoods.GRAPE)));
+    RegistryObject<Item> GREEN_GRAPE = ITEMS.register("green_grape", () -> new Item(new Item.Properties().food(ModFoods.GRAPE)));
 
     // 果盆
     RegistryObject<Item> PRESSING_TUB = ITEMS.register("pressing_tub", () -> new BlockItem(ModBlocks.PRESSING_TUB.get(), new Item.Properties()));
     // 果汁桶
     RegistryObject<Item> GRAPE_BUCKET = ITEMS.register("grape_bucket", () -> new JuiceBucketItem(ModFluids.GRAPE_JUICE));
+    RegistryObject<Item> ICE_GRAPE_BUCKET = ITEMS.register("ice_grape_bucket", () -> new JuiceBucketItem(ModFluids.ICE_GRAPE_JUICE));
+    RegistryObject<Item> GOLD_GRAPE_BUCKET = ITEMS.register("gold_grape_bucket", () -> new JuiceBucketItem(ModFluids.GOLD_GRAPE_JUICE));
+    RegistryObject<Item> GREEN_GRAPE_BUCKET = ITEMS.register("green_grape_bucket", () -> new JuiceBucketItem(ModFluids.GREEN_GRAPE_JUICE));
     RegistryObject<Item> SWEET_BERRIES_BUCKET = ITEMS.register("sweet_berries_bucket", () -> new JuiceBucketItem(ModFluids.SWEET_BERRIES_JUICE));
     RegistryObject<Item> GLOW_BERRIES_BUCKET = ITEMS.register("glow_berries_bucket", () -> new JuiceBucketItem(ModFluids.GLOW_BERRIES_JUICE));
     // 龙头

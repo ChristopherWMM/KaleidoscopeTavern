@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopetavern.datagen.recipe;
 
 import com.github.ysbbbbbb.kaleidoscopetavern.datagen.builder.PressingTubBuilder;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModFluids;
+import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.tag.TagCommon;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -19,6 +20,21 @@ public class PressingTubRecipeProvider extends ModRecipeProvider {
         PressingTubBuilder.builder()
                 .setIngredient(TagCommon.FRUITS_GRAPES)
                 .setFluid(ModFluids.GRAPE_JUICE.get())
+                .save(consumer);
+
+        PressingTubBuilder.builder()
+                .setIngredient(ModItems.ICE_GRAPE.get())
+                .setFluid(ModFluids.ICE_GRAPE_JUICE.get())
+                .save(consumer);
+
+        PressingTubBuilder.builder()
+                .setIngredient(ModItems.GOLD_GRAPE.get())
+                .setFluid(ModFluids.GOLD_GRAPE_JUICE.get())
+                .save(consumer);
+
+        PressingTubBuilder.builder()
+                .setIngredient(ModItems.GREEN_GRAPE.get())
+                .setFluid(ModFluids.GREEN_GRAPE_JUICE.get())
                 .save(consumer);
 
         PressingTubBuilder.builder()
