@@ -46,6 +46,7 @@ import static com.github.ysbbbbbb.kaleidoscopetavern.blockentity.brew.TapBlockEn
 public class TapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
     public final EnumMap<Direction, VoxelShape> shapes;
@@ -58,10 +59,28 @@ public class TapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock 
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(OPEN, false)
+                .setValue(TRIGGERED, false)
                 .setValue(WATERLOGGED, false));
         this.shapes = VoxelShapeUtils.horizontalShapes(
                 Block.box(5, 5, 6, 11, 13, 16)
         );
+    }
+
+    @Override
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        boolean hasSignal = level.hasNeighborSignal(pos) || level.hasNeighborSignal(pos.above());
+        boolean triggered = state.getValue(TRIGGERED);
+        // 如果有信号，且是关闭状态，此时可以尝试打开
+        if (hasSignal && !triggered) {
+            if (!state.getValue(OPEN)) {
+                this.tryOpen(state, level, pos, null);
+            }
+            BlockState newState = level.getBlockState(pos);
+            level.setBlock(pos, newState.setValue(TRIGGERED, true), Block.UPDATE_NONE);
+        } else if (!hasSignal && triggered) {
+            BlockState newState = level.getBlockState(pos);
+            level.setBlock(pos, newState.setValue(TRIGGERED, false), Block.UPDATE_NONE);
+        }
     }
 
     @Override
@@ -77,39 +96,43 @@ public class TapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock 
                 return InteractionResult.SUCCESS;
             }
 
-            Direction tapFacing = state.getValue(FACING);
-            BlockPos sourcePos = pos.relative(tapFacing.getOpposite());
-            BlockState sourceState = level.getBlockState(sourcePos);
-            Block sourceBlock = sourceState.getBlock();
-
-            if (!TapBehaviorManager.contains(sourceBlock)) {
-                this.emptyOpen(level, pos, state);
-                return InteractionResult.SUCCESS;
-            }
-
-            BlockPos belowPos = pos.below();
-            BlockState belowState = level.getBlockState(belowPos);
-            ITapBehavior behavior = TapBehaviorManager.get(sourceBlock);
-
-            if (behavior.isMatch(level, player, pos, state, sourceState, belowState)) {
-                ParticleOptions particle = behavior.onStartExtract(level, player, pos, state, sourceState, belowState);
-                if (level.getBlockEntity(pos) instanceof TapBlockEntity tapEntity) {
-                    if (particle != null) {
-                        tapEntity.setParticle(particle);
-                    }
-                    tapEntity.setState(TAKE_DRINK_STATE);
-                }
-                state = state.setValue(OPEN, true);
-                level.setBlockAndUpdate(pos, state);
-                level.playSound(null, pos, SoundEvents.IRON_TRAPDOOR_OPEN, SoundSource.BLOCKS, 1.0F, 0.8F);
-                level.scheduleTick(pos, this, TAKE_DRINK_TICKS);
-                return InteractionResult.SUCCESS;
-            }
-
-            this.emptyOpen(level, pos, state);
+            this.tryOpen(state, level, pos, player);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
+    }
+
+    private void tryOpen(BlockState state, Level level, BlockPos pos, @Nullable Player player) {
+        Direction tapFacing = state.getValue(FACING);
+        BlockPos sourcePos = pos.relative(tapFacing.getOpposite());
+        BlockState sourceState = level.getBlockState(sourcePos);
+        Block sourceBlock = sourceState.getBlock();
+
+        if (!TapBehaviorManager.contains(sourceBlock)) {
+            this.emptyOpen(level, pos, state);
+            return;
+        }
+
+        BlockPos belowPos = pos.below();
+        BlockState belowState = level.getBlockState(belowPos);
+        ITapBehavior behavior = TapBehaviorManager.get(sourceBlock);
+
+        if (behavior.isMatch(level, player, pos, state, sourceState, belowState)) {
+            ParticleOptions particle = behavior.onStartExtract(level, player, pos, state, sourceState, belowState);
+            if (level.getBlockEntity(pos) instanceof TapBlockEntity tapEntity) {
+                if (particle != null) {
+                    tapEntity.setParticle(particle);
+                }
+                tapEntity.setState(TAKE_DRINK_STATE);
+            }
+            state = state.setValue(OPEN, true);
+            level.setBlockAndUpdate(pos, state);
+            level.playSound(null, pos, SoundEvents.IRON_TRAPDOOR_OPEN, SoundSource.BLOCKS, 1.0F, 0.8F);
+            level.scheduleTick(pos, this, TAKE_DRINK_TICKS);
+            return;
+        }
+
+        this.emptyOpen(level, pos, state);
     }
 
     /**
@@ -223,7 +246,7 @@ public class TapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock 
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, OPEN, WATERLOGGED);
+        builder.add(FACING, OPEN, TRIGGERED, WATERLOGGED);
     }
 
     @Override
@@ -245,5 +268,10 @@ public class TapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock 
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
+    }
+
+    @Override
+    public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction direction) {
+        return true;
     }
 }
