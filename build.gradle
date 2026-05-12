@@ -152,6 +152,8 @@ dependencies {
     implementation "net.createmod.ponder:Ponder-NeoForge-1.21.1:1.0.56"
     runtimeOnly "maven.modrinth:create:1.21.1-6.0.6"
 
+    runtimeOnly "maven.modrinth:carry-on:2.2.4-neoforge,1.21.1"
+
     // 节气
     // runtimeOnly "curse.maven:ecliptic-seasons-1118306:7041469"
 }

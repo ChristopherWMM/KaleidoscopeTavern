@@ -123,14 +123,21 @@ public class SofaBlock extends HorizontalDirectionalBlock implements SimpleWater
     @Override
     public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
                                            Player player, InteractionHand hand, BlockHitResult hitResult) {
-        List<SitEntity> entities = level.getEntitiesOfClass(SitEntity.class, new AABB(pos));
-        if (entities.isEmpty()) {
-            SitEntity entitySit = new SitEntity(level, pos, 0.5125);
-            entitySit.setYRot(state.getValue(FACING).toYRot());
-            level.addFreshEntity(entitySit);
-            player.startRiding(entitySit, true);
-            return ItemInteractionResult.SUCCESS;
+        if (!level.isClientSide) {
+            List<SitEntity> entities = level.getEntitiesOfClass(SitEntity.class, new AABB(pos));
+            if (entities.isEmpty()) {
+                SitEntity entitySit = new SitEntity(level, pos, 0.5125);
+                entitySit.setYRot(state.getValue(FACING).toYRot());
+                level.addFreshEntity(entitySit);
+                player.startRiding(entitySit, true);
+                return ItemInteractionResult.SUCCESS;
+            }
+        } else {
+            // todo-check
+            // 不知有无炸弹:(, 但这样能够将抱着的生物（使用 carryOn 模组）放置在方块上，而不是抱着生物坐在凳子上
+            return ItemInteractionResult.sidedSuccess(true);
         }
+
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 

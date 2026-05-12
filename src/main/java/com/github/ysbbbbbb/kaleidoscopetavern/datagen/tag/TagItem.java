@@ -25,7 +25,10 @@ public class TagItem extends ItemTagsProvider {
         );
 
         tag(TagCommon.FRUITS).add(
-                ModItems.GRAPE.get()
+                ModItems.GRAPE.get(),
+                ModItems.ICE_GRAPE.get(),
+                ModItems.GOLD_GRAPE.get(),
+                ModItems.GREEN_GRAPE.get()
         );
     }
 }

@@ -137,7 +137,7 @@ public class ShapedRecipeProvider extends ModRecipeProvider {
                 .save(consumer);
 
         // 藤架
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModItems.TRELLIS.get(), 16)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModItems.TRELLIS.get(), 8)
                 .pattern("G")
                 .pattern("G")
                 .pattern("G")
@@ -180,6 +180,17 @@ public class ShapedRecipeProvider extends ModRecipeProvider {
                 .define('G', ModItems.GRAPEVINE.get())
                 .define('P', Tags.Items.GLASS_PANES)
                 .unlockedBy("has_grapevine", has(ModItems.GRAPEVINE.get()))
+                .save(consumer);
+
+        // 桌子
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModItems.TABLE.get())
+                .pattern("WWW")
+                .pattern(" F ")
+                .pattern(" I ")
+                .define('W', ItemTags.PLANKS)
+                .define('F', ItemTags.FENCES)
+                .define('I', Tags.Items.INGOTS_IRON)
+                .unlockedBy("has_fence", has(ItemTags.FENCES))
                 .save(consumer);
     }
 

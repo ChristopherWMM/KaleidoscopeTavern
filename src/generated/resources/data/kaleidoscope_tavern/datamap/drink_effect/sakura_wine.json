@@ -4,56 +4,48 @@
     [
       {
         "effect": "minecraft:nausea",
-        "duration": 35,
+        "duration": 30,
         "amplifier": 0,
         "probability": 1.0
       }
     ],
     [
       {
-        "effect": "minecraft:nausea",
-        "duration": 10,
+        "effect": "kaleidoscope_tavern:slightly_tipsy",
+        "duration": 45,
         "amplifier": 0,
         "probability": 1.0
       }
     ],
     [
       {
-        "effect": "minecraft:night_vision",
-        "duration": 10,
+        "effect": "minecraft:regeneration",
+        "duration": 80,
         "amplifier": 0,
         "probability": 1.0
       }
     ],
     [
       {
-        "effect": "minecraft:night_vision",
-        "duration": 40,
+        "effect": "minecraft:regeneration",
+        "duration": 240,
         "amplifier": 0,
         "probability": 1.0
       }
     ],
     [
       {
-        "effect": "minecraft:night_vision",
-        "duration": 160,
-        "amplifier": 0,
+        "effect": "minecraft:regeneration",
+        "duration": 240,
+        "amplifier": 1,
         "probability": 1.0
       }
     ],
     [
       {
-        "effect": "minecraft:night_vision",
-        "duration": 640,
-        "amplifier": 0,
-        "probability": 1.0
-      }
-    ],
-    [
-      {
-        "effect": "minecraft:night_vision",
-        "duration": 999999,
-        "amplifier": 0,
+        "effect": "minecraft:regeneration",
+        "duration": 540,
+        "amplifier": 1,
         "probability": 1.0
       }
     ]

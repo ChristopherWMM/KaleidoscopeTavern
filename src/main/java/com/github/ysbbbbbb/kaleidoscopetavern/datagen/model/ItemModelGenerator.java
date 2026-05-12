@@ -68,12 +68,20 @@ public class ItemModelGenerator extends ItemModelProvider {
 
         trellis(ModItems.TRELLIS);
         basicItem(ModItems.GRAPE.get());
+        basicItem(ModItems.ICE_GRAPE.get());
+        basicItem(ModItems.GOLD_GRAPE.get());
+        basicItem(ModItems.GREEN_GRAPE.get());
 
         withExistingParent("item/pressing_tub", modLoc("block/brew/pressing_tub"));
         withExistingParent("item/bar_cabinet", modLoc("block/brew/bar_cabinet/single"));
         withExistingParent("item/glass_bar_cabinet", modLoc("block/brew/glass_bar_cabinet/single"));
 
+        withExistingParent("item/table", modLoc("block/deco/table/single"));
+
         basicItem(ModItems.GRAPE_BUCKET.get());
+        basicItem(ModItems.ICE_GRAPE_BUCKET.get());
+        basicItem(ModItems.GOLD_GRAPE_BUCKET.get());
+        basicItem(ModItems.GREEN_GRAPE_BUCKET.get());
         basicItem(ModItems.SWEET_BERRIES_BUCKET.get());
         basicItem(ModItems.GLOW_BERRIES_BUCKET.get());
 
@@ -91,7 +99,22 @@ public class ItemModelGenerator extends ItemModelProvider {
         basicItem(ModItems.PLUM_WINE.get());
         basicItem(ModItems.WHISKEY.get());
         basicItem(ModItems.ICE_WINE.get());
+        basicItem(ModItems.POLARIS_SWEET_WHITE.get());
+        basicItem(ModItems.HONEY_WINE.get());
+        basicItem(ModItems.RED_QUEEN.get());
+        basicItem(ModItems.MINERS_STAR.get());
+        basicItem(ModItems.RUM.get());
+        basicItem(ModItems.RIESLING_DRY_WHITE.get());
+        basicItem(ModItems.SUNSET_GLOW.get());
+        basicItem(ModItems.MADAME_SHEXIANG.get());
+        basicItem(ModItems.SWEET_BERRY_WINE.get());
+        basicItem(ModItems.SHERRY.get());
+        basicItem(ModItems.MOTHER_SNOW.get());
+        basicItem(ModItems.LUMINOUS_BRIDE.get());
+        basicItem(ModItems.GLOWFLOWER_BREW.get());
+        basicItem(ModItems.SAUVIGNON_BLANC_DRY_WHITE.get());
         basicItem(ModItems.VINEGAR.get());
+        basicItem(ModItems.WATERMELON_JUICE.get());
     }
 
     private void sofa(String color) {

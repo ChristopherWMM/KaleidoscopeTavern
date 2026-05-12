@@ -48,6 +48,7 @@ public interface ModItems {
 
     // 黑板
     DeferredItem<Item> CHALKBOARD = ITEMS.register("chalkboard", () -> new BlockItem(ModBlocks.CHALKBOARD.get(), new Item.Properties()));
+    DeferredItem<Item> TABLE = ITEMS.register("table", () -> new BlockItem(ModBlocks.TABLE.get(), new Item.Properties()));
 
     // 展板
     DeferredItem<Item> BASE_SANDWICH_BOARD = ITEMS.register("base_sandwich_board", () -> new SandwichBoardBlockItem(ModBlocks.BASE_SANDWICH_BOARD));
@@ -110,11 +111,17 @@ public interface ModItems {
     DeferredItem<Item> TRELLIS = ITEMS.register("trellis", () -> new BlockItem(ModBlocks.TRELLIS.get(), new Item.Properties()));
     // 葡萄
     DeferredItem<Item> GRAPE = ITEMS.register("grape", () -> new Item(new Item.Properties().food(ModFoods.GRAPE)));
+    DeferredItem<Item> ICE_GRAPE = ITEMS.register("ice_grape", () -> new Item(new Item.Properties().food(ModFoods.GRAPE)));
+    DeferredItem<Item> GOLD_GRAPE = ITEMS.register("gold_grape", () -> new Item(new Item.Properties().food(ModFoods.GRAPE)));
+    DeferredItem<Item> GREEN_GRAPE = ITEMS.register("green_grape", () -> new Item(new Item.Properties().food(ModFoods.GRAPE)));
 
     // 果盆
     DeferredItem<Item> PRESSING_TUB = ITEMS.register("pressing_tub", () -> new BlockItem(ModBlocks.PRESSING_TUB.get(), new Item.Properties()));
     // 果汁桶
     DeferredItem<Item> GRAPE_BUCKET = ITEMS.register("grape_bucket", () -> new JuiceBucketItem(ModFluids.GRAPE_JUICE));
+    DeferredItem<Item> ICE_GRAPE_BUCKET = ITEMS.register("ice_grape_bucket", () -> new JuiceBucketItem(ModFluids.ICE_GRAPE_JUICE));
+    DeferredItem<Item> GOLD_GRAPE_BUCKET = ITEMS.register("gold_grape_bucket", () -> new JuiceBucketItem(ModFluids.GOLD_GRAPE_JUICE));
+    DeferredItem<Item> GREEN_GRAPE_BUCKET = ITEMS.register("green_grape_bucket", () -> new JuiceBucketItem(ModFluids.GREEN_GRAPE_JUICE));
     DeferredItem<Item> SWEET_BERRIES_BUCKET = ITEMS.register("sweet_berries_bucket", () -> new JuiceBucketItem(ModFluids.SWEET_BERRIES_JUICE));
     DeferredItem<Item> GLOW_BERRIES_BUCKET = ITEMS.register("glow_berries_bucket", () -> new JuiceBucketItem(ModFluids.GLOW_BERRIES_JUICE));
     // 龙头
@@ -139,5 +146,20 @@ public interface ModItems {
     DeferredItem<Item> PLUM_WINE = ITEMS.register("plum_wine", () -> new DrinkBlockItem(ModBlocks.PLUM_WINE.get()));
     DeferredItem<Item> WHISKEY = ITEMS.register("whiskey", () -> new DrinkBlockItem(ModBlocks.WHISKEY.get()));
     DeferredItem<Item> ICE_WINE = ITEMS.register("ice_wine", () -> new DrinkBlockItem(ModBlocks.ICE_WINE.get()));
+    DeferredItem<Item> POLARIS_SWEET_WHITE = ITEMS.register("polaris_sweet_white", () -> new DrinkBlockItem(ModBlocks.POLARIS_SWEET_WHITE.get()));
+    DeferredItem<Item> HONEY_WINE = ITEMS.register("honey_wine", () -> new DrinkBlockItem(ModBlocks.HONEY_WINE.get()));
+    DeferredItem<Item> RED_QUEEN = ITEMS.register("red_queen", () -> new DrinkBlockItem(ModBlocks.RED_QUEEN.get()));
+    DeferredItem<Item> MINERS_STAR = ITEMS.register("miners_star", () -> new DrinkBlockItem(ModBlocks.MINERS_STAR.get()));
+    DeferredItem<Item> RUM = ITEMS.register("rum", () -> new DrinkBlockItem(ModBlocks.RUM.get()));
+    DeferredItem<Item> RIESLING_DRY_WHITE = ITEMS.register("riesling_dry_white", () -> new DrinkBlockItem(ModBlocks.RIESLING_DRY_WHITE.get()));
+    DeferredItem<Item> SUNSET_GLOW = ITEMS.register("sunset_glow", () -> new DrinkBlockItem(ModBlocks.SUNSET_GLOW.get()));
+    DeferredItem<Item> MADAME_SHEXIANG = ITEMS.register("madame_shexiang", () -> new DrinkBlockItem(ModBlocks.MADAME_SHEXIANG.get()));
+    DeferredItem<Item> SWEET_BERRY_WINE = ITEMS.register("sweet_berry_wine", () -> new DrinkBlockItem(ModBlocks.SWEET_BERRY_WINE.get()));
+    DeferredItem<Item> SHERRY = ITEMS.register("sherry", () -> new DrinkBlockItem(ModBlocks.SHERRY.get()));
+    DeferredItem<Item> MOTHER_SNOW = ITEMS.register("mother_snow", () -> new DrinkBlockItem(ModBlocks.MOTHER_SNOW.get()));
+    DeferredItem<Item> LUMINOUS_BRIDE = ITEMS.register("luminous_bride", () -> new DrinkBlockItem(ModBlocks.LUMINOUS_BRIDE.get()));
+    DeferredItem<Item> GLOWFLOWER_BREW = ITEMS.register("glowflower_brew", () -> new DrinkBlockItem(ModBlocks.GLOWFLOWER_BREW.get()));
+    DeferredItem<Item> SAUVIGNON_BLANC_DRY_WHITE = ITEMS.register("sauvignon_blanc_dry_white", () -> new DrinkBlockItem(ModBlocks.SAUVIGNON_BLANC_DRY_WHITE.get()));
     DeferredItem<Item> VINEGAR = ITEMS.register("vinegar", () -> new DrinkBlockItem(ModBlocks.VINEGAR.get()));
+    DeferredItem<Item> WATERMELON_JUICE = ITEMS.register("watermelon_juice", () -> new DrinkBlockItem(ModBlocks.WATERMELON_JUICE.get()));
 }

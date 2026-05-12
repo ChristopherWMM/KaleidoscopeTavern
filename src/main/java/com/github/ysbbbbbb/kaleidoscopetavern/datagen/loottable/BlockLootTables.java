@@ -7,12 +7,16 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.functions.SetPotionFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -67,6 +71,8 @@ public class BlockLootTables extends BlockLootSubProvider {
 
         // 黑板
         dropSelf(ModBlocks.CHALKBOARD.get());
+        // 桌子
+        dropSelf(ModBlocks.TABLE.get());
 
         // 展板
         dropSelf(ModBlocks.BASE_SANDWICH_BOARD.get());
@@ -129,8 +135,12 @@ public class BlockLootTables extends BlockLootSubProvider {
         dropSelf(ModBlocks.TRELLIS.get());
         // 葡萄藤
         add(ModBlocks.GRAPEVINE_TRELLIS.get(), this.createMultiItemTable(ModItems.TRELLIS.get(), ModItems.GRAPEVINE.get()));
+        add(ModBlocks.ICE_GRAPEVINE_TRELLIS.get(), this.createMultiItemTable(ModItems.TRELLIS.get(), ModItems.GRAPEVINE.get()));
+        add(ModBlocks.GOLD_GRAPEVINE_TRELLIS.get(), this.createMultiItemTable(ModItems.TRELLIS.get(), ModItems.GRAPEVINE.get()));
         // 葡萄
-        add(ModBlocks.GRAPE_CROP.get(), this.createItemWithCountTable(ModItems.GRAPE.get(), UniformGenerator.between(1, 2)));
+        add(ModBlocks.GRAPE_CROP.get(), this.createGrapeItemTable(ModItems.GRAPE.get()));
+        add(ModBlocks.ICE_GRAPE_CROP.get(), this.createGrapeItemTable(ModItems.ICE_GRAPE.get()));
+        add(ModBlocks.GOLD_GRAPE_CROP.get(), this.createGrapeItemTable(ModItems.GOLD_GRAPE.get()));
 
         // 果盆
         dropSelf(ModBlocks.PRESSING_TUB.get());
@@ -144,6 +154,11 @@ public class BlockLootTables extends BlockLootSubProvider {
         // 酒柜
         dropSelf(ModBlocks.BAR_CABINET.get());
         dropSelf(ModBlocks.GLASS_BAR_CABINET.get());
+
+        // 杂项瓶子
+        add(ModBlocks.WATER_BOTTLE.get(), this.createWaterBottle());
+        dropOther(ModBlocks.HONEY_BOTTLE.get(), Items.HONEY_BOTTLE);
+        dropOther(ModBlocks.DRAGON_BREATH_BOTTLE.get(), Items.DRAGON_BREATH);
     }
 
     @Override
@@ -179,6 +194,36 @@ public class BlockLootTables extends BlockLootSubProvider {
                 .apply(SetItemCountFunction.setCount(countProvider))
                 .add(LootItem.lootTableItem(item));
         builder.withPool(this.applyExplosionCondition(item, pool));
+        return builder;
+    }
+
+    protected LootTable.Builder createWaterBottle() {
+        LootTable.Builder builder = LootTable.lootTable();
+        LootPool.Builder pool = LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1))
+                .add(LootItem.lootTableItem(Items.POTION)
+                        .apply(SetPotionFunction.setPotion(Potions.WATER)));
+        builder.withPool(this.applyExplosionCondition(Items.POTION, pool));
+        return builder;
+    }
+
+    public LootTable.Builder createGrapeItemTable(ItemLike item) {
+        LootTable.Builder builder = LootTable.lootTable();
+        var countProvider = UniformGenerator.between(1, 2);
+
+        // 主葡萄
+        LootPool.Builder pool = LootPool.lootPool()
+                .apply(SetItemCountFunction.setCount(countProvider))
+                .add(LootItem.lootTableItem(item));
+        builder.withPool(this.applyExplosionCondition(item, pool));
+
+        // 30% 概率额外掉落 1 个
+        LootPool.Builder extraPool = LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1))
+                .when(LootItemRandomChanceCondition.randomChance(0.3f))
+                .add(LootItem.lootTableItem(ModItems.GREEN_GRAPE.get()));
+        builder.withPool(this.applyExplosionCondition(item, extraPool));
+
         return builder;
     }
 }

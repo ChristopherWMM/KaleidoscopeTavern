@@ -32,9 +32,9 @@ public interface IBarrel {
     int BREWING_STARTED = 1;
 
     /**
-     * 发酵等级，达到 7 时为最高品质
+     * 发酵等级，达到 6 时为最高品质
      */
-    int BREWING_FINISHED = 7;
+    int BREWING_FINISHED = 6;
 
     /**
      * 打开酒桶盖子

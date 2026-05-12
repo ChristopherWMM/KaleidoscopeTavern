@@ -15,10 +15,10 @@ import org.jetbrains.annotations.Nullable;
 
 public class TapBlockEntity extends BaseBlockEntity {
     /**
-     * 龙头取酒耗时 80 tick，前 38 tick 会有粒子效果，后 42 tick 没有粒子效果
+     * 龙头取酒耗时 30 tick，前 5 tick 会有粒子效果，后 15 tick 没有粒子效果
      */
-    public static final int TAKE_DRINK_TICKS = 80;
-    public static final int TAKE_DRINK_PARTICLE_TICKS = 38;
+    public static final int TAKE_DRINK_TICKS = 30;
+    public static final int TAKE_DRINK_PARTICLE_TICKS = 5;
     /**
      * 空拧状态，此时只会持续一小段时间
      */

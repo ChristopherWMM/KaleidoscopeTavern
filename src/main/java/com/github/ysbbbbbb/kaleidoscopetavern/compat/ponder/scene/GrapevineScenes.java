@@ -26,7 +26,9 @@ import net.minecraft.world.phys.Vec3;
 public class GrapevineScenes {
     public static void wildGeneration(SceneBuilder scene, SceneBuildingUtil util) {
         Level level = Minecraft.getInstance().level;
-        if (level == null) return;
+        if (level == null) {
+            return;
+        }
 
         scene.title("grapevine_wild_generation", "");
         scene.configureBasePlate(0, 0, 5);

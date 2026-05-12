@@ -7,6 +7,7 @@ import com.github.ysbbbbbb.kaleidoscopetavern.init.tag.TagMod;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -120,6 +121,7 @@ public class TagBlock extends BlockTagsProvider {
                 .addTag(TagMod.SANDWICH_BOARD)
                 .addTag(TagMod.PAINTING)
                 .add(ModBlocks.CHALKBOARD.get())
+                .add(ModBlocks.TABLE.get())
                 .add(ModBlocks.BAR_COUNTER.get())
                 .add(ModBlocks.STEPLADDER.get())
                 .add(ModBlocks.TRELLIS.get())
@@ -140,22 +142,56 @@ public class TagBlock extends BlockTagsProvider {
                 .add(ModBlocks.WILD_GRAPEVINE_PLANT.get())
                 .add(ModBlocks.GRAPEVINE_TRELLIS.get());
 
+        this.tag(TagMod.GRAPEVINE_TRELLISES).add(
+                ModBlocks.GRAPEVINE_TRELLIS.get(),
+                ModBlocks.ICE_GRAPEVINE_TRELLIS.get(),
+                ModBlocks.GOLD_GRAPEVINE_TRELLIS.get()
+        );
+
+        this.tag(TagMod.GRASS_STEALTH_PLANTS).add(
+                Blocks.SHORT_GRASS,
+                Blocks.TALL_GRASS,
+                Blocks.FERN,
+                Blocks.LARGE_FERN,
+                Blocks.DEAD_BUSH,
+                Blocks.NETHER_SPROUTS,
+                Blocks.CRIMSON_ROOTS,
+                Blocks.WARPED_ROOTS,
+                Blocks.LILAC,
+                Blocks.ROSE_BUSH,
+                Blocks.PEONY,
+                Blocks.PITCHER_PLANT,
+                Blocks.SUGAR_CANE,
+                Blocks.SWEET_BERRY_BUSH,
+                Blocks.SUNFLOWER
+        );
+
         // 兼容静谧四季模组
         this.tag(TagCommon.SPRING_CROPS_BLOCK).add(
                 ModBlocks.GRAPEVINE_TRELLIS.get()
         );
         this.tag(TagCommon.SUMMER_CROPS_BLOCK).add(
                 ModBlocks.GRAPEVINE_TRELLIS.get(),
-                ModBlocks.GRAPE_CROP.get()
+                ModBlocks.GOLD_GRAPEVINE_TRELLIS.get(),
+                ModBlocks.GRAPE_CROP.get(),
+                ModBlocks.GOLD_GRAPE_CROP.get()
         );
         this.tag(TagCommon.AUTUMN_CROPS_BLOCK).add(
                 ModBlocks.GRAPE_CROP.get()
+        );
+        this.tag(TagCommon.WINTER_CROPS_BLOCK).add(
+                ModBlocks.ICE_GRAPEVINE_TRELLIS.get(),
+                ModBlocks.ICE_GRAPE_CROP.get()
         );
 
         // 节气模组：湿度
         this.tag(TagCommon.AVERAGE_MOIST).add(
                 ModBlocks.GRAPEVINE_TRELLIS.get(),
-                ModBlocks.GRAPE_CROP.get()
+                ModBlocks.ICE_GRAPEVINE_TRELLIS.get(),
+                ModBlocks.GOLD_GRAPEVINE_TRELLIS.get(),
+                ModBlocks.GRAPE_CROP.get(),
+                ModBlocks.ICE_GRAPE_CROP.get(),
+                ModBlocks.GOLD_GRAPE_CROP.get()
         );
     }
 }

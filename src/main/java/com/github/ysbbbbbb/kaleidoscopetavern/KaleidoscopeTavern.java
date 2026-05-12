@@ -24,6 +24,9 @@ public class KaleidoscopeTavern {
         ModTreeDecoratorTypes.TREE_DECORATOR_TYPES.register(modEventBus);
         ModFluids.FLUID_TYPES.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);
+        ModParticles.PARTICLES.register(modEventBus);
+        ModEffects.EFFECTS.register(modEventBus);
+        ModSounds.SOUND_EVENTS.register(modEventBus);
     }
 
     public static ResourceLocation modLoc(String path) {

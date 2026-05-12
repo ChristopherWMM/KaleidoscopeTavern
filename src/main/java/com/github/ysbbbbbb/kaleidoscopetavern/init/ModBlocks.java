@@ -10,6 +10,7 @@ import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.deco.ChalkboardBlockEn
 import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.deco.SandwichBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -63,6 +64,7 @@ public interface ModBlocks {
 
     // 黑板
     DeferredBlock<Block> CHALKBOARD = BLOCKS.register("chalkboard", ChalkboardBlock::new);
+    DeferredBlock<Block> TABLE = BLOCKS.register("table", TableBlock::new);
 
     // 展板
     DeferredBlock<Block> BASE_SANDWICH_BOARD = BLOCKS.register("base_sandwich_board", () -> new SandwichBoardBlock());
@@ -125,9 +127,35 @@ public interface ModBlocks {
     // 藤架
     DeferredBlock<Block> TRELLIS = BLOCKS.register("trellis", TrellisBlock::new);
     // 葡萄藤
-    DeferredBlock<Block> GRAPEVINE_TRELLIS = BLOCKS.register("grapevine_trellis", GrapevineTrellisBlock::new);
+    DeferredBlock<Block> GRAPEVINE_TRELLIS = BLOCKS.register("grapevine_trellis", () -> new GrapevineTrellisBlock(
+            (state, level, pos, random) -> 0.25F,
+            () -> ModBlocks.GRAPE_CROP.get().defaultBlockState()
+    ));
+    DeferredBlock<Block> ICE_GRAPEVINE_TRELLIS = BLOCKS.register("ice_grapevine_trellis", () -> new GrapevineTrellisBlock(
+            (state, level, pos, random) ->
+                    level.getBiome(pos).value().getBaseTemperature() < 0.15F ? 0.8F : 0.25F,
+            () -> ModBlocks.ICE_GRAPE_CROP.get().defaultBlockState()
+    ));
+    DeferredBlock<Block> GOLD_GRAPEVINE_TRELLIS = BLOCKS.register("gold_grapevine_trellis", () -> new GrapevineTrellisBlock(
+            (state, level, pos, random) ->
+                    level.getBiome(pos).value().getBaseTemperature() > 1.0F ? 0.8F : 0.25F,
+            () -> ModBlocks.GOLD_GRAPE_CROP.get().defaultBlockState()
+    ));
     // 葡萄
-    DeferredBlock<Block> GRAPE_CROP = BLOCKS.register("grape_crop", GrapeCropBlock::new);
+    DeferredBlock<Block> GRAPE_CROP = BLOCKS.register("grape_crop", () -> new GrapeCropBlock(
+            (state, level, pos, random) -> 0.25F,
+            () -> new ItemStack(ModItems.GRAPE.get(), 3)
+    ));
+    DeferredBlock<Block> ICE_GRAPE_CROP = BLOCKS.register("ice_grape_crop", () -> new GrapeCropBlock(
+            (state, level, pos, random) ->
+                    level.getBiome(pos).value().getBaseTemperature() < 0.15F ? 0.8F : 0.25F,
+            () -> new ItemStack(ModItems.ICE_GRAPE.get(), 3)
+    ));
+    DeferredBlock<Block> GOLD_GRAPE_CROP = BLOCKS.register("gold_grape_crop", () -> new GrapeCropBlock(
+            (state, level, pos, random) ->
+                    level.getBiome(pos).value().getBaseTemperature() > 1.0F ? 0.8F : 0.25F,
+            () -> new ItemStack(ModItems.GOLD_GRAPE.get(), 3)
+    ));
 
     // 果盆
     DeferredBlock<Block> PRESSING_TUB = BLOCKS.register("pressing_tub", PressingTubBlock::new);
@@ -142,6 +170,11 @@ public interface ModBlocks {
     // 酒柜
     DeferredBlock<Block> BAR_CABINET = BLOCKS.register("bar_cabinet", BarCabinetBlock::new);
     DeferredBlock<Block> GLASS_BAR_CABINET = BLOCKS.register("glass_bar_cabinet", BarCabinetBlock::new);
+
+    // 杂项的瓶子
+    DeferredBlock<Block> WATER_BOTTLE = BLOCKS.register("water_bottle", () -> new BottleBlock());
+    DeferredBlock<Block> HONEY_BOTTLE = BLOCKS.register("honey_bottle", () -> new BottleBlock());
+    DeferredBlock<Block> DRAGON_BREATH_BOTTLE = BLOCKS.register("dragon_breath_bottle", () -> new BottleBlock());
 
     // 酒
     DeferredBlock<Block> WINE = BLOCKS.register("wine", DrinkBlock.create().maxCount(4).shapes(
@@ -226,7 +259,152 @@ public interface ModBlocks {
             Block.box(2, 0, 2, 14, 16, 14)
     ).build());
 
+    DeferredBlock<Block> POLARIS_SWEET_WHITE = BLOCKS.register("polaris_sweet_white", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    DeferredBlock<Block> HONEY_WINE = BLOCKS.register("honey_wine", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    DeferredBlock<Block> RED_QUEEN = BLOCKS.register("red_queen", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    DeferredBlock<Block> MINERS_STAR = BLOCKS.register("miners_star", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    DeferredBlock<Block> RUM = BLOCKS.register("rum", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    DeferredBlock<Block> RIESLING_DRY_WHITE = BLOCKS.register("riesling_dry_white", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(4, 0, 4, 12, 15, 12),
+            Block.box(0, 0, 4, 16, 15, 12),
+            Shapes.or(
+                    Block.box(0, 0, 8, 16, 15, 16),
+                    Block.box(4, 0, 0, 12, 15, 16)
+            ),
+            Block.box(0, 0, 0, 16, 16, 16)
+    ).build());
+
+    DeferredBlock<Block> SUNSET_GLOW = BLOCKS.register("sunset_glow", DrinkBlock.create().maxCount(3).shapes(
+            Block.box(3, 0, 6, 13, 13, 10),
+            Block.box(1, 0, 3, 15, 12, 12),
+            Block.box(1, 0, 1, 16, 12, 13)
+    ).build());
+
+    DeferredBlock<Block> MADAME_SHEXIANG = BLOCKS.register("madame_shexiang", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(4, 0, 4, 12, 15, 12),
+            Block.box(0, 0, 4, 16, 15, 12),
+            Shapes.or(
+                    Block.box(0, 0, 8, 16, 15, 16),
+                    Block.box(4, 0, 0, 12, 15, 16)
+            ),
+            Block.box(0, 0, 0, 16, 16, 16)
+    ).build());
+
+    DeferredBlock<Block> SWEET_BERRY_WINE = BLOCKS.register("sweet_berry_wine", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(4, 0, 4, 12, 15, 12),
+            Block.box(0, 0, 4, 16, 15, 12),
+            Shapes.or(
+                    Block.box(0, 0, 8, 16, 15, 16),
+                    Block.box(4, 0, 0, 12, 15, 16)
+            ),
+            Block.box(0, 0, 0, 16, 16, 16)
+    ).build());
+
+    DeferredBlock<Block> SHERRY = BLOCKS.register("sherry", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    DeferredBlock<Block> MOTHER_SNOW = BLOCKS.register("mother_snow", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(4, 0, 4, 12, 15, 12),
+            Block.box(0, 0, 4, 16, 15, 12),
+            Shapes.or(
+                    Block.box(0, 0, 8, 16, 15, 16),
+                    Block.box(4, 0, 0, 12, 15, 16)
+            ),
+            Block.box(0, 0, 0, 16, 16, 16)
+    ).build());
+
+    DeferredBlock<Block> LUMINOUS_BRIDE = BLOCKS.register("luminous_bride", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    DeferredBlock<Block> GLOWFLOWER_BREW = BLOCKS.register("glowflower_brew", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    DeferredBlock<Block> SAUVIGNON_BLANC_DRY_WHITE = BLOCKS.register("sauvignon_blanc_dry_white", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
     DeferredBlock<Block> VINEGAR = BLOCKS.register("vinegar", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    DeferredBlock<Block> WATERMELON_JUICE = BLOCKS.register("watermelon_juice", DrinkBlock.create().maxCount(4).shapes(
             Block.box(6, 0, 6, 10, 16, 10),
             Block.box(2, 0, 6, 14, 16, 10),
             Shapes.or(
@@ -293,7 +471,12 @@ public interface ModBlocks {
             "drink", () -> BlockEntityType.Builder
                     .of(DrinkBlockEntity::new,
                             WINE.get(), CHAMPAGNE.get(), VODKA.get(), BRANDY.get(), CARIGNAN.get(),
-                            SAKURA_WINE.get(), PLUM_WINE.get(), WHISKEY.get(), ICE_WINE.get(), VINEGAR.get()
+                            SAKURA_WINE.get(), PLUM_WINE.get(), WHISKEY.get(), ICE_WINE.get(),
+                            POLARIS_SWEET_WHITE.get(), HONEY_WINE.get(), RED_QUEEN.get(), MINERS_STAR.get(),
+                            RUM.get(), RIESLING_DRY_WHITE.get(), SUNSET_GLOW.get(), MADAME_SHEXIANG.get(),
+                            SWEET_BERRY_WINE.get(), SHERRY.get(), MOTHER_SNOW.get(), LUMINOUS_BRIDE.get(),
+                            GLOWFLOWER_BREW.get(), SAUVIGNON_BLANC_DRY_WHITE.get(), VINEGAR.get(),
+                            WATERMELON_JUICE.get()
                     ).build(null)
     );
 
