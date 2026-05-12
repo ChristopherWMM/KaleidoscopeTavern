@@ -45,6 +45,20 @@ public interface ModCreativeTabs {
                 output.accept(ModItems.BRANDY.get());
                 output.accept(ModItems.CARIGNAN.get());
                 output.accept(ModItems.WHISKEY.get());
+                output.accept(ModItems.POLARIS_SWEET_WHITE.get());
+                output.accept(ModItems.HONEY_WINE.get());
+                output.accept(ModItems.RED_QUEEN.get());
+                output.accept(ModItems.MINERS_STAR.get());
+                output.accept(ModItems.RUM.get());
+                output.accept(ModItems.RIESLING_DRY_WHITE.get());
+                output.accept(ModItems.SUNSET_GLOW.get());
+                output.accept(ModItems.MADAME_SHEXIANG.get());
+                output.accept(ModItems.SWEET_BERRY_WINE.get());
+                output.accept(ModItems.SHERRY.get());
+                output.accept(ModItems.MOTHER_SNOW.get());
+                output.accept(ModItems.LUMINOUS_BRIDE.get());
+                output.accept(ModItems.GLOWFLOWER_BREW.get());
+                output.accept(ModItems.SAUVIGNON_BLANC_DRY_WHITE.get());
                 output.accept(ModItems.WATERMELON_JUICE.get());
             }).build());
 

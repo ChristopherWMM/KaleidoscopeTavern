@@ -25,14 +25,23 @@ public class BottleBlockItem extends BlockItem {
     }
 
     public static void setBrewLevel(ItemStack stack, int brewLevel) {
-        stack.getOrCreateTag().putInt(BREW_LEVEL_KEY, brewLevel);
+        stack.getOrCreateTag().putInt(BREW_LEVEL_KEY, clampBrewLevel(brewLevel));
     }
 
     public static int getBrewLevel(ItemStack stack) {
         if (stack.getTag() != null && stack.getTag().contains(BREW_LEVEL_KEY)) {
-            return stack.getTag().getInt(BREW_LEVEL_KEY);
+            int brewLevel = stack.getTag().getInt(BREW_LEVEL_KEY);
+            int clampedBrewLevel = clampBrewLevel(brewLevel);
+            if (brewLevel != clampedBrewLevel) {
+                stack.getOrCreateTag().putInt(BREW_LEVEL_KEY, clampedBrewLevel);
+            }
+            return clampedBrewLevel;
         }
         return 0;
+    }
+
+    public static int clampBrewLevel(int brewLevel) {
+        return Math.max(IBarrel.BREWING_NOT_STARTED, Math.min(brewLevel, IBarrel.BREWING_FINISHED));
     }
 
     public ItemStack getFilledStack(int brewLevel) {
@@ -45,7 +54,6 @@ public class BottleBlockItem extends BlockItem {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         int brewLevel = getBrewLevel(stack);
         if (0 < brewLevel) {
-            brewLevel = Math.min(brewLevel, IBarrel.BREWING_FINISHED);
             Component brewLevelText = Component.translatable("message.kaleidoscope_tavern.barrel.brew_level.%d".formatted(brewLevel));
             tooltip.add(Component.translatable("tooltip.kaleidoscope_tavern.bottle_block.brew_level", brewLevelText).withStyle(ChatFormatting.GRAY));
         }

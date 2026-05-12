@@ -147,6 +147,20 @@ public interface ModItems {
     RegistryObject<Item> PLUM_WINE = ITEMS.register("plum_wine", () -> new DrinkBlockItem(ModBlocks.PLUM_WINE.get()));
     RegistryObject<Item> WHISKEY = ITEMS.register("whiskey", () -> new DrinkBlockItem(ModBlocks.WHISKEY.get()));
     RegistryObject<Item> ICE_WINE = ITEMS.register("ice_wine", () -> new DrinkBlockItem(ModBlocks.ICE_WINE.get()));
+    RegistryObject<Item> POLARIS_SWEET_WHITE = ITEMS.register("polaris_sweet_white", () -> new DrinkBlockItem(ModBlocks.POLARIS_SWEET_WHITE.get()));
+    RegistryObject<Item> HONEY_WINE = ITEMS.register("honey_wine", () -> new DrinkBlockItem(ModBlocks.HONEY_WINE.get()));
+    RegistryObject<Item> RED_QUEEN = ITEMS.register("red_queen", () -> new DrinkBlockItem(ModBlocks.RED_QUEEN.get()));
+    RegistryObject<Item> MINERS_STAR = ITEMS.register("miners_star", () -> new DrinkBlockItem(ModBlocks.MINERS_STAR.get()));
+    RegistryObject<Item> RUM = ITEMS.register("rum", () -> new DrinkBlockItem(ModBlocks.RUM.get()));
+    RegistryObject<Item> RIESLING_DRY_WHITE = ITEMS.register("riesling_dry_white", () -> new DrinkBlockItem(ModBlocks.RIESLING_DRY_WHITE.get()));
+    RegistryObject<Item> SUNSET_GLOW = ITEMS.register("sunset_glow", () -> new DrinkBlockItem(ModBlocks.SUNSET_GLOW.get()));
+    RegistryObject<Item> MADAME_SHEXIANG = ITEMS.register("madame_shexiang", () -> new DrinkBlockItem(ModBlocks.MADAME_SHEXIANG.get()));
+    RegistryObject<Item> SWEET_BERRY_WINE = ITEMS.register("sweet_berry_wine", () -> new DrinkBlockItem(ModBlocks.SWEET_BERRY_WINE.get()));
+    RegistryObject<Item> SHERRY = ITEMS.register("sherry", () -> new DrinkBlockItem(ModBlocks.SHERRY.get()));
+    RegistryObject<Item> MOTHER_SNOW = ITEMS.register("mother_snow", () -> new DrinkBlockItem(ModBlocks.MOTHER_SNOW.get()));
+    RegistryObject<Item> LUMINOUS_BRIDE = ITEMS.register("luminous_bride", () -> new DrinkBlockItem(ModBlocks.LUMINOUS_BRIDE.get()));
+    RegistryObject<Item> GLOWFLOWER_BREW = ITEMS.register("glowflower_brew", () -> new DrinkBlockItem(ModBlocks.GLOWFLOWER_BREW.get()));
+    RegistryObject<Item> SAUVIGNON_BLANC_DRY_WHITE = ITEMS.register("sauvignon_blanc_dry_white", () -> new DrinkBlockItem(ModBlocks.SAUVIGNON_BLANC_DRY_WHITE.get()));
     RegistryObject<Item> VINEGAR = ITEMS.register("vinegar", () -> new DrinkBlockItem(ModBlocks.VINEGAR.get()));
     RegistryObject<Item> WATERMELON_JUICE = ITEMS.register("watermelon_juice", () -> new DrinkBlockItem(ModBlocks.WATERMELON_JUICE.get()));
 }

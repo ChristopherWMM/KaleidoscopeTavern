@@ -4,6 +4,11 @@
     "item": "kaleidoscope_tavern:empty_bottle"
   },
   "fluid": "kaleidoscope_tavern:sweet_berries_juice",
+  "ingredients": [
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
   "result": {
     "item": "kaleidoscope_tavern:plum_wine"
   },

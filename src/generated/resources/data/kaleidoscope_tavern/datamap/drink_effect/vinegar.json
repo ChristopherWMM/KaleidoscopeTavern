@@ -4,15 +4,15 @@
     [
       {
         "effect": "minecraft:nausea",
-        "duration": 35,
+        "duration": 30,
         "amplifier": 0,
         "probability": 1.0
       }
     ],
     [
       {
-        "effect": "minecraft:nausea",
-        "duration": 10,
+        "effect": "kaleidoscope_tavern:slightly_tipsy",
+        "duration": 45,
         "amplifier": 0,
         "probability": 1.0
       }
@@ -142,38 +142,6 @@
         "effect": "minecraft:haste",
         "duration": 100,
         "amplifier": 2,
-        "probability": 0.15
-      }
-    ],
-    [
-      {
-        "effect": "minecraft:blindness",
-        "duration": 150,
-        "amplifier": 3,
-        "probability": 0.15
-      },
-      {
-        "effect": "minecraft:mining_fatigue",
-        "duration": 150,
-        "amplifier": 3,
-        "probability": 0.15
-      },
-      {
-        "effect": "minecraft:speed",
-        "duration": 150,
-        "amplifier": 3,
-        "probability": 0.15
-      },
-      {
-        "effect": "minecraft:jump_boost",
-        "duration": 150,
-        "amplifier": 3,
-        "probability": 0.15
-      },
-      {
-        "effect": "minecraft:haste",
-        "duration": 150,
-        "amplifier": 3,
         "probability": 0.15
       }
     ]

@@ -260,6 +260,141 @@ public interface ModBlocks {
             Block.box(2, 0, 2, 14, 16, 14)
     ).build());
 
+    RegistryObject<Block> POLARIS_SWEET_WHITE = BLOCKS.register("polaris_sweet_white", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    RegistryObject<Block> HONEY_WINE = BLOCKS.register("honey_wine", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    RegistryObject<Block> RED_QUEEN = BLOCKS.register("red_queen", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    RegistryObject<Block> MINERS_STAR = BLOCKS.register("miners_star", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    RegistryObject<Block> RUM = BLOCKS.register("rum", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    RegistryObject<Block> RIESLING_DRY_WHITE = BLOCKS.register("riesling_dry_white", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(4, 0, 4, 12, 15, 12),
+            Block.box(0, 0, 4, 16, 15, 12),
+            Shapes.or(
+                    Block.box(0, 0, 8, 16, 15, 16),
+                    Block.box(4, 0, 0, 12, 15, 16)
+            ),
+            Block.box(0, 0, 0, 16, 16, 16)
+    ).build());
+
+    RegistryObject<Block> SUNSET_GLOW = BLOCKS.register("sunset_glow", DrinkBlock.create().maxCount(3).shapes(
+            Block.box(3, 0, 6, 13, 13, 10),
+            Block.box(1, 0, 3, 15, 12, 12),
+            Block.box(1, 0, 1, 16, 12, 13)
+    ).build());
+
+    RegistryObject<Block> MADAME_SHEXIANG = BLOCKS.register("madame_shexiang", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(4, 0, 4, 12, 15, 12),
+            Block.box(0, 0, 4, 16, 15, 12),
+            Shapes.or(
+                    Block.box(0, 0, 8, 16, 15, 16),
+                    Block.box(4, 0, 0, 12, 15, 16)
+            ),
+            Block.box(0, 0, 0, 16, 16, 16)
+    ).build());
+
+    RegistryObject<Block> SWEET_BERRY_WINE = BLOCKS.register("sweet_berry_wine", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(4, 0, 4, 12, 15, 12),
+            Block.box(0, 0, 4, 16, 15, 12),
+            Shapes.or(
+                    Block.box(0, 0, 8, 16, 15, 16),
+                    Block.box(4, 0, 0, 12, 15, 16)
+            ),
+            Block.box(0, 0, 0, 16, 16, 16)
+    ).build());
+
+    RegistryObject<Block> SHERRY = BLOCKS.register("sherry", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    RegistryObject<Block> MOTHER_SNOW = BLOCKS.register("mother_snow", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(4, 0, 4, 12, 15, 12),
+            Block.box(0, 0, 4, 16, 15, 12),
+            Shapes.or(
+                    Block.box(0, 0, 8, 16, 15, 16),
+                    Block.box(4, 0, 0, 12, 15, 16)
+            ),
+            Block.box(0, 0, 0, 16, 16, 16)
+    ).build());
+
+    RegistryObject<Block> LUMINOUS_BRIDE = BLOCKS.register("luminous_bride", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    RegistryObject<Block> GLOWFLOWER_BREW = BLOCKS.register("glowflower_brew", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
+
+    RegistryObject<Block> SAUVIGNON_BLANC_DRY_WHITE = BLOCKS.register("sauvignon_blanc_dry_white", DrinkBlock.create().maxCount(4).shapes(
+            Block.box(6, 0, 6, 10, 16, 10),
+            Block.box(2, 0, 6, 14, 16, 10),
+            Shapes.or(
+                    Block.box(2, 0, 10, 14, 16, 14),
+                    Block.box(6, 0, 2, 10, 16, 14)
+            ),
+            Block.box(2, 0, 2, 14, 16, 14)
+    ).build());
     RegistryObject<Block> VINEGAR = BLOCKS.register("vinegar", DrinkBlock.create().maxCount(4).shapes(
             Block.box(6, 0, 6, 10, 16, 10),
             Block.box(2, 0, 6, 14, 16, 10),
@@ -336,7 +471,11 @@ public interface ModBlocks {
             "drink", () -> BlockEntityType.Builder
                     .of(DrinkBlockEntity::new,
                             WINE.get(), CHAMPAGNE.get(), VODKA.get(), BRANDY.get(), CARIGNAN.get(),
-                            SAKURA_WINE.get(), PLUM_WINE.get(), WHISKEY.get(), ICE_WINE.get(), VINEGAR.get(),
+                            SAKURA_WINE.get(), PLUM_WINE.get(), WHISKEY.get(), ICE_WINE.get(),
+                            POLARIS_SWEET_WHITE.get(), HONEY_WINE.get(), RED_QUEEN.get(), MINERS_STAR.get(),
+                            RUM.get(), RIESLING_DRY_WHITE.get(), SUNSET_GLOW.get(), MADAME_SHEXIANG.get(),
+                            SWEET_BERRY_WINE.get(), SHERRY.get(), MOTHER_SNOW.get(), LUMINOUS_BRIDE.get(),
+                            GLOWFLOWER_BREW.get(), SAUVIGNON_BLANC_DRY_WHITE.get(), VINEGAR.get(),
                             WATERMELON_JUICE.get()
                     ).build(null)
     );

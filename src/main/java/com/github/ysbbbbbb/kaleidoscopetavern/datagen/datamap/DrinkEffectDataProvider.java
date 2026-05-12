@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopetavern.datagen.datamap;
 
 import com.github.ysbbbbbb.kaleidoscopetavern.KaleidoscopeTavern;
 import com.github.ysbbbbbb.kaleidoscopetavern.datamap.data.DrinkEffectData;
+import com.github.ysbbbbbb.kaleidoscopetavern.init.ModEffects;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -17,6 +18,7 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -50,106 +52,188 @@ public class DrinkEffectDataProvider implements DataProvider {
     }
 
     private void addEntry() {
-        // 红葡萄酒
+        // 葡萄酒
         add(ModItems.WINE,
-                List.of(
-                        new DrinkEffectData.Entry(MobEffects.HEAL, 0, 0, 1f),
-                        new DrinkEffectData.Entry(MobEffects.HEALTH_BOOST, 10, 0, 1f)
-                ),
-                List.of(
-                        new DrinkEffectData.Entry(MobEffects.HEAL, 0, 1, 1f),
-                        new DrinkEffectData.Entry(MobEffects.HEALTH_BOOST, 20, 0, 1f)
-                ),
-                List.of(
-                        new DrinkEffectData.Entry(MobEffects.HEAL, 0, 1, 1f),
-                        new DrinkEffectData.Entry(MobEffects.HEALTH_BOOST, 40, 1, 1f)
-                ),
-                List.of(
-                        new DrinkEffectData.Entry(MobEffects.HEAL, 0, 1, 1f),
-                        new DrinkEffectData.Entry(MobEffects.HEALTH_BOOST, 80, 2, 1f)
-                ),
-                List.of(
-                        new DrinkEffectData.Entry(MobEffects.HEAL, 0, 2, 1f),
-                        new DrinkEffectData.Entry(MobEffects.HEALTH_BOOST, 160, 3, 1f)
-                )
-        );
-
-        // 香槟
-        add(ModItems.CHAMPAGNE,
-                List.of(new DrinkEffectData.Entry(MobEffects.DAMAGE_RESISTANCE, 10, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DAMAGE_RESISTANCE, 30, 1, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DAMAGE_RESISTANCE, 60, 2, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DAMAGE_RESISTANCE, 100, 3, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DAMAGE_RESISTANCE, 150, 5, 1f))
-        );
-
-        // 白兰地
-        add(ModItems.BRANDY,
-                List.of(new DrinkEffectData.Entry(MobEffects.DAMAGE_BOOST, 10, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DAMAGE_BOOST, 30, 1, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DAMAGE_BOOST, 60, 2, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DAMAGE_BOOST, 100, 3, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DAMAGE_BOOST, 150, 5, 1f))
-        );
-
-        // 佳丽酿
-        add(ModItems.CARIGNAN,
-                List.of(new DrinkEffectData.Entry(MobEffects.MOVEMENT_SPEED, 10, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.MOVEMENT_SPEED, 30, 1, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.MOVEMENT_SPEED, 60, 2, 1f)),
-                List.of(
-                        new DrinkEffectData.Entry(MobEffects.MOVEMENT_SPEED, 100, 3, 1f),
-                        new DrinkEffectData.Entry(MobEffects.JUMP, 100, 0, 1f)
-                ),
-                List.of(
-                        new DrinkEffectData.Entry(MobEffects.MOVEMENT_SPEED, 150, 5, 1f),
-                        new DrinkEffectData.Entry(MobEffects.JUMP, 150, 1, 1f)
-                )
+                List.of(effect(MobEffects.REGENERATION, 80, 0)),
+                List.of(effect(MobEffects.REGENERATION, 240, 0)),
+                List.of(effect(MobEffects.REGENERATION, 240, 1)),
+                List.of(effect(MobEffects.REGENERATION, 540, 1))
         );
 
         // 樱花葡萄酒
         add(ModItems.SAKURA_WINE,
-                List.of(new DrinkEffectData.Entry(MobEffects.NIGHT_VISION, 10, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.NIGHT_VISION, 40, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.NIGHT_VISION, 160, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.NIGHT_VISION, 640, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.NIGHT_VISION, 999999, 0, 1f))
+                List.of(effect(MobEffects.REGENERATION, 80, 0)),
+                List.of(effect(MobEffects.REGENERATION, 240, 0)),
+                List.of(effect(MobEffects.REGENERATION, 240, 1)),
+                List.of(effect(MobEffects.REGENERATION, 540, 1))
+        );
+
+        // 香槟
+        add(ModItems.CHAMPAGNE,
+                List.of(effect(ModEffects.HIGH_HEELS.get(), 80, 0)),
+                List.of(effect(ModEffects.HIGH_HEELS.get(), 240, 0)),
+                List.of(effect(ModEffects.HIGH_HEELS.get(), 720, 0)),
+                List.of(effect(ModEffects.HIGH_HEELS.get(), 2160, 0))
+        );
+
+        // 白兰地
+        add(ModItems.BRANDY,
+                List.of(effect(ModEffects.HIGH_HEELS.get(), 80, 0)),
+                List.of(effect(ModEffects.HIGH_HEELS.get(), 240, 0)),
+                List.of(effect(ModEffects.HIGH_HEELS.get(), 720, 0)),
+                List.of(effect(ModEffects.HIGH_HEELS.get(), 2160, 0))
+        );
+
+        // 佳丽私酿
+        add(ModItems.CARIGNAN,
+                List.of(effect(MobEffects.HEAL, 0, 0)),
+                List.of(effect(MobEffects.HEAL, 0, 1)),
+                List.of(effect(MobEffects.HEAL, 0, 2)),
+                List.of(effect(MobEffects.HEAL, 0, 3))
         );
 
         // 冰葡萄酒
         add(ModItems.ICE_WINE,
-                List.of(new DrinkEffectData.Entry(MobEffects.FIRE_RESISTANCE, 10, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.FIRE_RESISTANCE, 40, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.FIRE_RESISTANCE, 160, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.FIRE_RESISTANCE, 640, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.FIRE_RESISTANCE, 999999, 0, 1f))
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 80, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 240, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 720, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 2160, 0))
+        );
+
+        // 北极星甜白
+        add(ModItems.POLARIS_SWEET_WHITE,
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 80, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 240, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 720, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 2160, 0))
+        );
+
+        // 雪婆婆
+        add(ModItems.MOTHER_SNOW,
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 80, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 240, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 720, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 2160, 0))
+        );
+
+        // 雪莉
+        add(ModItems.SHERRY,
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 80, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 240, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 720, 0)),
+                List.of(effect(MobEffects.FIRE_RESISTANCE, 2160, 0))
         );
 
         // 梅酒
         add(ModItems.PLUM_WINE,
-                List.of(new DrinkEffectData.Entry(MobEffects.WATER_BREATHING, 10, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.WATER_BREATHING, 40, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.WATER_BREATHING, 160, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.WATER_BREATHING, 640, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.WATER_BREATHING, 999999, 0, 1f))
+                List.of(effect(MobEffects.WATER_BREATHING, 80, 0)),
+                List.of(effect(MobEffects.WATER_BREATHING, 240, 0)),
+                List.of(effect(MobEffects.WATER_BREATHING, 720, 0)),
+                List.of(effect(MobEffects.WATER_BREATHING, 2160, 0))
+        );
+
+        // 甜浆果酒
+        add(ModItems.SWEET_BERRY_WINE,
+                List.of(effect(ModEffects.BLOODY_MARY.get(), 0, 0)),
+                List.of(effect(ModEffects.BLOODY_MARY.get(), 120, 0)),
+                List.of(effect(ModEffects.BLOODY_MARY.get(), 0, 0)),
+                List.of(effect(ModEffects.BLOODY_MARY.get(), 480, 0))
+        );
+
+        // 红皇后
+        add(ModItems.RED_QUEEN,
+                List.of(effect(ModEffects.BLOODY_MARY.get(), 0, 0)),
+                List.of(effect(ModEffects.BLOODY_MARY.get(), 120, 0)),
+                List.of(effect(ModEffects.BLOODY_MARY.get(), 0, 0)),
+                List.of(effect(ModEffects.BLOODY_MARY.get(), 480, 0))
         );
 
         // 伏特加
         add(ModItems.VODKA,
-                List.of(new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 10, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 30, 1, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 90, 2, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 270, 3, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 480, 5, 1f))
+                List.of(effect(MobEffects.DAMAGE_BOOST, 80, 0)),
+                List.of(effect(MobEffects.DAMAGE_BOOST, 240, 0)),
+                List.of(effect(MobEffects.DAMAGE_BOOST, 240, 1)),
+                List.of(effect(MobEffects.DAMAGE_BOOST, 540, 1))
         );
 
         // 威士忌
         add(ModItems.WHISKEY,
-                List.of(new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 10, 0, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 30, 1, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 90, 2, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 270, 3, 1f)),
-                List.of(new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 480, 5, 1f))
+                List.of(effect(MobEffects.DAMAGE_BOOST, 80, 0)),
+                List.of(effect(MobEffects.DAMAGE_BOOST, 240, 0)),
+                List.of(effect(MobEffects.DAMAGE_BOOST, 240, 1)),
+                List.of(effect(MobEffects.DAMAGE_BOOST, 540, 1))
+        );
+
+        // 朗姆酒
+        add(ModItems.RUM,
+                List.of(effect(MobEffects.DAMAGE_BOOST, 80, 0)),
+                List.of(effect(MobEffects.DAMAGE_BOOST, 240, 0)),
+                List.of(effect(MobEffects.DAMAGE_BOOST, 240, 1)),
+                List.of(effect(MobEffects.DAMAGE_BOOST, 540, 1))
+        );
+
+        // 矿工之星
+        add(ModItems.MINERS_STAR,
+                List.of(effect(MobEffects.DIG_SPEED, 80, 0)),
+                List.of(effect(MobEffects.DIG_SPEED, 240, 0)),
+                List.of(effect(MobEffects.DIG_SPEED, 240, 1)),
+                List.of(effect(MobEffects.DIG_SPEED, 720, 1))
+        );
+
+        // 蜂蜜葡萄酒
+        add(ModItems.HONEY_WINE,
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 80, 0)),
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 0)),
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 1)),
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 540, 1))
+        );
+
+        // 奢香夫人
+        add(ModItems.MADAME_SHEXIANG,
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 80, 0)),
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 0)),
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 1)),
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 540, 1))
+        );
+
+        // 落日余晖
+        add(ModItems.SUNSET_GLOW,
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 80, 0)),
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 0)),
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 1)),
+                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 540, 1))
+        );
+
+        // 长相思干白
+        add(ModItems.SAUVIGNON_BLANC_DRY_WHITE,
+                List.of(effect(ModEffects.GRASS_STEALTH.get(), 80, 0)),
+                List.of(effect(ModEffects.GRASS_STEALTH.get(), 160, 0)),
+                List.of(effect(ModEffects.GRASS_STEALTH.get(), 240, 0)),
+                List.of(effect(ModEffects.GRASS_STEALTH.get(), 480, 0))
+        );
+
+        // 雷司令干白
+        add(ModItems.RIESLING_DRY_WHITE,
+                List.of(effect(ModEffects.GRASS_STEALTH.get(), 80, 0)),
+                List.of(effect(ModEffects.GRASS_STEALTH.get(), 160, 0)),
+                List.of(effect(ModEffects.GRASS_STEALTH.get(), 240, 0)),
+                List.of(effect(ModEffects.GRASS_STEALTH.get(), 480, 0))
+        );
+
+        // 夜光新娘
+        add(ModItems.LUMINOUS_BRIDE,
+                List.of(effect(MobEffects.NIGHT_VISION, 80, 0)),
+                List.of(effect(MobEffects.NIGHT_VISION, 240, 0)),
+                List.of(effect(MobEffects.NIGHT_VISION, 720, 0)),
+                List.of(effect(MobEffects.NIGHT_VISION, 2160, 0))
+        );
+
+        // 萤花酿
+        add(ModItems.GLOWFLOWER_BREW,
+                List.of(effect(ModEffects.VISION.get(), 80, 0)),
+                List.of(effect(ModEffects.VISION.get(), 180, 1)),
+                List.of(effect(ModEffects.VISION.get(), 360, 1)),
+                List.of(effect(ModEffects.VISION.get(), 720, 2))
         );
 
         // 醋（失败产物）- 效果带有概率
@@ -181,13 +265,6 @@ public class DrinkEffectDataProvider implements DataProvider {
                         new DrinkEffectData.Entry(MobEffects.MOVEMENT_SPEED, 100, 2, 0.15f),
                         new DrinkEffectData.Entry(MobEffects.JUMP, 100, 2, 0.15f),
                         new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 100, 2, 0.15f)
-                ),
-                List.of(
-                        new DrinkEffectData.Entry(MobEffects.BLINDNESS, 150, 3, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.DIG_SLOWDOWN, 150, 3, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.MOVEMENT_SPEED, 150, 3, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.JUMP, 150, 3, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 150, 3, 0.15f)
                 )
         );
     }
@@ -204,6 +281,10 @@ public class DrinkEffectDataProvider implements DataProvider {
         this.add(itemKey.getPath(), key, levelAbove2);
     }
 
+    private DrinkEffectData.Entry effect(MobEffect effect, int duration, int amplifier) {
+        return new DrinkEffectData.Entry(effect, duration, amplifier, 1f);
+    }
+
     /**
      * 使用自定义文件名
      */
@@ -214,16 +295,15 @@ public class DrinkEffectDataProvider implements DataProvider {
             throw new IllegalArgumentException("At least one level above 2 must be provided");
         }
         this.add(fileName, new DrinkEffectData(key.get(), List.of(
-                // 等级 1，固定为恶心 35s
-                List.of(new DrinkEffectData.Entry(MobEffects.CONFUSION, 35, 0, 1f)),
-                // 等级 2，固定为恶心 10s
-                List.of(new DrinkEffectData.Entry(MobEffects.CONFUSION, 10, 0, 1f)),
-                // 等级 3-7，由外部传入
+                // 等级 1，固定为反胃 30s
+                List.of(new DrinkEffectData.Entry(MobEffects.CONFUSION, 30, 0, 1f)),
+                // 等级 2，固定为微醺 45s
+                List.of(new DrinkEffectData.Entry(ModEffects.SLIGHTLY_TIPSY.get(), 45, 0, 1f)),
+                // 等级 3-6，由外部传入
                 levelAbove2[0],
                 levelAbove2[Math.min(1, length - 1)],
                 levelAbove2[Math.min(2, length - 1)],
-                levelAbove2[Math.min(3, length - 1)],
-                levelAbove2[Math.min(4, length - 1)]
+                levelAbove2[Math.min(3, length - 1)]
         )));
     }
 
@@ -267,7 +347,7 @@ public class DrinkEffectDataProvider implements DataProvider {
 
                 output.writeIfNeeded(path, stream.toByteArray(), hashing.hash());
             } catch (IOException ioexception) {
-                LOGGER.error("Failed to save file to {}", path, ioexception);
+                KaleidoscopeTavern.LOGGER.error("Failed to save file to {}", path, ioexception);
             }
         }, Util.backgroundExecutor());
     }

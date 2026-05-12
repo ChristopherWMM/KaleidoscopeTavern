@@ -99,6 +99,20 @@ public class ItemModelGenerator extends ItemModelProvider {
         basicItem(ModItems.PLUM_WINE.get());
         basicItem(ModItems.WHISKEY.get());
         basicItem(ModItems.ICE_WINE.get());
+        basicItem(ModItems.POLARIS_SWEET_WHITE.get());
+        basicItem(ModItems.HONEY_WINE.get());
+        basicItem(ModItems.RED_QUEEN.get());
+        basicItem(ModItems.MINERS_STAR.get());
+        basicItem(ModItems.RUM.get());
+        basicItem(ModItems.RIESLING_DRY_WHITE.get());
+        basicItem(ModItems.SUNSET_GLOW.get());
+        basicItem(ModItems.MADAME_SHEXIANG.get());
+        basicItem(ModItems.SWEET_BERRY_WINE.get());
+        basicItem(ModItems.SHERRY.get());
+        basicItem(ModItems.MOTHER_SNOW.get());
+        basicItem(ModItems.LUMINOUS_BRIDE.get());
+        basicItem(ModItems.GLOWFLOWER_BREW.get());
+        basicItem(ModItems.SAUVIGNON_BLANC_DRY_WHITE.get());
         basicItem(ModItems.VINEGAR.get());
         basicItem(ModItems.WATERMELON_JUICE.get());
     }

@@ -169,6 +169,20 @@ public class BlockStateGenerator extends BlockStateProvider {
         drink(ModBlocks.PLUM_WINE.get(), "plum_wine");
         drink(ModBlocks.WHISKEY.get(), "whiskey");
         drink(ModBlocks.ICE_WINE.get(), "ice_wine");
+        drink(ModBlocks.POLARIS_SWEET_WHITE.get(), "polaris_sweet_white");
+        drink(ModBlocks.HONEY_WINE.get(), "honey_wine");
+        drink(ModBlocks.RED_QUEEN.get(), "red_queen");
+        drink(ModBlocks.MINERS_STAR.get(), "miners_star");
+        drink(ModBlocks.RUM.get(), "rum");
+        drink(ModBlocks.RIESLING_DRY_WHITE.get(), "riesling_dry_white");
+        drink(ModBlocks.SUNSET_GLOW.get(), "sunset_glow");
+        drink(ModBlocks.MADAME_SHEXIANG.get(), "madame_shexiang");
+        drink(ModBlocks.SWEET_BERRY_WINE.get(), "sweet_berry_wine");
+        drink(ModBlocks.SHERRY.get(), "sherry");
+        drink(ModBlocks.MOTHER_SNOW.get(), "mother_snow");
+        drink(ModBlocks.LUMINOUS_BRIDE.get(), "luminous_bride");
+        drink(ModBlocks.GLOWFLOWER_BREW.get(), "glowflower_brew");
+        drink(ModBlocks.SAUVIGNON_BLANC_DRY_WHITE.get(), "sauvignon_blanc_dry_white");
         drink(ModBlocks.VINEGAR.get(), "vinegar");
         drink(ModBlocks.WATERMELON_JUICE.get(), "watermelon_juice");
 

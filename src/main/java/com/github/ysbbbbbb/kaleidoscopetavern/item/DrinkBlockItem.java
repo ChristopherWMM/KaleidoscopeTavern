@@ -128,10 +128,14 @@ public class DrinkBlockItem extends BottleBlockItem implements IHasContainer {
             return;
         }
         var effects = effectData.effects();
-        int brewLevel = BottleBlockItem.getBrewLevel(drink);
-        if (brewLevel < IBarrel.BREWING_STARTED || brewLevel > effects.size()) {
+        if (effects.isEmpty()) {
             return;
         }
+        int brewLevel = BottleBlockItem.getBrewLevel(drink);
+        if (brewLevel < IBarrel.BREWING_STARTED) {
+            return;
+        }
+        brewLevel = Math.min(brewLevel, effects.size());
         // brew level 从 1 开始，所以要 -1 来获取对应的效果列表
         for (DrinkEffectData.Entry entry : effects.get(brewLevel - 1)) {
             if (!level.isClientSide && level.random.nextFloat() < entry.probability()) {
@@ -151,9 +155,14 @@ public class DrinkBlockItem extends BottleBlockItem implements IHasContainer {
             return;
         }
         var effects = effectData.effects();
-        if (brewLevel < IBarrel.BREWING_STARTED || brewLevel > effects.size()) {
+        if (effects.isEmpty()) {
             return;
         }
+        brewLevel = BottleBlockItem.clampBrewLevel(brewLevel);
+        if (brewLevel < IBarrel.BREWING_STARTED) {
+            return;
+        }
+        brewLevel = Math.min(brewLevel, effects.size());
 
         // brew level 从 1 开始，所以要 -1 来获取对应的效果列表
         List<MobEffectInstance> instances = Lists.newArrayList();
