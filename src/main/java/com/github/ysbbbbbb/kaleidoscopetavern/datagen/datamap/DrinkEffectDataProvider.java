@@ -39,6 +39,8 @@ import java.util.function.ToIntFunction;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class DrinkEffectDataProvider implements DataProvider {
+    private static final int[] SLIGHTLY_TIPSY_DURATIONS = {45, 30, 30, 20, 10};
+
     private static final ToIntFunction<String> ORDER_FIELDS = Util.make(new Object2IntOpenHashMap<>(), map -> {
         map.put("item", 0);
         map.defaultReturnValue(1);
@@ -165,11 +167,12 @@ public class DrinkEffectDataProvider implements DataProvider {
         );
 
         // 朗姆酒
-        add(ModItems.RUM,
-                List.of(effect(MobEffects.BAD_OMEN, 80, 0)),
-                List.of(effect(MobEffects.BAD_OMEN, 240, 0)),
-                List.of(effect(MobEffects.BAD_OMEN, 240, 1)),
-                List.of(effect(MobEffects.BAD_OMEN, 540, 1))
+        addWithLevel2Effects(ModItems.RUM,
+                List.of(effect(MobEffects.BAD_OMEN, 1200, 0)),
+                List.of(effect(MobEffects.BAD_OMEN, 1200, 1)),
+                List.of(effect(MobEffects.BAD_OMEN, 1200, 2)),
+                List.of(effect(MobEffects.BAD_OMEN, 1200, 3)),
+                List.of(effect(MobEffects.BAD_OMEN, 1200, 4))
         );
 
         // 矿工之星
@@ -294,17 +297,48 @@ public class DrinkEffectDataProvider implements DataProvider {
         if (length == 0) {
             throw new IllegalArgumentException("At least one level above 2 must be provided");
         }
-        this.add(fileName, new DrinkEffectData(key.get(), List.of(
-                // 等级 1，固定为反胃 30s
-                List.of(new DrinkEffectData.Entry(MobEffects.CONFUSION, 30, 0, 1f)),
-                // 等级 2，固定为微醺 45s
-                List.of(new DrinkEffectData.Entry(ModEffects.SLIGHTLY_TIPSY.get(), 45, 0, 1f)),
-                // 等级 3-6，由外部传入
+        this.addWithLevel2Effects(fileName, key,
+                List.of(),
                 levelAbove2[0],
                 levelAbove2[Math.min(1, length - 1)],
                 levelAbove2[Math.min(2, length - 1)],
                 levelAbove2[Math.min(3, length - 1)]
-        )));
+        );
+    }
+
+    @SafeVarargs
+    private void addWithLevel2Effects(RegistryObject<Item> key, List<DrinkEffectData.Entry>... levelAbove1) {
+        var itemKey = ForgeRegistries.ITEMS.getKey(key.get());
+        if (itemKey == null) {
+            throw new IllegalArgumentException("Item not registered: " + key.getId());
+        }
+        this.addWithLevel2Effects(itemKey.getPath(), key, levelAbove1);
+    }
+
+    @SafeVarargs
+    private void addWithLevel2Effects(String fileName, RegistryObject<Item> key,
+                                      List<DrinkEffectData.Entry>... levelAbove1) {
+        int length = levelAbove1.length;
+        if (length == 0) {
+            throw new IllegalArgumentException("At least one level above 1 must be provided");
+        }
+
+        var effects = Lists.<List<DrinkEffectData.Entry>>newArrayListWithExpectedSize(SLIGHTLY_TIPSY_DURATIONS.length + 1);
+        // 等级 1，固定为反胃 30s
+        effects.add(List.of(new DrinkEffectData.Entry(MobEffects.CONFUSION, 30, 0, 1f)));
+        // 等级 2-6，除难以下咽外，都会额外附带对应时长的微醺效果
+        for (int i = 0; i < SLIGHTLY_TIPSY_DURATIONS.length; i++) {
+            effects.add(withSlightlyTipsy(SLIGHTLY_TIPSY_DURATIONS[i], levelAbove1[Math.min(i, length - 1)]));
+        }
+
+        this.add(fileName, new DrinkEffectData(key.get(), effects));
+    }
+
+    private List<DrinkEffectData.Entry> withSlightlyTipsy(int duration, List<DrinkEffectData.Entry> entries) {
+        var result = Lists.<DrinkEffectData.Entry>newArrayListWithExpectedSize(entries.size() + 1);
+        result.add(effect(ModEffects.SLIGHTLY_TIPSY.get(), duration, 0));
+        result.addAll(entries);
+        return result;
     }
 
     public void add(String fileName, DrinkEffectData value) {
