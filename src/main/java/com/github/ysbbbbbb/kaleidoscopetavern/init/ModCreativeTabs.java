@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.init;
 
 import com.github.ysbbbbbb.kaleidoscopetavern.KaleidoscopeTavern;
+import com.github.ysbbbbbb.kaleidoscopetavern.item.BottleBlockItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -35,30 +36,31 @@ public interface ModCreativeTabs {
                 output.accept(ModItems.EMPTY_BOTTLE.get());
                 output.accept(ModItems.MOLOTOV.get());
 
-                output.accept(ModItems.VINEGAR.get());
-                output.accept(ModItems.WINE.get());
-                output.accept(ModItems.ICE_WINE.get());
-                output.accept(ModItems.SAKURA_WINE.get());
-                output.accept(ModItems.PLUM_WINE.get());
-                output.accept(ModItems.CHAMPAGNE.get());
-                output.accept(ModItems.VODKA.get());
-                output.accept(ModItems.BRANDY.get());
-                output.accept(ModItems.CARIGNAN.get());
-                output.accept(ModItems.WHISKEY.get());
-                output.accept(ModItems.POLARIS_SWEET_WHITE.get());
-                output.accept(ModItems.HONEY_WINE.get());
-                output.accept(ModItems.RED_QUEEN.get());
-                output.accept(ModItems.MINERS_STAR.get());
-                output.accept(ModItems.RUM.get());
-                output.accept(ModItems.RIESLING_DRY_WHITE.get());
-                output.accept(ModItems.SUNSET_GLOW.get());
-                output.accept(ModItems.MADAME_SHEXIANG.get());
-                output.accept(ModItems.SWEET_BERRY_WINE.get());
-                output.accept(ModItems.SHERRY.get());
-                output.accept(ModItems.MOTHER_SNOW.get());
-                output.accept(ModItems.LUMINOUS_BRIDE.get());
-                output.accept(ModItems.GLOWFLOWER_BREW.get());
-                output.accept(ModItems.SAUVIGNON_BLANC_DRY_WHITE.get());
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.VINEGAR));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.WINE));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.ICE_WINE));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.SAKURA_WINE));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.PLUM_WINE));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.CHAMPAGNE));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.VODKA));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.BRANDY));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.CARIGNAN));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.WHISKEY));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.POLARIS_SWEET_WHITE));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.HONEY_WINE));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.RED_QUEEN));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.MINERS_STAR));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.RUM));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.RIESLING_DRY_WHITE));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.SUNSET_GLOW));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.MADAME_SHEXIANG));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.SWEET_BERRY_WINE));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.SHERRY));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.MOTHER_SNOW));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.LUMINOUS_BRIDE));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.GLOWFLOWER_BREW));
+                output.accept(BottleBlockItem.getMaxLevelDrink(ModItems.SAUVIGNON_BLANC_DRY_WHITE));
+
                 output.accept(ModItems.WATERMELON_JUICE.get());
             }).build());
 
