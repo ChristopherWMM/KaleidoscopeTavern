@@ -22,22 +22,27 @@ public class GrassStealthEffect extends BaseEffect {
 
     @Override
     public void applyEffectTick(LivingEntity livingEntity, int amplifier) {
-        if (!livingEntity.isShiftKeyDown() || !isInGrassStealthPlant(livingEntity)) {
+        if (!livingEntity.isShiftKeyDown()) {
             return;
         }
+        Level level = livingEntity.level();
+        BlockPos pos = livingEntity.blockPosition();
+        BlockPos abovePos = pos.above();
+        if (notInGrassStealthPlant(level, pos) && notInGrassStealthPlant(level, abovePos)) {
+            return;
+        }
+
         livingEntity.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 20));
         if (livingEntity instanceof Player player) {
-            player.causeFoodExhaustion(0.02F);
+            player.causeFoodExhaustion(0.1F);
         }
     }
 
-    private static boolean isInGrassStealthPlant(LivingEntity entity) {
-        BlockPos pos = entity.blockPosition();
-        Level level = entity.level();
+    private static boolean notInGrassStealthPlant(Level level, BlockPos pos) {
         BlockState blockState = level.getBlockState(pos);
         if (blockState.getBlock() instanceof CropBlock cropBlock) {
-            return cropBlock.isMaxAge(blockState);
+            return !cropBlock.isMaxAge(blockState);
         }
-        return blockState.is(TagMod.GRASS_STEALTH_PLANTS);
+        return !blockState.is(TagMod.GRASS_STEALTH_PLANTS);
     }
 }

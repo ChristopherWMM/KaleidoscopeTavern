@@ -26,7 +26,7 @@ public class EffectEvent {
         if (target == living) {
             return;
         }
-        int healAmount = (int) Math.floor(target.getMaxHealth() / 5.0f);
+        int healAmount = (int) Math.floor(target.getMaxHealth() / 3.0f);
         if (healAmount > 0) {
             living.heal(healAmount);
         }

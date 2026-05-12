@@ -17,7 +17,7 @@ public class VisionEffect extends BaseEffect {
 
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {
-        return duration % 100 == 0;
+        return duration % 50 == 0;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class VisionEffect extends BaseEffect {
             if (!entity.hasEffect(MobEffects.GLOWING)) {
                 apply = true;
             }
-            entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 120));
+            entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 60));
         }
         if (apply) {
             living.playSound(ModSounds.EFFECT_VISION.get());

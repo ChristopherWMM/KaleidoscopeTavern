@@ -162,7 +162,8 @@ public class TagBlock extends BlockTagsProvider {
                 Blocks.PEONY,
                 Blocks.PITCHER_PLANT,
                 Blocks.SUGAR_CANE,
-                Blocks.SWEET_BERRY_BUSH
+                Blocks.SWEET_BERRY_BUSH,
+                Blocks.SUNFLOWER
         );
 
         // 兼容静谧四季模组
