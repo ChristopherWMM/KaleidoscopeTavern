@@ -17,6 +17,12 @@ public class CapabilitiesRegistry {
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlocks.PRESSING_TUB_BE.get(), (b, v) -> b.getFluid());
 
         event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> new FluidBucketWrapper(stack),
-                ModItems.GRAPE_BUCKET, ModItems.GLOW_BERRIES_BUCKET, ModItems.SWEET_BERRIES_BUCKET);
+                ModItems.GRAPE_BUCKET,
+                ModItems.ICE_GRAPE_BUCKET,
+                ModItems.GOLD_GRAPE_BUCKET,
+                ModItems.GREEN_GRAPE_BUCKET,
+                ModItems.GLOW_BERRIES_BUCKET,
+                ModItems.SWEET_BERRIES_BUCKET
+        );
     }
 }
