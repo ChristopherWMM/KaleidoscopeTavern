@@ -24,7 +24,11 @@ public class KaleidoscopeTavern {
         ModDataComponents.DATA_COMPONENT_TYPES.register(modEventBus);
         ModCreativeTabs.TABS.register(modEventBus);
         ModEntities.ENTITY_TYPES.register(modEventBus);
+
         ModRecipes.RECIPE_SERIALIZERS.register(modEventBus);
+        ModRecipes.RECIPE_TYPES.register(modEventBus);
+        ModRecipes.RECIPE_BOOK_CATEGORIES.register(modEventBus);
+
         ModTreeDecoratorTypes.TREE_DECORATOR_TYPES.register(modEventBus);
         ModFluids.FLUID_TYPES.register(modEventBus);
         ModFluids.FLUIDS.register(modEventBus);

@@ -3,44 +3,48 @@ package com.github.ysbbbbbb.kaleidoscopetavern.client.render.block;
 import com.github.ysbbbbbb.kaleidoscopetavern.api.blockentity.IPressingTub;
 import com.github.ysbbbbbb.kaleidoscopetavern.block.brew.PressingTubBlock;
 import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.brew.PressingTubBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopetavern.client.render.block.state.PressingTubRenderState;
 import com.github.ysbbbbbb.kaleidoscopetavern.util.RenderUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
 import static com.github.ysbbbbbb.kaleidoscopetavern.util.RenderUtils.stableRandom;
 
-public class PressingTubBlockEntityRender implements BlockEntityRenderer<PressingTubBlockEntity> {
-    private final ItemRenderer itemRenderer;
+public class PressingTubBlockEntityRender implements BlockEntityRenderer<PressingTubBlockEntity, PressingTubRenderState> {
+    private final ItemModelResolver resolver;
 
     public PressingTubBlockEntityRender(BlockEntityRendererProvider.Context context) {
-        this.itemRenderer = context.getItemRenderer();
+        this.resolver = context.itemModelResolver();
     }
 
     @Override
-    public void render(PressingTubBlockEntity pressingTub, float partialTick, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        Level level = pressingTub.getLevel();
-        if (level == null) {
-            return;
-        }
+    public PressingTubRenderState createRenderState() {
+        return new PressingTubRenderState();
+    }
 
+    @Override
+    public void submit(PressingTubRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
         // 渲染四个位置的物品，多余的朝上堆叠
-        Direction direction = pressingTub.getBlockState().getValue(PressingTubBlock.FACING);
-        boolean tilt = pressingTub.getBlockState().getValue(PressingTubBlock.TILT);
-        ItemStack stack = pressingTub.getItems().getStackInSlot(0);
-        int count = stack.getCount();
+        Direction direction = state.direction;
+        boolean tilt = state.tilt;
+        int count = state.itemAmount;
 
         if (count > 0) {
-            long seed = pressingTub.getBlockPos().asLong();
+            long seed = state.blockPos.asLong();
 
             if (tilt) {
                 poseStack.pushPose();
@@ -74,8 +78,7 @@ public class PressingTubBlockEntityRender implements BlockEntityRenderer<Pressin
                 poseStack.mulPose(Axis.YN.rotationDegrees(yRot));
                 poseStack.mulPose(Axis.ZN.rotationDegrees(zRot));
 
-                itemRenderer.renderStatic(stack, ItemDisplayContext.FIXED, packedLight,
-                        packedOverlay, poseStack, buffer, pressingTub.getLevel(), 0);
+                state.stackRender.submit(poseStack, submitNodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
                 poseStack.popPose();
             }
 
@@ -85,12 +88,32 @@ public class PressingTubBlockEntityRender implements BlockEntityRenderer<Pressin
         }
 
         // 如果有流体，渲染流体
-        int fluidAmount = pressingTub.getFluidAmount();
+        int fluidAmount = state.fluidAmount;
         if (fluidAmount > 0) {
             float percent = fluidAmount / (float) IPressingTub.MAX_FLUID_AMOUNT;
             float y = 0.125f + percent * 0.25f;
-            Fluid fluid = pressingTub.getFluid().getFluid().getFluid();
-            RenderUtils.renderFluid(fluid, poseStack, buffer, packedLight, 12, y);
+            Fluid fluid = state.fluid;
+
+            submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (pose, buffer) ->
+                    RenderUtils.renderFluid(fluid, pose, buffer, state.lightCoords, 12, y));
         }
+    }
+
+    @Override
+    public void extractRenderState(PressingTubBlockEntity blockEntity, PressingTubRenderState state, float partialTicks,
+                                   Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+        ItemStack stack = blockEntity.getItems().getStackInSlot(0);
+        if (stack.isEmpty()) {
+            state.stackRender.clear();
+            state.itemAmount = 0;
+        } else {
+            this.resolver.updateForTopItem(state.stackRender, stack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, 0);
+            state.itemAmount = stack.getCount();
+        }
+        state.fluidAmount = blockEntity.getFluidAmount();
+        state.fluid = blockEntity.getFluid().getFluid().getFluid();
+        state.direction = blockEntity.getBlockState().getValue(PressingTubBlock.FACING);
+        state.tilt = blockEntity.getBlockState().getValue(PressingTubBlock.TILT);
     }
 }

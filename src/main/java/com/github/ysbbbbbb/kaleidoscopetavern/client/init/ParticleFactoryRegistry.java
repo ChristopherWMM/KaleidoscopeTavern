@@ -12,7 +12,7 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 public class ParticleFactoryRegistry {
     @SubscribeEvent
     public static void onRegisterParticleFactory(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticles.WATER_TAP_DRIP.get(), TapDripParticle::createWaterTapDripParticle);
-        event.registerSpriteSet(ModParticles.LAVA_TAP_DRIP.get(), TapDripParticle::createLavaTapDripParticle);
+        event.registerSpriteSet(ModParticles.WATER_TAP_DRIP.get(), TapDripParticle.WaterTapDripParticle::new);
+        event.registerSpriteSet(ModParticles.LAVA_TAP_DRIP.get(), TapDripParticle.LavaTapDripParticle::new);
     }
 }

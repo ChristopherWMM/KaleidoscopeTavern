@@ -1,28 +1,42 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.crafting.recipe;
 
+import com.github.ysbbbbbb.kaleidoscopetavern.crafting.serializer.PressingTubRecipeSerializer;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModRecipes;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.SingleItemRecipe;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import org.apache.commons.lang3.StringUtils;
 
 public class PressingTubRecipe extends SingleItemRecipe {
+    public static final RecipeSerializer<PressingTubRecipe> SERIALIZER = new RecipeSerializer<>(PressingTubRecipeSerializer.CODEC, PressingTubRecipeSerializer.STREAM_CODEC);
+    private static final CommonInfo EMPTY = new CommonInfo(false);
     private final Fluid fluid;
     private final int fluidAmount;
 
     public PressingTubRecipe(Ingredient ingredient, Fluid fluid, int fluidAmount) {
-        super(ModRecipes.PRESSING_TUB_RECIPE, ModRecipes.PRESSING_TUB_SERIALIZER.get(),
-                StringUtils.EMPTY, ingredient, fluid.getBucket().getDefaultInstance());
+        super(EMPTY, ingredient, new ItemStackTemplate(fluid.getBucket()));
         this.fluid = fluid;
         this.fluidAmount = fluidAmount;
     }
 
     @Override
+    public RecipeSerializer<? extends SingleItemRecipe> getSerializer() {
+        return ModRecipes.PRESSING_TUB_SERIALIZER.get();
+    }
+
+    @Override
+    public RecipeType<? extends SingleItemRecipe> getType() {
+        return ModRecipes.PRESSING_TUB_RECIPE.get();
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return ModRecipes.PRESSING_TUB_RECIPE_CATEGORY.get();
+    }
+
+    @Override
     public boolean matches(SingleRecipeInput input, Level level) {
-        return this.ingredient.test(input.getItem(0));
+        return this.input().test(input.getItem(0));
     }
 
     @Override
@@ -30,12 +44,9 @@ public class PressingTubRecipe extends SingleItemRecipe {
         return true;
     }
 
-    public Ingredient getIngredient() {
-        return this.ingredient;
-    }
-
-    public ItemStack getResult() {
-        return this.result;
+    @Override
+    public String group() {
+        return "";
     }
 
     public Fluid getFluid() {

@@ -1,17 +1,16 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.crafting.recipe;
 
 import com.github.ysbbbbbb.kaleidoscopetavern.crafting.container.BarrelRecipeContainer;
+import com.github.ysbbbbbb.kaleidoscopetavern.crafting.serializer.BarrelRecipeSerializer;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModRecipes;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.util.RecipeMatcher;
+
+import java.util.List;
 
 /**
  * 酒桶的配方类
@@ -25,12 +24,14 @@ import net.neoforged.neoforge.common.util.RecipeMatcher;
  *                    n 为当前阶段数（从 1 开始）。例如，unitTime 为 100，则第一阶段持续 100 tick，第二阶段持续 200 tick，以此类推
  */
 public record BarrelRecipe(
-        NonNullList<Ingredient> ingredients,
+        List<Ingredient> ingredients,
         Fluid fluid,
         Ingredient carrier,
-        ItemStack result,
+        ItemStackTemplate result,
         int unitTime
 ) implements Recipe<BarrelRecipeContainer> {
+    public static final RecipeSerializer<BarrelRecipe> SERIALIZER = new RecipeSerializer<>(BarrelRecipeSerializer.CODEC, BarrelRecipeSerializer.STREAM_CODEC);
+
     @Override
     public boolean matches(BarrelRecipeContainer container, Level level) {
         boolean emptyIngredients = this.ingredients.stream().allMatch(Ingredient::isEmpty);
@@ -53,27 +54,32 @@ public record BarrelRecipe(
                 count = Math.min(count, itemStack.getCount());
             }
         }
-        return getResultItem(registries).copyWithCount(count);
+        return this.result.withCount(count).create();
     }
 
     @Override
-    public NonNullList<Ingredient> getIngredients() {
-        return this.ingredients;
+    public boolean showNotification() {
+        return false;
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return this.result;
+    public String group() {
+        return "";
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<BarrelRecipeContainer>> getSerializer() {
         return ModRecipes.BARREL_SERIALIZER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
-        return ModRecipes.BARREL_RECIPE;
+    public RecipeType<? extends Recipe<BarrelRecipeContainer>> getType() {
+        return ModRecipes.BARREL_RECIPE.get();
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return ModRecipes.BARREL_RECIPE_CATEGORY.get();
     }
 
     @Override
@@ -82,7 +88,7 @@ public record BarrelRecipe(
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return false;
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
     }
 }

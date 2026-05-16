@@ -1,28 +1,24 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.client.model.brew;
 
 import com.github.ysbbbbbb.kaleidoscopetavern.KaleidoscopeTavern;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.util.Unit;
 
-public class BarrelModel extends Model {
+public class BarrelModel extends Model<Unit> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(KaleidoscopeTavern.modLoc("barrel"), "main");
-    private final ModelPart root;
+
     private final ModelPart close;
     private final ModelPart open;
-    private final ModelPart body;
 
     public BarrelModel(ModelPart root) {
-        super(RenderTypes::entityCutoutNoCull);
-        this.root = root.getChild("root");
+        super(root, RenderTypes::entityCutout);
         this.close = this.root.getChild("close");
         this.open = this.root.getChild("open");
-        this.body = this.root.getChild("body");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -53,18 +49,5 @@ public class BarrelModel extends Model {
                 .texOffs(0, 160).addBox(-16.0F, -33.0F, 17.0F, 16.0F, 21.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
         return LayerDefinition.create(meshdefinition, 256, 256);
-    }
-
-    @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
-        root.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
-    }
-
-    public ModelPart getClose() {
-        return close;
-    }
-
-    public ModelPart getOpen() {
-        return open;
     }
 }

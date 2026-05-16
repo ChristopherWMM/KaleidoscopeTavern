@@ -10,46 +10,35 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
 
 import java.util.Objects;
 
-public class PressingTubRecipeSerializer implements RecipeSerializer<PressingTubRecipe> {
+public class PressingTubRecipeSerializer {
     public static final int DEFAULT_FLUID_AMOUNT = IPressingTub.MAX_FLUID_AMOUNT / 8;
 
-    private static final MapCodec<PressingTubRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Ingredient.CODEC.fieldOf("ingredient").forGetter(PressingTubRecipe::getIngredient),
+    public static final MapCodec<PressingTubRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Ingredient.CODEC.fieldOf("ingredient").forGetter(PressingTubRecipe::input),
             BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(PressingTubRecipe::getFluid),
             Codec.INT.optionalFieldOf("fluid_amount", DEFAULT_FLUID_AMOUNT).forGetter(PressingTubRecipe::getFluidAmount)
     ).apply(instance, PressingTubRecipe::new));
 
-    private static final StreamCodec<RegistryFriendlyByteBuf, PressingTubRecipe> STREAM_CODEC = new StreamCodec<>() {
+    public static final StreamCodec<RegistryFriendlyByteBuf, PressingTubRecipe> STREAM_CODEC = new StreamCodec<>() {
         @Override
         public PressingTubRecipe decode(RegistryFriendlyByteBuf buf) {
             Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
-            Identifier fluidId = buf.readResourceLocation();
-            Fluid fluid = Objects.requireNonNull(BuiltInRegistries.FLUID.get(fluidId));
+            Identifier fluidId = buf.readIdentifier();
+            Fluid fluid = BuiltInRegistries.FLUID.getValue(fluidId);
             int fluidAmount = buf.readInt();
             return new PressingTubRecipe(ingredient, fluid, fluidAmount);
         }
 
         @Override
         public void encode(RegistryFriendlyByteBuf buf, PressingTubRecipe recipe) {
-            Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.getIngredient());
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.input());
             Identifier fluidId = Objects.requireNonNull(BuiltInRegistries.FLUID.getKey(recipe.getFluid()));
-            buf.writeResourceLocation(fluidId);
+            buf.writeIdentifier(fluidId);
             buf.writeInt(recipe.getFluidAmount());
         }
     };
-
-    @Override
-    public MapCodec<PressingTubRecipe> codec() {
-        return CODEC;
-    }
-
-    @Override
-    public StreamCodec<RegistryFriendlyByteBuf, PressingTubRecipe> streamCodec() {
-        return STREAM_CODEC;
-    }
 }

@@ -3,8 +3,6 @@ package com.github.ysbbbbbb.kaleidoscopetavern.util;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.Identifier;
@@ -18,34 +16,33 @@ public class RenderUtils {
     /**
      * 渲染流体的工具方法
      *
-     * @param fluid     要渲染的流体
-     * @param poseStack PoseStack
-     * @param buffer    MultiBufferSource
-     * @param light     PackedLight
-     * @param size      流体平面贴图的大小（0-16），可以根据实际需要调整
-     * @param y         流体平面贴图的高度，根据实际流体显示高度调整
+     * @param fluid          要渲染的流体
+     * @param pose           PoseStack.Pose
+     * @param vertexConsumer VertexConsumer
+     * @param light          PackedLight
+     * @param size           流体平面贴图的大小（0-16），可以根据实际需要调整
+     * @param y              流体平面贴图的高度，根据实际流体显示高度调整
      */
-    public static void renderFluid(Fluid fluid, PoseStack poseStack, MultiBufferSource buffer, int light, int size, float y) {
+    public static void renderFluid(Fluid fluid, PoseStack.Pose pose, VertexConsumer vertexConsumer, int light, int size, float y) {
         TextureAtlasSprite sprite = getStillFluidSprite(fluid);
         int color = getFluidColor(fluid);
-        renderSurface(poseStack, buffer, sprite, color, light, Mth.clamp(size, 1, 16), y);
+        renderSurface(pose, vertexConsumer, sprite, color, light, Mth.clamp(size, 1, 16), y);
     }
 
     /**
      * 工具方法，用于渲染流体贴图
      *
-     * @param poseStack PoseStack
-     * @param buffer    MultiBufferSource
-     * @param sprite    TextureAtlasSprite
-     * @param color     流体附加着色
-     * @param light     PackedLight
-     * @param size      流体平面贴图的大小（0-16）
-     * @param y         流体平面贴图的高度
+     * @param pose           PoseStack.Pose
+     * @param vertexConsumer VertexConsumer
+     * @param sprite         TextureAtlasSprite
+     * @param color          流体附加着色
+     * @param light          PackedLight
+     * @param size           流体平面贴图的大小（0-16）
+     * @param y              流体平面贴图的高度
      */
-    public static void renderSurface(PoseStack poseStack, MultiBufferSource buffer, TextureAtlasSprite sprite,
+    public static void renderSurface(PoseStack.Pose pose, VertexConsumer vertexConsumer, TextureAtlasSprite sprite,
                                      int color, int light, int size, float y) {
-        VertexConsumer vertexConsumer = buffer.getBuffer(RenderTypes.translucentMovingBlock());
-        Matrix4f matrix = poseStack.last().pose();
+        Matrix4f matrix = pose.pose();
 
         // 贴图的位置和大小
         int margin = (16 - size) / 2;
