@@ -21,7 +21,10 @@ public class PaintingBlockItem extends BlockItem {
     private @Nullable String tooltipKey;
 
     public PaintingBlockItem(Identifier id, Supplier<? extends Block> block) {
-        super(block.get(), new Properties().setId(ResourceKey.create(Registries.ITEM, id)));
+        super(block.get(), new Properties()
+                .setId(ResourceKey.create(Registries.ITEM, id))
+                .overrideDescription("item.kaleidoscope_tavern.painting")
+        );
     }
 
     @Override

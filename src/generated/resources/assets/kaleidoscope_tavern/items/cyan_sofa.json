@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "kaleidoscope_tavern:block/cyan_sofa"
+    "model": "kaleidoscope_tavern:item/cyan_sofa"
   }
 }

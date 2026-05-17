@@ -43,6 +43,8 @@ public final class ModBlockModels {
         generatePaintingModels(blockModels);
         generateCrossModels(blockModels);
 
+
+
         generateSofaBlockStates(blockModels);
         generateBarStoolBlockStates(blockModels);
         generateSandwichBoardBlockStates(blockModels);
@@ -69,7 +71,7 @@ public final class ModBlockModels {
      * 生成沙发块模型 JSON（每个颜色+连接类型）
      */
     private void generateSofaModels(BlockModelGenerators blockModels) {
-        for (BlockCatalogEntry sofa : SofaModelCatalog.entries()) {
+        for (BlockItemCatalogEntry sofa : SofaModelCatalog.entries()) {
             Material texture = blockTexture("block/deco/sofa/" + sofa.path());
             Material particle = vanillaTexture("block/" + sofa.path() + "_wool");
             for (ConnectionType type : ConnectionType.values()) {
@@ -151,7 +153,7 @@ public final class ModBlockModels {
      * 沙发（水平朝向 + 连接类型）
      */
     private void generateSofaBlockStates(BlockModelGenerators bm) {
-        for (BlockCatalogEntry sofa : SofaModelCatalog.entries()) {
+        for (BlockItemCatalogEntry sofa : SofaModelCatalog.entries()) {
             Block block = sofa.block().get();
             bm.blockStateOutput.accept(MultiVariantGenerator.dispatch(block)
                     .with(PropertyDispatch.initial(SofaBlock.CONNECTION)

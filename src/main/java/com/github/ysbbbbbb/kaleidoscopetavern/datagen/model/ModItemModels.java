@@ -22,6 +22,9 @@ public final class ModItemModels {
     void generateAll(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         ItemModelOutput itemOutput = itemModels.itemModelOutput;
 
+        itemOutput.accept(ModItems.BASE_SANDWICH_BOARD.get(), ItemModelUtils.plainModel(modLoc("item/base_sandwich_board")));
+        itemOutput.accept(ModItems.BARREL.get(), ItemModelUtils.plainModel(modLoc("item/barrel")));
+
         itemModels.generateFlatItem(ModItems.CHALKBOARD.get(), ModelTemplates.FLAT_ITEM);
 
         for (BlockItemCatalogEntry barStool : BarStoolModelCatalog.entries()) {
@@ -37,6 +40,21 @@ public final class ModItemModels {
                     .put(TextureSlot.PARTICLE, particle);
             template.create(modelId, mapping, blockModels.modelOutput);
             itemOutput.accept(barStoolItem, ItemModelUtils.plainModel(modelId));
+        }
+
+        for (BlockItemCatalogEntry sofa : SofaModelCatalog.entries()) {
+            Item sofaItem = sofa.item().get();
+            Identifier modelId = ModelLocationUtils.getModelLocation(sofaItem);
+            Material particle = vanillaTexture("block/" + sofa.path() + "_wool");
+            Material texture = blockTexture("block/deco/sofa/" + sofa.path());
+            Identifier parent = modLoc("block/deco/sofa/base/single");
+            ModelTemplate template = new ModelTemplate(Optional.of(parent), Optional.empty(),
+                    TextureSlot.TEXTURE, TextureSlot.PARTICLE);
+            TextureMapping mapping = new TextureMapping()
+                    .put(TextureSlot.TEXTURE, texture)
+                    .put(TextureSlot.PARTICLE, particle);
+            template.create(modelId, mapping, blockModels.modelOutput);
+            itemOutput.accept(sofaItem, ItemModelUtils.plainModel(modelId));
         }
 
         for (BlockItemCatalogEntry sandwichBoard : SandwichBoardModelCatalog.entries()) {

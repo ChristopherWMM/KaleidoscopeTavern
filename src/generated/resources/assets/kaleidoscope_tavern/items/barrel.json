@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "kaleidoscope_tavern:block/barrel"
+    "model": "kaleidoscope_tavern:item/barrel"
   }
 }

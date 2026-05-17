@@ -3,7 +3,8 @@
 	"credit": "by YSBB  2025",
 	"texture_size": [32, 32],
 	"textures": {
-		"layer0": "kaleidoscope_tavern:item/barrel_1"
+		"layer0": "kaleidoscope_tavern:item/barrel_1",
+		"particle": "kaleidoscope_tavern:item/barrel_1"
 	},
 	"elements": [
 		{

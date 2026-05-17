@@ -20,22 +20,11 @@ public class ModFluids {
 
     // ID
     public static final Identifier GRAPE_JUICE_ID = modLoc("grape_juice");
-    public static final Identifier FLOWING_GRAPE_JUICE_ID = modLoc("flowing_grape_juice");
-
     public static final Identifier ICE_GRAPE_JUICE_ID = modLoc("ice_grape_juice");
-    public static final Identifier FLOWING_ICE_GRAPE_JUICE_ID = modLoc("flowing_ice_grape_juice");
-
     public static final Identifier GOLD_GRAPE_JUICE_ID = modLoc("gold_grape_juice");
-    public static final Identifier FLOWING_GOLD_GRAPE_JUICE_ID = modLoc("flowing_gold_grape_juice");
-
     public static final Identifier GREEN_GRAPE_JUICE_ID = modLoc("green_grape_juice");
-    public static final Identifier FLOWING_GREEN_GRAPE_JUICE_ID = modLoc("flowing_green_grape_juice");
-
     public static final Identifier SWEET_BERRIES_JUICE_ID = modLoc("sweet_berries_juice");
-    public static final Identifier FLOWING_SWEET_BERRIES_JUICE_ID = modLoc("flowing_sweet_berries_juice");
-
     public static final Identifier GLOW_BERRIES_JUICE_ID = modLoc("glow_berries_juice");
-    public static final Identifier FLOWING_GLOW_BERRIES_JUICE_ID = modLoc("flowing_glow_berries_juice");
 
     // FluidType
     public static final Supplier<FluidType> GRAPE_JUICE_TYPE = FLUID_TYPES.register("grape_juice", () -> new JuiceFluidType(GRAPE_JUICE_ID, 0));

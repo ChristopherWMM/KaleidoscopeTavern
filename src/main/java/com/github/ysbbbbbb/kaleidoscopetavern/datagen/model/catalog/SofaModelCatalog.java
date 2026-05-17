@@ -1,32 +1,31 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.datagen.model.catalog;
 
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModBlocks;
+import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
 
 import java.util.List;
 
 public final class SofaModelCatalog {
-    private static final List<BlockCatalogEntry> ENTRIES = List.of(
-            new BlockCatalogEntry("white", ModBlocks.WHITE_SOFA),
-            new BlockCatalogEntry("light_gray", ModBlocks.LIGHT_GRAY_SOFA),
-            new BlockCatalogEntry("gray", ModBlocks.GRAY_SOFA),
-            new BlockCatalogEntry("black", ModBlocks.BLACK_SOFA),
-            new BlockCatalogEntry("brown", ModBlocks.BROWN_SOFA),
-            new BlockCatalogEntry("red", ModBlocks.RED_SOFA),
-            new BlockCatalogEntry("orange", ModBlocks.ORANGE_SOFA),
-            new BlockCatalogEntry("yellow", ModBlocks.YELLOW_SOFA),
-            new BlockCatalogEntry("lime", ModBlocks.LIME_SOFA),
-            new BlockCatalogEntry("green", ModBlocks.GREEN_SOFA),
-            new BlockCatalogEntry("cyan", ModBlocks.CYAN_SOFA),
-            new BlockCatalogEntry("light_blue", ModBlocks.LIGHT_BLUE_SOFA),
-            new BlockCatalogEntry("blue", ModBlocks.BLUE_SOFA),
-            new BlockCatalogEntry("purple", ModBlocks.PURPLE_SOFA),
-            new BlockCatalogEntry("magenta", ModBlocks.MAGENTA_SOFA),
-            new BlockCatalogEntry("pink", ModBlocks.PINK_SOFA)
+    private static final List<BlockItemCatalogEntry> ENTRIES = List.of(
+            new BlockItemCatalogEntry("white", ModBlocks.WHITE_SOFA, ModItems.WHITE_SOFA),
+            new BlockItemCatalogEntry("light_gray", ModBlocks.LIGHT_GRAY_SOFA, ModItems.LIGHT_GRAY_SOFA),
+            new BlockItemCatalogEntry("gray", ModBlocks.GRAY_SOFA, ModItems.GRAY_SOFA),
+            new BlockItemCatalogEntry("black", ModBlocks.BLACK_SOFA, ModItems.BLACK_SOFA),
+            new BlockItemCatalogEntry("brown", ModBlocks.BROWN_SOFA, ModItems.BROWN_SOFA),
+            new BlockItemCatalogEntry("red", ModBlocks.RED_SOFA, ModItems.RED_SOFA),
+            new BlockItemCatalogEntry("orange", ModBlocks.ORANGE_SOFA, ModItems.ORANGE_SOFA),
+            new BlockItemCatalogEntry("yellow", ModBlocks.YELLOW_SOFA, ModItems.YELLOW_SOFA),
+            new BlockItemCatalogEntry("lime", ModBlocks.LIME_SOFA, ModItems.LIME_SOFA),
+            new BlockItemCatalogEntry("green", ModBlocks.GREEN_SOFA, ModItems.GREEN_SOFA),
+            new BlockItemCatalogEntry("cyan", ModBlocks.CYAN_SOFA, ModItems.CYAN_SOFA),
+            new BlockItemCatalogEntry("light_blue", ModBlocks.LIGHT_BLUE_SOFA, ModItems.LIGHT_BLUE_SOFA),
+            new BlockItemCatalogEntry("blue", ModBlocks.BLUE_SOFA, ModItems.BLUE_SOFA),
+            new BlockItemCatalogEntry("purple", ModBlocks.PURPLE_SOFA, ModItems.PURPLE_SOFA),
+            new BlockItemCatalogEntry("magenta", ModBlocks.MAGENTA_SOFA, ModItems.MAGENTA_SOFA),
+            new BlockItemCatalogEntry("pink", ModBlocks.PINK_SOFA, ModItems.PINK_SOFA)
     );
 
-    public static List<BlockCatalogEntry> entries() {
+    public static List<BlockItemCatalogEntry> entries() {
         return ENTRIES;
     }
 }
-
-
