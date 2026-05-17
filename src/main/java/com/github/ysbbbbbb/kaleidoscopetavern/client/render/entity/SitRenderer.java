@@ -1,27 +1,35 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.client.render.entity;
 
-
-import com.github.ysbbbbbb.kaleidoscopetavern.KaleidoscopeTavern;
 import com.github.ysbbbbbb.kaleidoscopetavern.entity.SitEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.Identifier;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 
-public class SitRenderer extends EntityRenderer<SitEntity> {
-    private static final Identifier EMPTY = KaleidoscopeTavern.modLoc("textures/entity/empty.png");
-
+/**
+ * SitEntity 的渲染器，该实体本身是不可见的（坐骑锚点），
+ * 因此 submit() 不渲染任何内容。
+ */
+public class SitRenderer extends EntityRenderer<SitEntity, EntityRenderState> {
     public SitRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
     @Override
-    public void render(SitEntity entitySit, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
+    public EntityRenderState createRenderState() {
+        return new EntityRenderState();
     }
 
     @Override
-    public Identifier getTextureLocation(SitEntity entitySit) {
-        return EMPTY;
+    public void extractRenderState(SitEntity entity, EntityRenderState state, float partialTick) {
+        // SitEntity 是不可见的坐骑锚点，不提供任何数据
+    }
+
+    @Override
+    public void submit(EntityRenderState state, PoseStack poseStack,
+                       SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
+        // SitEntity 是不可见的坐骑锚点，不渲染任何内容
     }
 }

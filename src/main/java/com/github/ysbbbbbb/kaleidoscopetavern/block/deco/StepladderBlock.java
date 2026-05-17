@@ -3,6 +3,9 @@ package com.github.ysbbbbbb.kaleidoscopetavern.block.deco;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -30,7 +33,7 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class StepladderBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<StepladderBlock> CODEC = simpleCodec(p -> new StepladderBlock());
+    public static final MapCodec<StepladderBlock> CODEC = simpleCodec(StepladderBlock::new);
 
     public static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -75,8 +78,9 @@ public class StepladderBlock extends HorizontalDirectionalBlock implements Simpl
             Block.box(8, 0, 0, 12, 8, 16)
     );
 
-    public StepladderBlock() {
+    public StepladderBlock(Identifier id) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.GUITAR)
                 .strength(0.8F)
@@ -87,6 +91,10 @@ public class StepladderBlock extends HorizontalDirectionalBlock implements Simpl
                 .setValue(FACING, Direction.NORTH)
                 .setValue(HALF, Half.BOTTOM)
                 .setValue(WATERLOGGED, false));
+    }
+
+    public StepladderBlock(Properties properties) {
+        super(properties);
     }
 
     @Override

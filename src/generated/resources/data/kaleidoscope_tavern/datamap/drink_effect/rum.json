@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:rum",
+  "item": {
+    "id": "kaleidoscope_tavern:rum"
+  },
   "effects": [
     [
       {

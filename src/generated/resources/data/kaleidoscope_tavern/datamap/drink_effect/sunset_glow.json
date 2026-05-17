@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:sunset_glow",
+  "item": {
+    "id": "kaleidoscope_tavern:sunset_glow"
+  },
   "effects": [
     [
       {

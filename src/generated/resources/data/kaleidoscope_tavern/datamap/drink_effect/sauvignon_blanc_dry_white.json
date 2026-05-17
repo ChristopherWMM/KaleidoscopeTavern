@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:sauvignon_blanc_dry_white",
+  "item": {
+    "id": "kaleidoscope_tavern:sauvignon_blanc_dry_white"
+  },
   "effects": [
     [
       {

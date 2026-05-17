@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
@@ -24,7 +25,7 @@ public enum BarrelComponentProvider implements IBlockComponentProvider {
         }
 
         int brewLevel = be.getBrewLevel();
-        ItemStack result = be.getOutput().getStackInSlot(0);
+        ItemStack result = ItemUtil.getStack(be.getOutput(), 0);
 
         Component resultText = Component.translatable("jade.plugin_kaleidoscope_tavern.item_and_count", result.getHoverName(), result.getCount());
         Component levelText = Component.translatable("message.kaleidoscope_tavern.barrel.brew_level.%d".formatted(brewLevel));

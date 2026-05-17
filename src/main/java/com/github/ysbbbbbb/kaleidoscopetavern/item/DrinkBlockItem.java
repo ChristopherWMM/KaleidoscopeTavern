@@ -10,6 +10,9 @@ import com.google.common.collect.Lists;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -20,7 +23,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrownPotion;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownSplashPotion;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
@@ -38,9 +41,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class DrinkBlockItem extends BottleBlockItem implements IHasContainer {
-    public DrinkBlockItem(Block block) {
+    public DrinkBlockItem(Identifier id, Block block) {
         super(block, new Properties()
                 .stacksTo(16)
+                .setId(ResourceKey.create(Registries.ITEM, id))
                 .craftRemainder(ModItems.EMPTY_BOTTLE.get()));
     }
 
@@ -74,8 +78,7 @@ public class DrinkBlockItem extends BottleBlockItem implements IHasContainer {
         }
 
         // 否则尝试喝下去
-        InteractionResult result = this.use(level, player, context.getHand()).getResult();
-        return result == InteractionResult.CONSUME ? InteractionResult.CONSUME_PARTIAL : result;
+        return this.use(level, player, context.getHand());
     }
 
     private boolean tryIncreaseCount(Block self, BlockState state, Level level, BlockPos pos, ItemStack stack, Player player) {
@@ -105,7 +108,7 @@ public class DrinkBlockItem extends BottleBlockItem implements IHasContainer {
     }
 
     @Override
-    public InteractionResult<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         return ItemUtils.startUsingInstantly(level, player, hand);
     }
 
@@ -138,7 +141,7 @@ public class DrinkBlockItem extends BottleBlockItem implements IHasContainer {
         brewLevel = Math.min(brewLevel, effects.size());
         // brew level 从 1 开始，所以要 -1 来获取对应的效果列表
         for (DrinkEffectData.Entry entry : effects.get(brewLevel - 1)) {
-            if (!level.isClientSide() && level.random.nextFloat() < entry.probability()) {
+            if (!level.isClientSide() && level.getRandom().nextFloat() < entry.probability()) {
                 // json 里的持续时间是秒，但是内部游戏是 tick，需要转化
                 int duration = entry.duration() * 20;
                 int amplifier = entry.amplifier();
@@ -166,24 +169,22 @@ public class DrinkBlockItem extends BottleBlockItem implements IHasContainer {
         // brew level 从 1 开始，所以要 -1 来获取对应的效果列表
         List<MobEffectInstance> instances = Lists.newArrayList();
         for (DrinkEffectData.Entry entry : effects.get(brewLevel - 1)) {
-            if (level.random.nextFloat() < entry.probability()) {
+            if (level.getRandom().nextFloat() < entry.probability()) {
                 int duration = entry.duration() * 20;
                 int amplifier = entry.amplifier();
                 instances.add(new MobEffectInstance(entry.effect(), duration, amplifier));
             }
         }
 
-        // 生成一个投掷药水实体
-        ThrownPotion potion = new ThrownPotion(level, x, y, z);
+        // 生成投掷药水实体（26.1 使用 ThrownSplashPotion）
+        ItemStack stack = new ItemStack(this);
+        PotionContents contents = new PotionContents(Optional.empty(), Optional.empty(), instances, Optional.empty());
+        stack.set(DataComponents.POTION_CONTENTS, contents);
+
+        ThrownSplashPotion potion = new ThrownSplashPotion(level, x, y, z, stack);
         if (owner instanceof LivingEntity livingEntity) {
             potion.setOwner(livingEntity);
         }
-
-        // 给投掷药水实体设置效果，直接用 POTION_CONTENTS 来设置，因为 ThrownPotion 内部会读取 POTION_CONTENTS 来生成效果
-        ItemStack stack = new ItemStack(this);
-        PotionContents contents = new PotionContents(Optional.empty(), Optional.empty(), instances);
-        stack.set(DataComponents.POTION_CONTENTS, contents);
-        potion.setItem(stack);
 
         level.addFreshEntity(potion);
     }

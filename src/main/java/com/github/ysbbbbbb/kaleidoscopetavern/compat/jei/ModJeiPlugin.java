@@ -10,6 +10,7 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
 @JeiPlugin
 public class ModJeiPlugin implements IModPlugin {
@@ -29,11 +30,12 @@ public class ModJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(ModItems.BARREL.get(), BarrelRecipeCategory.TYPE);
-        registration.addRecipeCatalyst(ModItems.PRESSING_TUB.get(), PressingTubCategory.TYPE);
+        registration.addCraftingStation(BarrelRecipeCategory.TYPE, ModItems.BARREL.get());
+        registration.addCraftingStation(PressingTubCategory.TYPE, ModItems.PRESSING_TUB.get());
     }
 
     @Override
+    @NonNull
     public Identifier getPluginUid() {
         return UID;
     }

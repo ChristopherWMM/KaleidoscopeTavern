@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:madame_shexiang",
+  "item": {
+    "id": "kaleidoscope_tavern:madame_shexiang"
+  },
   "effects": [
     [
       {

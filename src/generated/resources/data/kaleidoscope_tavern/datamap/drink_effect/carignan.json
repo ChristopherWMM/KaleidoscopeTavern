@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:carignan",
+  "item": {
+    "id": "kaleidoscope_tavern:carignan"
+  },
   "effects": [
     [
       {

@@ -7,18 +7,21 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.material.Fluid;
 
 import java.util.List;
 import java.util.Objects;
 
 public class BarrelRecipeSerializer {
-    public static final Identifier EMPTY_RECIPE_ID = KaleidoscopeTavern.modLoc("empty");
+    public static final ResourceKey<Recipe<?>> EMPTY_RECIPE_ID = ResourceKey.create(Registries.RECIPE, KaleidoscopeTavern.modLoc("empty"));
     public static final int DEFAULT_UNIT_TIME = 2400;
     public static final int MAX_INGREDIENTS = 4;
 

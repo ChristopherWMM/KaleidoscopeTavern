@@ -6,14 +6,17 @@ import com.github.ysbbbbbb.kaleidoscopetavern.crafting.serializer.BarrelRecipeSe
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
 import com.google.common.collect.Lists;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
-import net.minecraft.tags.TagKey;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -28,7 +31,7 @@ public class BarrelBuilder implements RecipeBuilder {
 
     private Fluid fluid = Fluids.WATER;
     private Ingredient carrier = Ingredient.of(ModItems.EMPTY_BOTTLE.get());
-    private ItemStack result = ItemStack.EMPTY;
+    private ItemStackTemplate result = new ItemStackTemplate(Items.GRASS_BLOCK);
     private int unitTime = BarrelRecipeSerializer.DEFAULT_UNIT_TIME;
 
     public static BarrelBuilder builder() {
@@ -40,8 +43,8 @@ public class BarrelBuilder implements RecipeBuilder {
         return this;
     }
 
-    public BarrelBuilder addIngredient(TagKey<Item> tag) {
-        this.ingredients.add(Ingredient.of(tag));
+    public BarrelBuilder addIngredient(HolderSet<Item> holders) {
+        this.ingredients.add(Ingredient.of(holders));
         return this;
     }
 
@@ -60,13 +63,13 @@ public class BarrelBuilder implements RecipeBuilder {
         return this;
     }
 
-    public BarrelBuilder setCarrier(TagKey<Item> tag) {
-        this.carrier = Ingredient.of(tag);
+    public BarrelBuilder setCarrier(HolderSet<Item> holders) {
+        this.carrier = Ingredient.of(holders);
         return this;
     }
 
     public BarrelBuilder setResult(ItemLike itemLike) {
-        this.result = new ItemStack(itemLike);
+        this.result = new ItemStackTemplate(itemLike.asItem());
         return this;
     }
 
@@ -86,31 +89,15 @@ public class BarrelBuilder implements RecipeBuilder {
     }
 
     @Override
-    public Item getResult() {
-        return this.result.getItem();
-    }
-
-    @Override
-    public void save(RecipeOutput output) {
-        String path = RecipeBuilder.getDefaultRecipeId(this.getResult()).getPath();
+    public ResourceKey<Recipe<?>> defaultId() {
+        String path = RecipeBuilder.getDefaultRecipeId(this.result).identifier().getPath();
         Identifier filePath = KaleidoscopeTavern.modLoc(NAME + "/" + path);
-        this.save(output, filePath);
+        return ResourceKey.create(Registries.RECIPE, filePath);
     }
 
     @Override
-    public void save(RecipeOutput output, String recipeId) {
-        Identifier filePath = KaleidoscopeTavern.modLoc(NAME + "/" + recipeId);
-        this.save(output, filePath);
-    }
-
-    @Override
-    public void save(RecipeOutput recipeOutput, Identifier id) {
-        NonNullList<Ingredient> nullList = NonNullList.withSize(BarrelRecipeSerializer.MAX_INGREDIENTS, Ingredient.EMPTY);
-        int size = Math.min(this.ingredients.size(), BarrelRecipeSerializer.MAX_INGREDIENTS);
-        for (int i = 0; i < size; i++) {
-            nullList.set(i, this.ingredients.get(i));
-        }
-        BarrelRecipe recipe = new BarrelRecipe(nullList, fluid, carrier, result, unitTime);
-        recipeOutput.accept(id, recipe, null);
+    public void save(RecipeOutput output, ResourceKey<Recipe<?>> key) {
+        BarrelRecipe recipe = new BarrelRecipe(List.copyOf(this.ingredients), fluid, carrier, result, unitTime);
+        output.accept(key, recipe, null);
     }
 }

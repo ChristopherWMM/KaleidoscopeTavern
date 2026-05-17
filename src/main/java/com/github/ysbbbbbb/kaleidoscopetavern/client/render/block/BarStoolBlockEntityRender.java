@@ -4,26 +4,28 @@ import com.github.ysbbbbbb.kaleidoscopetavern.KaleidoscopeTavern;
 import com.github.ysbbbbbb.kaleidoscopetavern.block.deco.BarStoolBlock;
 import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.deco.BarStoolBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopetavern.client.model.deco.BarStoolBodyModel;
+import com.github.ysbbbbbb.kaleidoscopetavern.client.render.block.state.BarStoolRenderState;
 import com.github.ysbbbbbb.kaleidoscopetavern.entity.SitEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Unit;
 import net.minecraft.util.Util;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DyeColor;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.Function;
 
-@OnlyIn(Dist.CLIENT)
-public class BarStoolBlockEntityRender implements BlockEntityRenderer<BarStoolBlockEntity> {
+public class BarStoolBlockEntityRender implements BlockEntityRenderer<BarStoolBlockEntity, BarStoolRenderState> {
     private final BarStoolBodyModel model;
     private final Function<DyeColor, Identifier> texture = Util.memoize(color -> {
         String path = "textures/entity/deco/bar_stool/%s.png".formatted(color.getName());
@@ -35,22 +37,36 @@ public class BarStoolBlockEntityRender implements BlockEntityRenderer<BarStoolBl
     }
 
     @Override
-    public void render(BarStoolBlockEntity blockEntity, float partialTick, PoseStack poseStack,
-                       MultiBufferSource multiBufferSource, int packedLight, int packedOverlay) {
+    public BarStoolRenderState createRenderState() {
+        return new BarStoolRenderState();
+    }
+
+    @Override
+    public void extractRenderState(BarStoolBlockEntity blockEntity, BarStoolRenderState state, float partialTicks,
+                                   Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+        state.color = blockEntity.getColor();
+
         float renderRot = blockEntity.getBlockState().getValue(BarStoolBlock.FACING).toYRot();
         SitEntity sit = blockEntity.getSitEntity();
         if (sit != null && sit.getFirstPassenger() instanceof LivingEntity passenger) {
-            renderRot = Mth.wrapDegrees(Mth.lerp(partialTick, passenger.yBodyRotO, passenger.yBodyRot));
+            renderRot = Mth.wrapDegrees(Mth.lerp(partialTicks, passenger.yBodyRotO, passenger.yBodyRot));
         }
+        state.renderRot = renderRot;
+    }
+
+    @Override
+    public void submit(BarStoolRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
+                       CameraRenderState camera) {
+        Identifier tex = this.texture.apply(state.color);
 
         poseStack.pushPose();
         poseStack.translate(0.5, 1.5, 0.5);
         poseStack.mulPose(Axis.ZN.rotationDegrees(180.0F));
-        poseStack.mulPose(Axis.YN.rotationDegrees(180.0F - renderRot));
+        poseStack.mulPose(Axis.YN.rotationDegrees(180.0F - state.renderRot));
 
-        Identifier texture = this.texture.apply(blockEntity.getColor());
-        VertexConsumer consumer = multiBufferSource.getBuffer(RenderTypes.entityCutoutNoCull(texture));
-        this.model.renderToBuffer(poseStack, consumer, packedLight, packedOverlay);
+        submitNodeCollector.submitModel(this.model, Unit.INSTANCE, poseStack, tex,
+                state.lightCoords, OverlayTexture.NO_OVERLAY, 0, null);
 
         poseStack.popPose();
     }

@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:sweet_berry_wine",
+  "item": {
+    "id": "kaleidoscope_tavern:sweet_berry_wine"
+  },
   "effects": [
     [
       {

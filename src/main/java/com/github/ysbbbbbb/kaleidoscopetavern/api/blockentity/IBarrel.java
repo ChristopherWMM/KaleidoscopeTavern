@@ -1,7 +1,8 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.api.blockentity;
 
+import com.github.ysbbbbbb.kaleidoscopetavern.crafting.recipe.BarrelRecipe;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -198,5 +199,5 @@ public interface IBarrel {
      *
      * @return 当没有任何配方时，返回 null
      */
-    @Nullable Identifier getRecipeId();
+    @Nullable ResourceKey<BarrelRecipe> getRecipeId();
 }

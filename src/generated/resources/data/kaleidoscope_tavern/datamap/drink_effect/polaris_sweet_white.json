@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:polaris_sweet_white",
+  "item": {
+    "id": "kaleidoscope_tavern:polaris_sweet_white"
+  },
   "effects": [
     [
       {

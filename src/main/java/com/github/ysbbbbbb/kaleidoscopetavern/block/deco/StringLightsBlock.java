@@ -4,14 +4,19 @@ import com.google.common.collect.Maps;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -31,10 +36,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
+import java.util.Objects;
 
 @SuppressWarnings("deprecation")
 public class StringLightsBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<StringLightsBlock> CODEC = simpleCodec(p -> new StringLightsBlock(Items.WHITE_DYE));
+    public static final MapCodec<StringLightsBlock> CODEC = simpleCodec(p -> new StringLightsBlock(p, DyeColor.WHITE));
     public static final Map<Item, StringLightsBlock> TRANSFORM_MAP = Maps.newHashMap();
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -44,33 +50,47 @@ public class StringLightsBlock extends HorizontalDirectionalBlock implements Sim
     public static final VoxelShape EAST_SHAPE = Block.box(0, 4, 0, 6, 16, 16);
     public static final VoxelShape WEST_SHAPE = Block.box(10, 4, 0, 16, 16, 16);
 
-    public final @Nullable DyeItem dyeItem;
+    public final @Nullable Item dyeItem;
 
-    public StringLightsBlock(@Nullable Item dyeItem) {
-        DyeColor dyeColor = null;
-        if (dyeItem instanceof DyeItem dye) {
-            dyeColor = dye.components().get(DataComponents.DYE);
-        }
-        if (dyeColor == null) {
-            dyeColor = DyeColor.WHITE;
-        }
-
-        super(Properties.of()
-                .mapColor(dyeColor)
-                .instrument(NoteBlockInstrument.HAT)
-                .strength(0.8F)
-                .sound(SoundType.CHAIN)
-                .noCollision()
-                .lightLevel(s -> 15));
-        this.registerDefaultState(this.stateDefinition.any()
-                .setValue(FACING, Direction.NORTH)
-                .setValue(WATERLOGGED, false));
-        if (dyeItem instanceof DyeItem dye) {
-            this.dyeItem = dye;
+    public StringLightsBlock(Properties properties, @Nullable DyeColor dyeColor) {
+        super(properties);
+        if (dyeColor != null) {
+            this.dyeItem = switch (dyeColor) {
+                case ORANGE -> Items.ORANGE_DYE;
+                case MAGENTA -> Items.MAGENTA_DYE;
+                case LIGHT_BLUE -> Items.LIGHT_BLUE_DYE;
+                case YELLOW -> Items.YELLOW_DYE;
+                case LIME -> Items.LIME_DYE;
+                case PINK -> Items.PINK_DYE;
+                case GRAY -> Items.GRAY_DYE;
+                case LIGHT_GRAY -> Items.LIGHT_GRAY_DYE;
+                case CYAN -> Items.CYAN_DYE;
+                case PURPLE -> Items.PURPLE_DYE;
+                case BLUE -> Items.BLUE_DYE;
+                case BROWN -> Items.BROWN_DYE;
+                case GREEN -> Items.GREEN_DYE;
+                case RED -> Items.RED_DYE;
+                case BLACK -> Items.BLACK_DYE;
+                default -> Items.WHITE_DYE;
+            };
             TRANSFORM_MAP.put(dyeItem, this);
         } else {
             this.dyeItem = null;
         }
+    }
+
+    public StringLightsBlock(Identifier id, @Nullable DyeColor dyeColor) {
+        this(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
+                .mapColor(Objects.requireNonNullElse(dyeColor, DyeColor.WHITE))
+                .instrument(NoteBlockInstrument.HAT)
+                .strength(0.8F)
+                .sound(SoundType.CHAIN)
+                .noCollision()
+                .lightLevel(s -> 15), dyeColor);
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(WATERLOGGED, false));
     }
 
     @Override

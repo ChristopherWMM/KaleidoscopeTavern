@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:mother_snow",
+  "item": {
+    "id": "kaleidoscope_tavern:mother_snow"
+  },
   "effects": [
     [
       {

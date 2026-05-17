@@ -6,6 +6,9 @@ import com.github.ysbbbbbb.kaleidoscopetavern.init.ModBlocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -39,7 +42,7 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class BarStoolBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<BarStoolBlock> CODEC = simpleCodec(p -> new BarStoolBlock(DyeColor.WHITE));
+    public static final MapCodec<BarStoolBlock> CODEC = simpleCodec(p -> new BarStoolBlock(p, DyeColor.WHITE));
 
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -74,8 +77,9 @@ public class BarStoolBlock extends BaseEntityBlock implements SimpleWaterloggedB
             Block.box(11, 15, 2, 14, 21, 14)
     );
 
-    public BarStoolBlock(DyeColor color) {
+    public BarStoolBlock(Identifier id, DyeColor color) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.GUITAR)
                 .strength(0.8F)
@@ -85,6 +89,11 @@ public class BarStoolBlock extends BaseEntityBlock implements SimpleWaterloggedB
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(WATERLOGGED, false));
+        this.color = color;
+    }
+
+    public BarStoolBlock(Properties properties, DyeColor color) {
+        super(properties);
         this.color = color;
     }
 

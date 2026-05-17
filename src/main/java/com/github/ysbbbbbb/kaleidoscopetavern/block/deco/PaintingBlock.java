@@ -1,16 +1,12 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.block.deco;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.Util;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
@@ -29,11 +25,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 @SuppressWarnings("deprecation")
 public class PaintingBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<PaintingBlock> CODEC = simpleCodec(p -> new PaintingBlock());
+    public static final MapCodec<PaintingBlock> CODEC = simpleCodec(PaintingBlock::new);
 
     public static final EnumProperty<AttachFace> ATTACH_FACE = BlockStateProperties.ATTACH_FACE;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -45,10 +39,9 @@ public class PaintingBlock extends HorizontalDirectionalBlock implements SimpleW
     public static final VoxelShape FLOOR_SHAPE = Block.box(1, 0, 1, 15, 1, 15);
     public static final VoxelShape CEILING_SHAPE = Block.box(1, 15, 1, 15, 16, 15);
 
-    private @Nullable String tooltipKey;
-
-    public PaintingBlock() {
+    public PaintingBlock(Identifier id) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.HAT)
                 .strength(0.8F)
@@ -59,6 +52,10 @@ public class PaintingBlock extends HorizontalDirectionalBlock implements SimpleW
                 .setValue(FACING, Direction.NORTH)
                 .setValue(ATTACH_FACE, AttachFace.WALL)
                 .setValue(WATERLOGGED, false));
+    }
+
+    public PaintingBlock(Properties properties) {
+        super(properties);
     }
 
     @Override
@@ -113,15 +110,6 @@ public class PaintingBlock extends HorizontalDirectionalBlock implements SimpleW
             default -> NORTH_SHAPE;
         };
     }
-
-    @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag tooltipFlag) {
-        if (this.tooltipKey == null) {
-            this.tooltipKey = Util.makeDescriptionId("tooltip", BuiltInRegistries.BLOCK.getKey(this));
-        }
-        tooltip.add(Component.translatable(this.tooltipKey).withStyle(ChatFormatting.GRAY));
-    }
-
 
     @Override
     protected MapCodec<? extends HorizontalDirectionalBlock> codec() {

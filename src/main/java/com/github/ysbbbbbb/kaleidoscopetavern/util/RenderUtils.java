@@ -4,12 +4,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import org.joml.Matrix4f;
 
 public class RenderUtils {
@@ -94,14 +93,15 @@ public class RenderUtils {
         return (float) (int) h / (float) Integer.MAX_VALUE;
     }
 
+    // 26.1 TODO: IClientFluidTypeExtensions 不再提供 getStillTexture/getTintColor
+    // 流体纹理和颜色现在通过 JSON 模型系统指定。需要重新设计流体渲染。
+    // 26.1: getTextureAtlas 已移除，改用 getAtlasManager().getAtlasOrThrow()
     private static TextureAtlasSprite getStillFluidSprite(Fluid fluid) {
-        IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid);
-        Identifier fluidStill = renderProperties.getStillTexture();
-        return Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(fluidStill);
+        return Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS).getSprite(Identifier.withDefaultNamespace("block/water_still"));
     }
 
+    // 26.1 TODO: getTintColor 已移除，流体颜色通过 JSON 模型 tintindex 指定
     private static int getFluidColor(Fluid fluid) {
-        IClientFluidTypeExtensions ext = IClientFluidTypeExtensions.of(fluid);
-        return ext.getTintColor();
+        return 0xFFFFFFFF;
     }
 }

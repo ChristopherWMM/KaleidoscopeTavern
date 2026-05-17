@@ -4,6 +4,9 @@ import com.github.ysbbbbbb.kaleidoscopetavern.init.ModBlocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
@@ -18,7 +21,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -30,26 +32,31 @@ import net.neoforged.neoforge.common.ItemAbilities;
 
 @SuppressWarnings("deprecation")
 public class WildGrapevineBlock extends GrowingPlantHeadBlock implements BonemealableBlock {
-    public static final MapCodec<WildGrapevineBlock> CODEC = simpleCodec(p -> new WildGrapevineBlock());
+    public static final MapCodec<WildGrapevineBlock> CODEC = simpleCodec(WildGrapevineBlock::new);
     /**
      * 被剪刀修剪过后，无法再随机生长了，直到被重新种植
      */
     public static BooleanProperty SHEARED = BooleanProperty.create("sheared");
 
     private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 16, 15);
-    private static final BlockBehaviour.Properties PROPERTIES = Properties.of()
-            .mapColor(MapColor.PLANT)
-            .randomTicks()
-            .noCollision()
-            .instabreak()
-            .sound(SoundType.CAVE_VINES)
-            .pushReaction(PushReaction.DESTROY);
 
-    public WildGrapevineBlock() {
-        super(PROPERTIES, Direction.DOWN, SHAPE, false, 0.15);
+    public WildGrapevineBlock(Identifier id) {
+        super(Properties.of()
+                        .setId(ResourceKey.create(Registries.BLOCK, id))
+                        .mapColor(MapColor.PLANT)
+                        .randomTicks()
+                        .noCollision()
+                        .instabreak()
+                        .sound(SoundType.CAVE_VINES)
+                        .pushReaction(PushReaction.DESTROY)
+                , Direction.DOWN, SHAPE, false, 0.15);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(AGE, 0)
                 .setValue(SHEARED, false));
+    }
+
+    public WildGrapevineBlock(Properties properties) {
+        super(properties, Direction.DOWN, SHAPE, false, 0.15);
     }
 
     @Override

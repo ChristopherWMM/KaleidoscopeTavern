@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:sakura_wine",
+  "item": {
+    "id": "kaleidoscope_tavern:sakura_wine"
+  },
   "effects": [
     [
       {

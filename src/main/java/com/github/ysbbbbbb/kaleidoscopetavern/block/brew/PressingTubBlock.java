@@ -5,6 +5,9 @@ import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.brew.PressingTubBlockE
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -34,15 +37,16 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class PressingTubBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<PressingTubBlock> CODEC = simpleCodec(p -> new PressingTubBlock());
+    public static final MapCodec<PressingTubBlock> CODEC = simpleCodec(PressingTubBlock::new);
 
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty TILT = BooleanProperty.create("tilt");
@@ -75,8 +79,9 @@ public class PressingTubBlock extends BaseEntityBlock implements SimpleWaterlogg
             Block.box(0, 8, 0, 8, 16, 16)
     );
 
-    public PressingTubBlock() {
+    public PressingTubBlock(Identifier id) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.GUITAR)
                 .strength(0.8F)
@@ -86,6 +91,10 @@ public class PressingTubBlock extends BaseEntityBlock implements SimpleWaterlogg
                 .setValue(FACING, Direction.NORTH)
                 .setValue(TILT, false)
                 .setValue(WATERLOGGED, false));
+    }
+
+    public PressingTubBlock(Properties properties) {
+        super(properties);
     }
 
     @Override
@@ -144,9 +153,10 @@ public class PressingTubBlock extends BaseEntityBlock implements SimpleWaterlogg
         List<ItemStack> stacks = super.getDrops(pState, pParams);
         BlockEntity blockEntity = pParams.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
         if (blockEntity instanceof IPressingTub pressingTub) {
-            ItemStack drop = pressingTub.getItems().getStackInSlot(0).copy();
-            if (!drop.isEmpty()) {
-                stacks.add(drop);
+            ItemResource resource = pressingTub.getItems().getResource(0);
+            int amount = pressingTub.getItems().getAmountAsInt(0);
+            if (!resource.isEmpty() && amount > 0) {
+                stacks.add(resource.toStack(amount));
             }
         }
         return stacks;
@@ -252,10 +262,13 @@ public class PressingTubBlock extends BaseEntityBlock implements SimpleWaterlogg
             return stack;
         }
         // 判断产物是否是铁桶容器的
-        FluidTank fluid = pressingTub.getFluid();
-        Item bucket = fluid.getFluid().getFluid().getBucket();
+        FluidStacksResourceHandler fluidHandler = pressingTub.getFluid();
+        Item bucket = fluidHandler.getResource(0).getFluid().getBucket();
         if (bucket instanceof BucketItem) {
-            fluid.drain(IPressingTub.MAX_FLUID_AMOUNT, IFluidHandler.FluidAction.EXECUTE);
+            try (Transaction tx = Transaction.openRoot()) {
+                fluidHandler.extract(fluidHandler.getResource(0), IPressingTub.MAX_FLUID_AMOUNT, tx);
+                tx.commit();
+            }
             return bucket.getDefaultInstance();
         }
         return stack;

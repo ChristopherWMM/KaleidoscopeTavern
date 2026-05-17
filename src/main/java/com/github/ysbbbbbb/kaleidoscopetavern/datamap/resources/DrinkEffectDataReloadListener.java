@@ -11,14 +11,14 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import org.jspecify.annotations.NullMarked;
 
 import java.util.Map;
 
 @NullMarked
 public class DrinkEffectDataReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
-    public static final Map<Item, DrinkEffectData> INSTANCE = Maps.newHashMap();
+    public static final Map<ItemStackTemplate, DrinkEffectData> INSTANCE = Maps.newHashMap();
 
     public DrinkEffectDataReloadListener() {
         super(ExtraCodecs.JSON, FileToIdConverter.json("datamap/drink_effect"));
@@ -31,7 +31,7 @@ public class DrinkEffectDataReloadListener extends SimpleJsonResourceReloadListe
             var result = DrinkEffectData.CODEC.parse(JsonOps.INSTANCE, entry.getValue());
             if (result.result().isPresent()) {
                 DrinkEffectData data = result.result().get();
-                INSTANCE.put(data.item().value(), data);
+                INSTANCE.put(data.item(), data);
             } else if (result.error().isPresent()) {
                 KaleidoscopeTavern.LOGGER.error("Failed to parse drink effect data from '{}': {}", entry.getKey(), result.error().get().message());
             }

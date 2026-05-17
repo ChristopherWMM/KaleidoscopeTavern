@@ -103,7 +103,9 @@ public class PressingTubBlockEntityRender implements BlockEntityRenderer<Pressin
     public void extractRenderState(PressingTubBlockEntity blockEntity, PressingTubRenderState state, float partialTicks,
                                    Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
-        ItemStack stack = blockEntity.getItems().getStackInSlot(0);
+        // 26.1: ItemStacksResourceHandler 使用 getResource(0).toStack()
+        var itemResource = blockEntity.getItems().getResource(0);
+        ItemStack stack = itemResource.isEmpty() ? ItemStack.EMPTY : itemResource.toStack();
         if (stack.isEmpty()) {
             state.stackRender.clear();
             state.itemAmount = 0;
@@ -112,7 +114,9 @@ public class PressingTubBlockEntityRender implements BlockEntityRenderer<Pressin
             state.itemAmount = stack.getCount();
         }
         state.fluidAmount = blockEntity.getFluidAmount();
-        state.fluid = blockEntity.getFluid().getFluid().getFluid();
+        // 26.1: FluidStacksResourceHandler 使用 getResource(0).getFluid()
+        var fluidResource = blockEntity.getFluid().getResource(0);
+        state.fluid = fluidResource.isEmpty() ? null : fluidResource.getFluid();
         state.direction = blockEntity.getBlockState().getValue(PressingTubBlock.FACING);
         state.tilt = blockEntity.getBlockState().getValue(PressingTubBlock.TILT);
     }

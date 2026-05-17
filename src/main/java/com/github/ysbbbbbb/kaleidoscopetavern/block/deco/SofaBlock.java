@@ -5,6 +5,9 @@ import com.github.ysbbbbbb.kaleidoscopetavern.entity.SitEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -36,7 +39,7 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class SofaBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, IConnectionBlock {
-    public static final MapCodec<SofaBlock> CODEC = simpleCodec(p -> new SofaBlock());
+    public static final MapCodec<SofaBlock> CODEC = simpleCodec(SofaBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     // 普通情况
@@ -70,8 +73,9 @@ public class SofaBlock extends HorizontalDirectionalBlock implements SimpleWater
     public static final VoxelShape EAST_LEFT_CORNER_SHAPE = Shapes.or(EAST_SHAPE, Block.box(0, 8, 11, 16, 18, 16));
     public static final VoxelShape EAST_RIGHT_CORNER_SHAPE = Shapes.or(EAST_SHAPE, Block.box(0, 8, 0, 16, 18, 5));
 
-    public SofaBlock() {
+    public SofaBlock(Identifier id) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.WOOL)
                 .instrument(NoteBlockInstrument.GUITAR)
                 .strength(0.8F)
@@ -82,6 +86,10 @@ public class SofaBlock extends HorizontalDirectionalBlock implements SimpleWater
                 .setValue(FACING, Direction.NORTH)
                 .setValue(CONNECTION, ConnectionType.SINGLE)
                 .setValue(WATERLOGGED, false));
+    }
+
+    public SofaBlock(Properties properties) {
+        super(properties);
     }
 
     @Override

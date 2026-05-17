@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -11,18 +12,35 @@ import java.util.concurrent.CompletableFuture;
 public class ModRecipeGenerator extends ModRecipeProvider {
     private final List<ModRecipeProvider> providers = Lists.newArrayList();
 
-    public ModRecipeGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, registries);
-        providers.add(new PressingTubRecipeProvider(output, registries));
-        providers.add(new BarrelRecipeProvider(output, registries));
-        providers.add(new ShapedRecipeProvider(output, registries));
-        providers.add(new ShapelessRecipeProvider(output, registries));
+    public ModRecipeGenerator(HolderLookup.Provider registries, RecipeOutput output) {
+        super(registries, output);
+        providers.add(new PressingTubRecipeProvider(registries, output));
+        providers.add(new BarrelRecipeProvider(registries, output));
+        providers.add(new ShapedRecipeProvider(registries, output));
+        providers.add(new ShapelessRecipeProvider(registries, output));
     }
 
     @Override
-    public void buildRecipes(RecipeOutput output) {
+    protected void buildRecipes() {
         for (ModRecipeProvider provider : providers) {
-            provider.buildRecipes(output);
+            provider.buildRecipes();
+        }
+    }
+
+    @SuppressWarnings("all")
+    public static class Runner extends RecipeProvider.Runner {
+        public Runner(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries) {
+            super(packOutput, registries);
+        }
+
+        @Override
+        protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
+            return new ModRecipeGenerator(registries, output);
+        }
+
+        @Override
+        public String getName() {
+            return "kaleidoscope Tavern Recipes";
         }
     }
 }

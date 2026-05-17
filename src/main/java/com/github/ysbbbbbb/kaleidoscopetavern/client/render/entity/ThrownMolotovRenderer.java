@@ -4,26 +4,40 @@ import com.github.ysbbbbbb.kaleidoscopetavern.entity.ThrownMolotovEntity;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModBlocks;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
 
-@SuppressWarnings("deprecation")
-public class ThrownMolotovRenderer extends EntityRenderer<ThrownMolotovEntity> {
-    private final BlockRenderDispatcher renderer;
+/**
+ * 投掷燃烧瓶的渲染器，将 MolotovBlock 作为旋转中的小方块渲染。
+ */
+public class ThrownMolotovRenderer extends EntityRenderer<ThrownMolotovEntity, EntityRenderState> {
+    private static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
+    /**
+     * 每帧复用的 BlockModelRenderState，因为此渲染器只渲染一个方块模型
+     */
+    private final BlockModelRenderState blockModelRenderState = new BlockModelRenderState();
 
     public ThrownMolotovRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.renderer = context.getBlockRenderDispatcher();
+        BlockState state = ModBlocks.MOLOTOV.get().defaultBlockState();
+        context.getBlockModelResolver().update(blockModelRenderState, state, BLOCK_DISPLAY_CONTEXT);
     }
 
     @Override
-    public void render(ThrownMolotovEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public EntityRenderState createRenderState() {
+        return new EntityRenderState();
+    }
+
+    @Override
+    public void submit(EntityRenderState state, PoseStack poseStack,
+                       SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
         poseStack.pushPose();
 
         // 缩小方块模型，使其适合投射物大小
@@ -31,22 +45,18 @@ public class ThrownMolotovRenderer extends EntityRenderer<ThrownMolotovEntity> {
         poseStack.translate(-0.5, 0, -0.5);
 
         // 飞行时旋转
-        float rotation = (entity.tickCount + partialTick) * 20.0F;
+        float rotation = state.ageInTicks * 20.0F;
         poseStack.translate(0.5, 0.5, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
         poseStack.mulPose(Axis.XP.rotationDegrees(rotation * 0.7F));
         poseStack.translate(-0.5, -0.5, -0.5);
 
-        BlockState blockState = ModBlocks.MOLOTOV.get().defaultBlockState();
-        renderer.renderSingleBlock(blockState, poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+        // 更新并提交 Molotov 方块的模型
+        blockModelRenderState.submit(poseStack, submitNodeCollector,
+                state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor);
 
         poseStack.popPose();
 
-        super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
-    }
-
-    @Override
-    public Identifier getTextureLocation(ThrownMolotovEntity entity) {
-        return InventoryMenu.BLOCK_ATLAS;
+        super.submit(state, poseStack, submitNodeCollector, cameraRenderState);
     }
 }

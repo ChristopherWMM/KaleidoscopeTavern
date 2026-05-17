@@ -2,15 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "kaleidoscope_tavern:base_sandwich_board"
-    },
-    {
-      "item": "minecraft:lilac"
-    }
+    "kaleidoscope_tavern:base_sandwich_board",
+    "minecraft:lilac"
   ],
   "result": {
-    "count": 1,
     "id": "kaleidoscope_tavern:peony_sandwich_board"
   }
 }

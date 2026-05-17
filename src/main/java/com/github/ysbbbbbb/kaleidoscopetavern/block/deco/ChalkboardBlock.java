@@ -7,6 +7,9 @@ import com.github.ysbbbbbb.kaleidoscopetavern.init.ModBlocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -38,7 +41,7 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class ChalkboardBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<ChalkboardBlock> CODEC = simpleCodec(p -> new ChalkboardBlock());
+    public static final MapCodec<ChalkboardBlock> CODEC = simpleCodec(ChalkboardBlock::new);
 
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
@@ -57,8 +60,9 @@ public class ChalkboardBlock extends BaseEntityBlock implements SimpleWaterlogge
     private static final VoxelShape UP_WEST_SHAPE = Block.box(15, 0, 0, 16, 14, 16);
     private static final VoxelShape DOWN_WEST_SHAPE = Block.box(15, 2, 0, 16, 16, 16);
 
-    public ChalkboardBlock() {
+    public ChalkboardBlock(Identifier id) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.GUITAR)
                 .strength(0.8F)
@@ -70,6 +74,10 @@ public class ChalkboardBlock extends BaseEntityBlock implements SimpleWaterlogge
                 .setValue(HALF, Half.BOTTOM)
                 .setValue(POSITION, PositionType.SINGLE)
                 .setValue(WATERLOGGED, false));
+    }
+
+    public ChalkboardBlock(Properties properties) {
+        super(properties);
     }
 
     @Override

@@ -14,8 +14,9 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeHolderType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -29,11 +30,10 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class PressingTubCategory implements IRecipeCategory<RecipeHolder<PressingTubRecipe>> {
-    public static final RecipeType<RecipeHolder<PressingTubRecipe>> TYPE = RecipeType.createRecipeHolderType(KaleidoscopeTavern.modLoc("pressing_tub"));
+    public static final IRecipeHolderType<PressingTubRecipe> TYPE = IRecipeType.create(ModRecipes.PRESSING_TUB_RECIPE.get());
 
     private static final Identifier BG = KaleidoscopeTavern.modLoc("textures/gui/jei/pressing_tub.png");
     private static final MutableComponent TITLE = Component.translatable("block.kaleidoscope_tavern.pressing_tub");
@@ -55,7 +55,7 @@ public class PressingTubCategory implements IRecipeCategory<RecipeHolder<Pressin
             return List.of();
         }
         List<RecipeHolder<PressingTubRecipe>> recipes = Lists.newArrayList();
-        recipes.addAll(level.getRecipeManager().getAllRecipesFor(ModRecipes.PRESSING_TUB_RECIPE));
+        // recipes.addAll(level.getRecipeManager().getAllRecipesFor(ModRecipes.PRESSING_TUB_RECIPE));
         return recipes;
     }
 
@@ -75,7 +75,7 @@ public class PressingTubCategory implements IRecipeCategory<RecipeHolder<Pressin
     private void drawCenteredString(GuiGraphicsExtractor guiGraphics, Component text) {
         Font font = Minecraft.getInstance().font;
         FormattedCharSequence sequence = text.getVisualOrderText();
-        guiGraphics.drawString(font, sequence, (WIDTH - font.width(sequence) - 5), 42, 0x555555, false);
+        guiGraphics.text(font, sequence, (WIDTH - font.width(sequence) - 5), 42, 0x555555, false);
     }
 
     @Override
@@ -86,22 +86,19 @@ public class PressingTubCategory implements IRecipeCategory<RecipeHolder<Pressin
             needPressCount++;
         }
 
-        for (Ingredient input : recipe.getIngredients()) {
-            int finalNeedPressCount = needPressCount;
-            List<ItemStack> list = Arrays.stream(input.getItems())
-                    .map(s -> s.copyWithCount(finalNeedPressCount))
-                    .toList();
-            builder.addSlot(RecipeIngredientRole.INPUT, 32, 13)
-                    .addIngredients(VanillaTypes.ITEM_STACK, list);
-        }
+        Ingredient input = recipe.input();
+        int finalNeedPressCount = needPressCount;
+        List<ItemStack> list = input.items()
+                .map(holderItem -> new ItemStack(holderItem, finalNeedPressCount))
+                .toList();
+        builder.addSlot(RecipeIngredientRole.INPUT, 32, 13)
+                .addIngredients(VanillaTypes.ITEM_STACK, list);
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 128, 18)
-                .addItemLike(recipe.getFluid().getBucket());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 128, 18).add(recipe.getFluid().getBucket());
     }
 
-
     @Override
-    public RecipeType<RecipeHolder<PressingTubRecipe>> getRecipeType() {
+    public IRecipeType<RecipeHolder<PressingTubRecipe>> getRecipeType() {
         return TYPE;
     }
 

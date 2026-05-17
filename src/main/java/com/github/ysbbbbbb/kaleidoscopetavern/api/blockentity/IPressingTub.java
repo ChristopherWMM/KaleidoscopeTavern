@@ -83,7 +83,7 @@ public interface IPressingTub {
      * @param fallDistance 实体的下落高度，暂无实际用途，预留供后续扩展
      * @return 是否成功完成本次压榨操作
      */
-    boolean press(LivingEntity target, float fallDistance);
+    boolean press(LivingEntity target, double fallDistance);
 
     /**
      * 当液体量积满时，使用容器取出压榨产物，成功返回 {@code true}，失败返回 {@code false}。

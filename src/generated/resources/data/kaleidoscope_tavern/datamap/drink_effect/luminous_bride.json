@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:luminous_bride",
+  "item": {
+    "id": "kaleidoscope_tavern:luminous_bride"
+  },
   "effects": [
     [
       {

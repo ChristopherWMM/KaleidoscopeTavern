@@ -5,22 +5,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
+import org.jspecify.annotations.NonNull;
 
 public class BarrelRecipeContainer implements RecipeInput {
     private final NonNullList<ItemStack> items;
     private final Fluid fluid;
 
-    public BarrelRecipeContainer(IItemHandler itemHandler, FluidTank fluid) {
-        this.items = NonNullList.withSize(itemHandler.getSlots(), ItemStack.EMPTY);
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
-            this.items.set(i, itemHandler.getStackInSlot(i));
+    public BarrelRecipeContainer(ItemStacksResourceHandler itemHandler, FluidStacksResourceHandler fluidHandler) {
+        this.items = NonNullList.withSize(itemHandler.size(), ItemStack.EMPTY);
+        for (int i = 0; i < itemHandler.size(); i++) {
+            this.items.set(i, ItemUtil.getStack(itemHandler, i));
         }
-        this.fluid = fluid.getFluid().getFluid();
+        this.fluid = fluidHandler.getResource(0).getFluid();
     }
 
     @Override
+    @NonNull
     public ItemStack getItem(int index) {
         return items.get(index);
     }

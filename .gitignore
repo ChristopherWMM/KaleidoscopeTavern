@@ -124,3 +124,5 @@ runs/
 .project
 .classpath
 .factorypath
+/.eclipse/
+/.ref/

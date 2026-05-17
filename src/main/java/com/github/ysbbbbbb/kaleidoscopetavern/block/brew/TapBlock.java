@@ -9,6 +9,9 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -48,7 +51,7 @@ import static com.github.ysbbbbbb.kaleidoscopetavern.blockentity.brew.TapBlockEn
 
 @SuppressWarnings("deprecation")
 public class TapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<TapBlock> CODEC = simpleCodec(p -> new TapBlock());
+    public static final MapCodec<TapBlock> CODEC = simpleCodec(TapBlock::new);
 
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -57,8 +60,9 @@ public class TapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock 
 
     public final EnumMap<Direction, VoxelShape> shapes;
 
-    public TapBlock() {
+    public TapBlock(Identifier id) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.METAL)
                 .strength(0.8F)
                 .sound(SoundType.METAL));
@@ -67,6 +71,13 @@ public class TapBlock extends BaseEntityBlock implements SimpleWaterloggedBlock 
                 .setValue(OPEN, false)
                 .setValue(TRIGGERED, false)
                 .setValue(WATERLOGGED, false));
+        this.shapes = VoxelShapeUtils.horizontalShapes(
+                Block.box(5, 5, 6, 11, 13, 16)
+        );
+    }
+
+    public TapBlock(Properties properties) {
+        super(properties);
         this.shapes = VoxelShapeUtils.horizontalShapes(
                 Block.box(5, 5, 6, 11, 13, 16)
         );

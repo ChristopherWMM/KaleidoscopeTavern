@@ -3,6 +3,9 @@ package com.github.ysbbbbbb.kaleidoscopetavern.block.brew;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
@@ -24,12 +27,11 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class BottleBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
-    public static final MapCodec<BottleBlock> CODEC = simpleCodec(p -> new BottleBlock());
+    public static final MapCodec<BottleBlock> CODEC = simpleCodec(p -> new BottleBlock(p, false));
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final VoxelShape SHAPE = Block.box(5, 0, 5, 11, 14, 11);
 
@@ -46,16 +48,17 @@ public class BottleBlock extends HorizontalDirectionalBlock implements SimpleWat
         this.irregular = irregular;
     }
 
-    public BottleBlock(boolean irregular) {
+    public BottleBlock(Identifier id, boolean irregular) {
         this(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .noOcclusion()
                 .instabreak()
                 .pushReaction(PushReaction.DESTROY)
                 .sound(SoundType.GLASS), irregular);
     }
 
-    public BottleBlock() {
-        this(false);
+    public BottleBlock(Identifier id) {
+        this(id, false);
     }
 
     @Override
@@ -63,7 +66,7 @@ public class BottleBlock extends HorizontalDirectionalBlock implements SimpleWat
         // 如果是空手，那么可以尝试取回
         if (level instanceof ServerLevel serverLevel) {
             getDrops(state, serverLevel, pos, null)
-                    .forEach(stack -> ItemHandlerHelper.giveItemToPlayer(player, stack));
+                    .forEach(stack -> player.getInventory().placeItemBackInInventory(stack));
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_ALL);
             level.playSound(null, pos, SoundType.STONE.getPlaceSound(), player.getSoundSource(), 1.0F, 1.0F);
         }

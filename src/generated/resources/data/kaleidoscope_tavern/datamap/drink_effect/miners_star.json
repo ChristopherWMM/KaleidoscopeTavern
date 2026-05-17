@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:miners_star",
+  "item": {
+    "id": "kaleidoscope_tavern:miners_star"
+  },
   "effects": [
     [
       {

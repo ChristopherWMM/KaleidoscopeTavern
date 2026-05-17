@@ -6,6 +6,9 @@ import com.github.ysbbbbbb.kaleidoscopetavern.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -45,8 +48,9 @@ public class TrellisBlock extends Block implements SimpleWaterloggedBlock, ITrel
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty WAXED = BooleanProperty.create("waxed");
 
-    public TrellisBlock() {
+    public TrellisBlock(Identifier id) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.GUITAR)
                 .strength(0.8F)
@@ -57,6 +61,10 @@ public class TrellisBlock extends Block implements SimpleWaterloggedBlock, ITrel
                 .setValue(TYPE, TrellisType.SINGLE)
                 .setValue(WAXED, false)
                 .setValue(WATERLOGGED, false));
+    }
+
+    public TrellisBlock(Properties properties) {
+        super(properties);
     }
 
     @Override

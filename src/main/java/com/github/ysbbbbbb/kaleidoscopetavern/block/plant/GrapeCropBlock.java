@@ -3,6 +3,9 @@ package com.github.ysbbbbbb.kaleidoscopetavern.block.plant;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -46,15 +49,16 @@ public class GrapeCropBlock extends Block implements BonemealableBlock {
     private final GrowPerTickProbability probability;
     private final Supplier<ItemStack> shearResult;
 
-    public GrapeCropBlock(BlockBehaviour.Properties properties, GrowPerTickProbability probability, Supplier<ItemStack> shearResult) {
+    public GrapeCropBlock(Identifier id, BlockBehaviour.Properties properties, GrowPerTickProbability probability, Supplier<ItemStack> shearResult) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
         this.probability = probability;
         this.shearResult = shearResult;
     }
 
-    public GrapeCropBlock(GrowPerTickProbability probability, Supplier<ItemStack> shearResult) {
+    public GrapeCropBlock(Identifier id, GrowPerTickProbability probability, Supplier<ItemStack> shearResult) {
         this(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.PLANT)
                 .noCollision()
                 .randomTicks()
@@ -64,12 +68,10 @@ public class GrapeCropBlock extends Block implements BonemealableBlock {
                 .pushReaction(PushReaction.DESTROY), probability, shearResult);
     }
 
-    @Deprecated
-    public GrapeCropBlock() {
-        this(
-                (state, level, pos, random) -> 0.25F,
-                () -> new ItemStack(ModItems.GRAPE.get(), 3)
-        );
+    public GrapeCropBlock(Properties properties, GrowPerTickProbability probability, Supplier<ItemStack> shearResult) {
+        super(properties);
+        this.probability = probability;
+        this.shearResult = shearResult;
     }
 
     @Override

@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:sherry",
+  "item": {
+    "id": "kaleidoscope_tavern:sherry"
+  },
   "effects": [
     [
       {

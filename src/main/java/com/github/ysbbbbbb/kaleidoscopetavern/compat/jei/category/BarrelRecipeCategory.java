@@ -13,8 +13,9 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeHolderType;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -26,11 +27,10 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class BarrelRecipeCategory implements IRecipeCategory<RecipeHolder<BarrelRecipe>> {
-    public static final RecipeType<RecipeHolder<BarrelRecipe>> TYPE = RecipeType.createRecipeHolderType(KaleidoscopeTavern.modLoc("barrel"));
+    public static final IRecipeHolderType<BarrelRecipe> TYPE = IRecipeType.create(ModRecipes.BARREL_RECIPE.get());
 
     private static final Identifier BG = KaleidoscopeTavern.modLoc("textures/gui/jei/barrel.png");
     private static final MutableComponent TITLE = Component.translatable("block.kaleidoscope_tavern.barrel");
@@ -52,7 +52,7 @@ public class BarrelRecipeCategory implements IRecipeCategory<RecipeHolder<Barrel
             return List.of();
         }
         List<RecipeHolder<BarrelRecipe>> recipes = Lists.newArrayList();
-        recipes.addAll(level.getRecipeManager().getAllRecipesFor(ModRecipes.BARREL_RECIPE));
+        // recipes.addAll(level.getRecipeManager().getAllRecipesFor(ModRecipes.BARREL_RECIPE));
         return recipes;
     }
 
@@ -66,9 +66,9 @@ public class BarrelRecipeCategory implements IRecipeCategory<RecipeHolder<Barrel
         BarrelRecipe recipe = holder.value();
 
         int offsetX = 0;
-        for (Ingredient input : recipe.getIngredients()) {
-            List<ItemStack> list = Arrays.stream(input.getItems())
-                    .map(s -> s.copyWithCount(16))
+        for (Ingredient input : recipe.ingredients()) {
+            List<ItemStack> list = input.items()
+                    .map(holderItem -> new ItemStack(holderItem, 16))
                     .toList();
             builder.addSlot(RecipeIngredientRole.INPUT, 30 + offsetX, 9)
                     .addIngredients(VanillaTypes.ITEM_STACK, list);
@@ -76,19 +76,16 @@ public class BarrelRecipeCategory implements IRecipeCategory<RecipeHolder<Barrel
         }
 
         ItemStack fluidStack = new ItemStack(recipe.fluid().getBucket(), 4);
-        builder.addSlot(RecipeIngredientRole.INPUT, 10, 9)
-                .addItemStack(fluidStack);
+        builder.addSlot(RecipeIngredientRole.INPUT, 10, 9).add(fluidStack);
 
-        builder.addSlot(RecipeIngredientRole.CATALYST, 84, 117)
-                .addIngredients(recipe.carrier());
+        builder.addSlot(RecipeIngredientRole.CRAFTING_STATION, 84, 117).add(recipe.carrier());
 
-        ItemStack outputStack = recipe.result().copyWithCount(16);
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 152, 86)
-                .addItemStack(outputStack);
+        ItemStack outputStack = recipe.result().withCount(16).create();
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 152, 86).add(outputStack);
     }
 
     @Override
-    public RecipeType<RecipeHolder<BarrelRecipe>> getRecipeType() {
+    public IRecipeType<RecipeHolder<BarrelRecipe>> getRecipeType() {
         return TYPE;
     }
 

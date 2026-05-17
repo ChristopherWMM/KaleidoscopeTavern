@@ -56,7 +56,7 @@ public class BarrelTapBehavior implements ITapBehavior {
         ParticleOptions particle = ModParticles.WATER_TAP_DRIP.get();
         // 燃烧瓶很特殊
         // FIXME: 应该用 tag 来决定粒子的效果？
-        if (barrelEntity.getOutput().getStackInSlot(0).is(ModItems.MOLOTOV.get())) {
+        if (barrelEntity.getOutput().getResource(0).is(ModItems.MOLOTOV.get())) {
             particle = ModParticles.LAVA_TAP_DRIP.get();
         }
         return particle;

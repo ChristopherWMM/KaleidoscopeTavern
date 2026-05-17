@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.ItemStack;
@@ -34,6 +35,12 @@ public class ThrownMolotovEntity extends ThrowableProjectile {
 
     public ThrownMolotovEntity(Level level, double pX, double pY, double pZ) {
         super(TYPE, pX, pY, pZ, level);
+    }
+
+    public ThrownMolotovEntity(Level level, LivingEntity owner) {
+        super(TYPE, level);
+        this.setPos(owner.getX(), owner.getEyeY() - 0.1F, owner.getZ());
+        this.setOwner(owner);
     }
 
     @Override

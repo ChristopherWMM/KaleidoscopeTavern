@@ -1,22 +1,26 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.item;
 
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.common.EffectCures;
 
 import java.util.function.Supplier;
 
 public class JuiceBucketItem extends BucketItem implements IHasContainer {
-    public JuiceBucketItem(Supplier<? extends Fluid> supplier) {
+    public JuiceBucketItem(Identifier id, Supplier<? extends Fluid> supplier) {
         super(supplier.get(), new Properties()
+                .setId(ResourceKey.create(Registries.ITEM, id))
                 .stacksTo(16)
                 .craftRemainder(Items.BUCKET));
     }
@@ -24,7 +28,7 @@ public class JuiceBucketItem extends BucketItem implements IHasContainer {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         if (!level.isClientSide()) {
-            entity.removeEffectsCuredBy(EffectCures.HONEY);
+            entity.removeEffect(MobEffects.POISON);
         }
         if (entity instanceof ServerPlayer serverPlayer) {
             CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
@@ -49,7 +53,7 @@ public class JuiceBucketItem extends BucketItem implements IHasContainer {
     }
 
     @Override
-    public InteractionResult<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         return ItemUtils.startUsingInstantly(level, player, hand);
     }
 

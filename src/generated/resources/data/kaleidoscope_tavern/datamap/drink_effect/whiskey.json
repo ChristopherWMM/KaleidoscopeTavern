@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:whiskey",
+  "item": {
+    "id": "kaleidoscope_tavern:whiskey"
+  },
   "effects": [
     [
       {

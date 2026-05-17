@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:glowflower_brew",
+  "item": {
+    "id": "kaleidoscope_tavern:glowflower_brew"
+  },
   "effects": [
     [
       {

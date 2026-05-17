@@ -6,6 +6,9 @@ import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.tag.TagMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
@@ -66,8 +69,9 @@ public class GrapevineTrellisBlock extends Block implements SimpleWaterloggedBlo
         this.grapeCrop = grapeCrop;
     }
 
-    public GrapevineTrellisBlock(GrowPerTickProbability probability, Supplier<BlockState> grapeCrop) {
+    public GrapevineTrellisBlock(Identifier id, GrowPerTickProbability probability, Supplier<BlockState> grapeCrop) {
         this(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.GUITAR)
                 .strength(0.8F)
@@ -76,14 +80,6 @@ public class GrapevineTrellisBlock extends Block implements SimpleWaterloggedBlo
                 .noOcclusion()
                 .pushReaction(PushReaction.DESTROY)
                 .ignitedByLava(), probability, grapeCrop);
-    }
-
-    @Deprecated
-    public GrapevineTrellisBlock() {
-        this(
-                (state, level, pos, random) -> 0.25F,
-                () -> ModBlocks.GRAPE_CROP.get().defaultBlockState()
-        );
     }
 
     @Override

@@ -6,14 +6,10 @@ import com.github.ysbbbbbb.kaleidoscopetavern.client.model.deco.BarStoolBodyMode
 import com.github.ysbbbbbb.kaleidoscopetavern.client.model.deco.LargeChalkboardModel;
 import com.github.ysbbbbbb.kaleidoscopetavern.client.model.deco.SmallChalkboardModel;
 import com.github.ysbbbbbb.kaleidoscopetavern.client.render.entity.SitRenderer;
-import com.github.ysbbbbbb.kaleidoscopetavern.client.render.entity.StringLightsLayer;
 import com.github.ysbbbbbb.kaleidoscopetavern.client.render.entity.ThrownMolotovRenderer;
 import com.github.ysbbbbbb.kaleidoscopetavern.entity.SitEntity;
 import com.github.ysbbbbbb.kaleidoscopetavern.entity.ThrownMolotovEntity;
-import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.world.entity.EntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -33,22 +29,5 @@ public class ModEntitiesRender {
         event.registerLayerDefinition(LargeChalkboardModel.LAYER_LOCATION, LargeChalkboardModel::createBodyLayer);
         event.registerLayerDefinition(BarStoolBodyModel.LAYER_LOCATION, BarStoolBodyModel::createBodyLayer);
         event.registerLayerDefinition(BarrelModel.LAYER_LOCATION, BarrelModel::createBodyLayer);
-    }
-
-    @SubscribeEvent
-    @SuppressWarnings("all")
-    public static void onAddLayers(EntityRenderersEvent.AddLayers event) {
-        // 给玩家添加彩灯挂件渲染层
-        for (var skin : event.getSkins()) {
-            LivingEntityRenderer renderer = event.getPlayerRenderer(skin);
-            if (renderer != null) {
-                renderer.addLayer(new StringLightsLayer<>(renderer));
-            }
-        }
-        // 盔甲架
-        ArmorStandRenderer renderer = event.getRenderer(EntityType.ARMOR_STAND);
-        if (renderer != null) {
-            renderer.addLayer(new StringLightsLayer<>(renderer));
-        }
     }
 }

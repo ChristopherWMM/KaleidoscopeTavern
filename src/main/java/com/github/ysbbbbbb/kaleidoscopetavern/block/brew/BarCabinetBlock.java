@@ -6,6 +6,9 @@ import com.github.ysbbbbbb.kaleidoscopetavern.item.BottleBlockItem;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -33,12 +36,13 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class BarCabinetBlock extends BaseEntityBlock {
-    public static final MapCodec<BarCabinetBlock> CODEC = simpleCodec(p -> new BarCabinetBlock());
+    public static final MapCodec<BarCabinetBlock> CODEC = simpleCodec(BarCabinetBlock::new);
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<PositionType> POSITION = EnumProperty.create("position", PositionType.class);
 
-    public BarCabinetBlock() {
+    public BarCabinetBlock(Identifier id) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.WOOD)
                 .strength(2.5F)
                 .sound(SoundType.WOOD)
@@ -47,6 +51,10 @@ public class BarCabinetBlock extends BaseEntityBlock {
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(POSITION, PositionType.SINGLE));
+    }
+
+    public BarCabinetBlock(Properties properties) {
+        super(properties);
     }
 
     @Override

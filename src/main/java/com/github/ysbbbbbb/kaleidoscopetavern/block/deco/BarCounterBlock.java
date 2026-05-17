@@ -4,6 +4,9 @@ import com.github.ysbbbbbb.kaleidoscopetavern.block.properties.ConnectionType;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.LevelReader;
@@ -19,10 +22,11 @@ import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class BarCounterBlock extends HorizontalDirectionalBlock implements IConnectionBlock {
-    public static final MapCodec<BarCounterBlock> CODEC = simpleCodec(p -> new BarCounterBlock());
+    public static final MapCodec<BarCounterBlock> CODEC = simpleCodec(BarCounterBlock::new);
 
-    public BarCounterBlock() {
+    public BarCounterBlock(Identifier id) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.COLOR_BLACK)
                 .instrument(NoteBlockInstrument.GUITAR)
                 .strength(0.8F)
@@ -31,6 +35,10 @@ public class BarCounterBlock extends HorizontalDirectionalBlock implements IConn
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(CONNECTION, ConnectionType.SINGLE));
+    }
+
+    public BarCounterBlock(Properties properties) {
+        super(properties);
     }
 
     @Override

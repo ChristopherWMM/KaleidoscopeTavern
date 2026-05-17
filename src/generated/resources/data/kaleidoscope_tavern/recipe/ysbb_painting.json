@@ -2,15 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:item_frame"
-    },
-    {
-      "tag": "c:dyes/lime"
-    }
+    "minecraft:item_frame",
+    "#c:dyes/lime"
   ],
   "result": {
-    "count": 1,
     "id": "kaleidoscope_tavern:ysbb_painting"
   }
 }

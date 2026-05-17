@@ -6,6 +6,9 @@ import com.github.ysbbbbbb.kaleidoscopetavern.util.FluidUtils;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -33,16 +36,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @SuppressWarnings("deprecation")
 public class BarrelBlock extends BaseEntityBlock {
-    public static final MapCodec<BarrelBlock> CODEC = simpleCodec(p -> new BarrelBlock());
+    public static final MapCodec<BarrelBlock> CODEC = simpleCodec(BarrelBlock::new);
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     /**
      * 对应酒桶的上中下三层
@@ -66,8 +68,9 @@ public class BarrelBlock extends BaseEntityBlock {
 
     private static final AttachFace[] LAYERS = {AttachFace.FLOOR, AttachFace.WALL, AttachFace.CEILING};
 
-    public BarrelBlock() {
+    public BarrelBlock(Identifier id) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.WOOD)
                 .strength(2.5F)
                 .sound(SoundType.WOOD)
@@ -78,6 +81,10 @@ public class BarrelBlock extends BaseEntityBlock {
                 .setValue(FACING, Direction.NORTH)
                 .setValue(LAYER, AttachFace.FLOOR)
                 .setValue(INDEX, 4));
+    }
+
+    public BarrelBlock(Properties properties) {
+        super(properties);
     }
 
     @Override
@@ -108,9 +115,9 @@ public class BarrelBlock extends BaseEntityBlock {
             if (clickedLid) {
                 // 如果拿的是流体容器
                 if (FluidUtils.isFluidContainer(itemInHand)) {
-                    Optional<FluidStack> optional = FluidUtil.getFluidContained(itemInHand);
+                    FluidStack fluidStack = FluidUtil.getFirstStackContained(itemInHand);
                     // 尝试先从容器中倒出流体到酒桶里，如果成功了就结束了
-                    if (optional.isPresent() && barrelEntity.addFluid(player, itemInHand)) {
+                    if (!fluidStack.isEmpty() && barrelEntity.addFluid(player, itemInHand)) {
                         return InteractionResult.SUCCESS;
                     }
                     // 如果倒出失败了，再尝试从酒桶里装流体到容器里

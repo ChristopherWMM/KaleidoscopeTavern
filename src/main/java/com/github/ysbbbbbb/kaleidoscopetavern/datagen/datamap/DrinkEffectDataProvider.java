@@ -12,18 +12,17 @@ import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonWriter;
 import com.mojang.serialization.JsonOps;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.Identifier;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.Util;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.neoforged.neoforge.registries.DeferredItem;
 import org.jspecify.annotations.NullMarked;
 
@@ -39,7 +38,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.ToIntFunction;
 
 @NullMarked
-@MethodsReturnNonnullByDefault
 public class DrinkEffectDataProvider implements DataProvider {
     private static final int[] SLIGHTLY_TIPSY_DURATIONS = {45, 30, 30, 20, 10};
 
@@ -90,10 +88,10 @@ public class DrinkEffectDataProvider implements DataProvider {
 
         // 佳丽私酿
         add(ModItems.CARIGNAN,
-                List.of(effect(MobEffects.HEAL, 0, 0)),
-                List.of(effect(MobEffects.HEAL, 0, 1)),
-                List.of(effect(MobEffects.HEAL, 0, 2)),
-                List.of(effect(MobEffects.HEAL, 0, 3))
+                List.of(effect(MobEffects.INSTANT_HEALTH, 0, 0)),
+                List.of(effect(MobEffects.INSTANT_HEALTH, 0, 1)),
+                List.of(effect(MobEffects.INSTANT_HEALTH, 0, 2)),
+                List.of(effect(MobEffects.INSTANT_HEALTH, 0, 3))
         );
 
         // 冰葡萄酒
@@ -154,18 +152,18 @@ public class DrinkEffectDataProvider implements DataProvider {
 
         // 伏特加
         add(ModItems.VODKA,
-                List.of(effect(MobEffects.DAMAGE_BOOST, 80, 0)),
-                List.of(effect(MobEffects.DAMAGE_BOOST, 240, 0)),
-                List.of(effect(MobEffects.DAMAGE_BOOST, 240, 1)),
-                List.of(effect(MobEffects.DAMAGE_BOOST, 540, 1))
+                List.of(effect(MobEffects.STRENGTH, 80, 0)),
+                List.of(effect(MobEffects.STRENGTH, 240, 0)),
+                List.of(effect(MobEffects.STRENGTH, 240, 1)),
+                List.of(effect(MobEffects.STRENGTH, 540, 1))
         );
 
         // 威士忌
         add(ModItems.WHISKEY,
-                List.of(effect(MobEffects.DAMAGE_BOOST, 80, 0)),
-                List.of(effect(MobEffects.DAMAGE_BOOST, 240, 0)),
-                List.of(effect(MobEffects.DAMAGE_BOOST, 240, 1)),
-                List.of(effect(MobEffects.DAMAGE_BOOST, 540, 1))
+                List.of(effect(MobEffects.STRENGTH, 80, 0)),
+                List.of(effect(MobEffects.STRENGTH, 240, 0)),
+                List.of(effect(MobEffects.STRENGTH, 240, 1)),
+                List.of(effect(MobEffects.STRENGTH, 540, 1))
         );
 
         // 朗姆酒
@@ -179,34 +177,34 @@ public class DrinkEffectDataProvider implements DataProvider {
 
         // 矿工之星
         add(ModItems.MINERS_STAR,
-                List.of(effect(MobEffects.DIG_SPEED, 80, 0)),
-                List.of(effect(MobEffects.DIG_SPEED, 240, 0)),
-                List.of(effect(MobEffects.DIG_SPEED, 240, 1)),
-                List.of(effect(MobEffects.DIG_SPEED, 720, 1))
+                List.of(effect(MobEffects.HASTE, 80, 0)),
+                List.of(effect(MobEffects.HASTE, 240, 0)),
+                List.of(effect(MobEffects.HASTE, 240, 1)),
+                List.of(effect(MobEffects.HASTE, 720, 1))
         );
 
         // 蜂蜜葡萄酒
         add(ModItems.HONEY_WINE,
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 80, 0)),
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 0)),
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 1)),
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 540, 1))
+                List.of(effect(MobEffects.RESISTANCE, 80, 0)),
+                List.of(effect(MobEffects.RESISTANCE, 240, 0)),
+                List.of(effect(MobEffects.RESISTANCE, 240, 1)),
+                List.of(effect(MobEffects.RESISTANCE, 540, 1))
         );
 
         // 奢香夫人
         add(ModItems.MADAME_SHEXIANG,
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 80, 0)),
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 0)),
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 1)),
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 540, 1))
+                List.of(effect(MobEffects.RESISTANCE, 80, 0)),
+                List.of(effect(MobEffects.RESISTANCE, 240, 0)),
+                List.of(effect(MobEffects.RESISTANCE, 240, 1)),
+                List.of(effect(MobEffects.RESISTANCE, 540, 1))
         );
 
         // 落日余晖
         add(ModItems.SUNSET_GLOW,
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 80, 0)),
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 0)),
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 240, 1)),
-                List.of(effect(MobEffects.DAMAGE_RESISTANCE, 540, 1))
+                List.of(effect(MobEffects.RESISTANCE, 80, 0)),
+                List.of(effect(MobEffects.RESISTANCE, 240, 0)),
+                List.of(effect(MobEffects.RESISTANCE, 240, 1)),
+                List.of(effect(MobEffects.RESISTANCE, 540, 1))
         );
 
         // 长相思干白
@@ -245,31 +243,31 @@ public class DrinkEffectDataProvider implements DataProvider {
         add(ModItems.VINEGAR,
                 List.of(
                         new DrinkEffectData.Entry(MobEffects.BLINDNESS, 10, 0, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.DIG_SLOWDOWN, 10, 0, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.MOVEMENT_SPEED, 10, 0, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.JUMP, 10, 0, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 10, 0, 0.15f)
+                        new DrinkEffectData.Entry(MobEffects.MINING_FATIGUE, 10, 0, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.SPEED, 10, 0, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.JUMP_BOOST, 10, 0, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.HASTE, 10, 0, 0.15f)
                 ),
                 List.of(
                         new DrinkEffectData.Entry(MobEffects.BLINDNESS, 30, 1, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.DIG_SLOWDOWN, 30, 1, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.MOVEMENT_SPEED, 30, 1, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.JUMP, 30, 1, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 30, 1, 0.15f)
+                        new DrinkEffectData.Entry(MobEffects.MINING_FATIGUE, 30, 1, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.SPEED, 30, 1, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.JUMP_BOOST, 30, 1, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.HASTE, 30, 1, 0.15f)
                 ),
                 List.of(
                         new DrinkEffectData.Entry(MobEffects.BLINDNESS, 60, 2, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.DIG_SLOWDOWN, 60, 2, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.MOVEMENT_SPEED, 60, 2, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.JUMP, 60, 2, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 60, 2, 0.15f)
+                        new DrinkEffectData.Entry(MobEffects.MINING_FATIGUE, 60, 2, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.SPEED, 60, 2, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.JUMP_BOOST, 60, 2, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.HASTE, 60, 2, 0.15f)
                 ),
                 List.of(
                         new DrinkEffectData.Entry(MobEffects.BLINDNESS, 100, 2, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.DIG_SLOWDOWN, 100, 2, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.MOVEMENT_SPEED, 100, 2, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.JUMP, 100, 2, 0.15f),
-                        new DrinkEffectData.Entry(MobEffects.DIG_SPEED, 100, 2, 0.15f)
+                        new DrinkEffectData.Entry(MobEffects.MINING_FATIGUE, 100, 2, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.SPEED, 100, 2, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.JUMP_BOOST, 100, 2, 0.15f),
+                        new DrinkEffectData.Entry(MobEffects.HASTE, 100, 2, 0.15f)
                 )
         );
     }
@@ -321,13 +319,13 @@ public class DrinkEffectDataProvider implements DataProvider {
 
         var effects = Lists.<List<DrinkEffectData.Entry>>newArrayListWithExpectedSize(SLIGHTLY_TIPSY_DURATIONS.length + 1);
         // 等级 1，固定为反胃 30s
-        effects.add(List.of(new DrinkEffectData.Entry(MobEffects.CONFUSION, 30, 0, 1f)));
+        effects.add(List.of(new DrinkEffectData.Entry(MobEffects.NAUSEA, 30, 0, 1f)));
         // 等级 2-6，除难以下咽外，都会额外附带对应时长的微醺效果
         for (int i = 0; i < SLIGHTLY_TIPSY_DURATIONS.length; i++) {
             effects.add(withSlightlyTipsy(SLIGHTLY_TIPSY_DURATIONS[i], levelAbove1[Math.min(i, length - 1)]));
         }
 
-        this.add(fileName, new DrinkEffectData(key, effects));
+        this.add(fileName, new DrinkEffectData(new ItemStackTemplate(key.get()), effects));
     }
 
     private List<DrinkEffectData.Entry> withSlightlyTipsy(int duration, List<DrinkEffectData.Entry> entries) {

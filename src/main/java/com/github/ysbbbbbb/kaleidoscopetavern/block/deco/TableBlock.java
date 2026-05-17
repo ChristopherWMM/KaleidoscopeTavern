@@ -2,6 +2,9 @@ package com.github.ysbbbbbb.kaleidoscopetavern.block.deco;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -35,8 +38,9 @@ public class TableBlock extends Block implements SimpleWaterloggedBlock {
     public static final int MIDDLE = 2;
     public static final int RIGHT = 3;
 
-    public TableBlock() {
+    public TableBlock(Identifier id) {
         super(Properties.of()
+                .setId(ResourceKey.create(Registries.BLOCK, id))
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.BASS)
                 .strength(2.0F, 3.0F)
@@ -47,6 +51,10 @@ public class TableBlock extends Block implements SimpleWaterloggedBlock {
                 .setValue(AXIS, Direction.Axis.Z)
                 .setValue(POSITION, SINGLE)
                 .setValue(WATERLOGGED, false));
+    }
+
+    public TableBlock(Properties properties) {
+        super(properties);
     }
 
     @Override

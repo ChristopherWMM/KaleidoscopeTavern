@@ -8,23 +8,21 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathType;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
-
+/**
+ * 果汁流体类型。
+ * 26.1 移除了 IClientFluidTypeExtensions.getStillTexture/getFlowingTexture，
+ * 流体纹理现在通过 assets 下的 blockstates/models JSON 文件指定。
+ */
 public class JuiceFluidType extends FluidType {
     private final Identifier id;
-    private final Identifier stillTexture;
-    private final Identifier flowingTexture;
 
     public JuiceFluidType(Identifier id, Properties properties) {
         super(properties);
         this.id = id;
-        this.stillTexture = Identifier.fromNamespaceAndPath(this.id.getNamespace(), "block/%s_still".formatted(id.getPath()));
-        this.flowingTexture = Identifier.fromNamespaceAndPath(this.id.getNamespace(), "block/%s_flow".formatted(id.getPath()));
     }
 
     public JuiceFluidType(Identifier id, int lightLevel) {
@@ -51,21 +49,5 @@ public class JuiceFluidType extends FluidType {
     public PathType getBlockPathType(FluidState state, BlockGetter level, BlockPos pos,
                                      @Nullable Mob mob, boolean canFluidLog) {
         return canFluidLog ? super.getBlockPathType(state, level, pos, mob, true) : null;
-    }
-
-    @Override
-    @SuppressWarnings("removal")
-    public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
-        consumer.accept(new IClientFluidTypeExtensions() {
-            @Override
-            public Identifier getStillTexture() {
-                return stillTexture;
-            }
-
-            @Override
-            public Identifier getFlowingTexture() {
-                return flowingTexture;
-            }
-        });
     }
 }

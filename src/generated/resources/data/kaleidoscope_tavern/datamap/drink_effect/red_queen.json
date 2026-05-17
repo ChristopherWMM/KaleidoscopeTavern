@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:red_queen",
+  "item": {
+    "id": "kaleidoscope_tavern:red_queen"
+  },
   "effects": [
     [
       {

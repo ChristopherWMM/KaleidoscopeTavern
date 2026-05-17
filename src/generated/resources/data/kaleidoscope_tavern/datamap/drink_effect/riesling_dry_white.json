@@ -1,5 +1,7 @@
 {
-  "item": "kaleidoscope_tavern:riesling_dry_white",
+  "item": {
+    "id": "kaleidoscope_tavern:riesling_dry_white"
+  },
   "effects": [
     [
       {

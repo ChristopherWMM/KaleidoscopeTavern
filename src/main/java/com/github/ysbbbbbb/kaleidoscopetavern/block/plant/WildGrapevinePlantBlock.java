@@ -4,6 +4,9 @@ import com.github.ysbbbbbb.kaleidoscopetavern.init.ModBlocks;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.BlockUtil;
 import net.minecraft.world.level.LevelReader;
@@ -15,18 +18,23 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class WildGrapevinePlantBlock extends GrowingPlantBodyBlock implements BonemealableBlock {
-    public static final MapCodec<WildGrapevinePlantBlock> CODEC = simpleCodec(p -> new WildGrapevinePlantBlock());
+    public static final MapCodec<WildGrapevinePlantBlock> CODEC = simpleCodec(WildGrapevinePlantBlock::new);
 
     private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 16, 15);
-    private static final BlockBehaviour.Properties PROPERTIES = BlockBehaviour.Properties.of()
-            .mapColor(MapColor.PLANT)
-            .noCollision()
-            .instabreak()
-            .sound(SoundType.CAVE_VINES)
-            .pushReaction(PushReaction.DESTROY);
 
-    public WildGrapevinePlantBlock() {
-        super(PROPERTIES, Direction.DOWN, SHAPE, false);
+    public WildGrapevinePlantBlock(Identifier id) {
+        super(BlockBehaviour.Properties.of()
+                        .setId(ResourceKey.create(Registries.BLOCK, id))
+                        .mapColor(MapColor.PLANT)
+                        .noCollision()
+                        .instabreak()
+                        .sound(SoundType.CAVE_VINES)
+                        .pushReaction(PushReaction.DESTROY),
+                Direction.DOWN, SHAPE, false);
+    }
+
+    public WildGrapevinePlantBlock(Properties properties) {
+        super(properties, Direction.DOWN, SHAPE, false);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.item;
 
 import com.github.ysbbbbbb.kaleidoscopetavern.entity.ThrownMolotovEntity;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -13,21 +14,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
 public class MolotovBlockItem extends BottleBlockItem {
-    public MolotovBlockItem(Block block) {
-        super(block);
+    public MolotovBlockItem(Identifier id, Block block) {
+        super(id, block);
     }
 
     @Override
-    public InteractionResult<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         player.startUsingItem(hand);
-        return InteractionResult.consume(player.getItemInHand(hand));
+        return InteractionResult.CONSUME;
     }
 
     @Override
-    public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
+    public boolean releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         int time = this.getUseDuration(stack, entity) - timeLeft;
         if (time < 10) {
-            return;
+            return false;
         }
         if (!level.isClientSide()) {
             ThrownMolotovEntity molotov = new ThrownMolotovEntity(level, entity);
@@ -42,6 +43,7 @@ public class MolotovBlockItem extends BottleBlockItem {
                 stack.shrink(1);
             }
         }
+        return true;
     }
 
     @Override

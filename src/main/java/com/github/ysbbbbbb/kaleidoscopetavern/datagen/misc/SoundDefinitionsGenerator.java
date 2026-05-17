@@ -5,20 +5,19 @@ import com.github.ysbbbbbb.kaleidoscopetavern.KaleidoscopeTavern;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModSounds;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SoundDefinition;
 import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 
 public class SoundDefinitionsGenerator extends SoundDefinitionsProvider {
-    public SoundDefinitionsGenerator(PackOutput output, ExistingFileHelper helper) {
-        super(output, KaleidoscopeTavern.MOD_ID, helper);
+    public SoundDefinitionsGenerator(PackOutput output) {
+        super(output, KaleidoscopeTavern.MOD_ID);
     }
 
     @Override
     public void registerSounds() {
         SoundDefinition paddySound = definition().subtitle(subtitle("effect.vision"))
                 .with(sound("effect/vision"));
-        this.add(ModSounds.EFFECT_VISION, paddySound);
+        this.add(ModSounds.EFFECT_VISION.get(), paddySound);
     }
 
     protected static SoundDefinition.Sound sound(final String name) {
