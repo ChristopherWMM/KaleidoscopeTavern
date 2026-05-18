@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import org.jspecify.annotations.Nullable;
 
 import static com.github.ysbbbbbb.kaleidoscopetavern.util.RenderUtils.stableRandom;
@@ -103,9 +104,9 @@ public class PressingTubBlockEntityRender implements BlockEntityRenderer<Pressin
     public void extractRenderState(PressingTubBlockEntity blockEntity, PressingTubRenderState state, float partialTicks,
                                    Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
-        // 26.1: ItemStacksResourceHandler 使用 getResource(0).toStack()
-        var itemResource = blockEntity.getItems().getResource(0);
-        ItemStack stack = itemResource.isEmpty() ? ItemStack.EMPTY : itemResource.toStack();
+        ItemStacksResourceHandler items = blockEntity.getItems();
+        var itemResource = items.getResource(0);
+        ItemStack stack = itemResource.isEmpty() ? ItemStack.EMPTY : itemResource.toStack(items.getAmountAsInt(0));
         if (stack.isEmpty()) {
             state.stackRender.clear();
             state.itemAmount = 0;
@@ -113,8 +114,8 @@ public class PressingTubBlockEntityRender implements BlockEntityRenderer<Pressin
             this.resolver.updateForTopItem(state.stackRender, stack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, 0);
             state.itemAmount = stack.getCount();
         }
+
         state.fluidAmount = blockEntity.getFluidAmount();
-        // 26.1: FluidStacksResourceHandler 使用 getResource(0).getFluid()
         var fluidResource = blockEntity.getFluid().getResource(0);
         state.fluid = fluidResource.isEmpty() ? null : fluidResource.getFluid();
         state.direction = blockEntity.getBlockState().getValue(PressingTubBlock.FACING);

@@ -23,6 +23,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -58,17 +59,23 @@ public class BarrelBlockEntityRender implements BlockEntityRenderer<BarrelBlockE
         state.fluidAmount = barrel.getFluid().getAmountAsInt(0);
         state.blockPosSeed = barrel.getBlockPos().asLong();
 
+        Level level = barrel.getLevel();
+        if (level != null) {
+            state.gameTime = level.getGameTime();
+            state.partialTicks = partialTicks;
+        }
+
         // 提取物品渲染状态
         ItemStacksResourceHandler items = barrel.getIngredient();
         int globalIndex = 0;
         for (int index = 0; index < items.size(); index++) {
             var itemResource = items.getResource(index);
-            ItemStack stack = itemResource.isEmpty() ? ItemStack.EMPTY : itemResource.toStack();
+            ItemStack stack = itemResource.isEmpty() ? ItemStack.EMPTY : itemResource.toStack(items.getAmountAsInt(index));
             if (!stack.isEmpty()) {
                 int count = stack.getCount() / 2 + 1;
                 for (int i = 0; i < count && globalIndex < BarrelRenderState.MAX_RENDER_ITEMS; i++) {
                     this.itemModelResolver.updateForTopItem(state.itemRenders[globalIndex], stack,
-                            ItemDisplayContext.FIXED, barrel.getLevel(), null, 0);
+                            ItemDisplayContext.FIXED, level, null, 0);
                     globalIndex++;
                 }
             }

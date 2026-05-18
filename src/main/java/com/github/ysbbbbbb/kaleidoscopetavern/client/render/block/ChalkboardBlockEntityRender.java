@@ -54,7 +54,7 @@ public class ChalkboardBlockEntityRender extends TextBlockEntityRender<Chalkboar
     public void submit(TextBlockRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector,
                        CameraRenderState camera) {
         Direction facing = state.facing;
-        int lightCoords = state.lightCoords;
+        int light = state.lightCoords;
         boolean isLarge = state.isLarge;
 
         // 黑板模型
@@ -65,10 +65,10 @@ public class ChalkboardBlockEntityRender extends TextBlockEntityRender<Chalkboar
 
         if (isLarge) {
             submitNodeCollector.submitModel(large, Unit.INSTANCE, poseStack, LARGE_TEXTURE,
-                    lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress);
+                    light, OverlayTexture.NO_OVERLAY, 0, state.breakProgress);
         } else {
             submitNodeCollector.submitModel(small, Unit.INSTANCE, poseStack, SMALL_TEXTURE,
-                    lightCoords, OverlayTexture.NO_OVERLAY, -1, state.breakProgress);
+                    light, OverlayTexture.NO_OVERLAY, 0, state.breakProgress);
         }
         poseStack.popPose();
 
