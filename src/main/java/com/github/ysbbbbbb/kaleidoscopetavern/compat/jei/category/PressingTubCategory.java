@@ -6,7 +6,6 @@ import com.github.ysbbbbbb.kaleidoscopetavern.api.blockentity.IPressingTub;
 import com.github.ysbbbbbb.kaleidoscopetavern.crafting.recipe.PressingTubRecipe;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModRecipes;
-import com.google.common.collect.Lists;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -20,7 +19,6 @@ import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
@@ -36,7 +34,7 @@ public class PressingTubCategory implements IRecipeCategory<RecipeHolder<Pressin
     public static final IRecipeHolderType<PressingTubRecipe> TYPE = IRecipeType.create(ModRecipes.PRESSING_TUB_RECIPE.get());
 
     private static final Identifier BG = KaleidoscopeTavern.modLoc("textures/gui/jei/pressing_tub.png");
-    private static final MutableComponent TITLE = Component.translatable("block.kaleidoscope_tavern.pressing_tub");
+    private static final MutableComponent TITLE = Component.translatable("item.kaleidoscope_tavern.pressing_tub");
 
     public static final int WIDTH = 155;
     public static final int HEIGHT = 50;
@@ -47,16 +45,6 @@ public class PressingTubCategory implements IRecipeCategory<RecipeHolder<Pressin
     public PressingTubCategory(IGuiHelper guiHelper) {
         this.bgDraw = guiHelper.createDrawable(BG, 0, 0, WIDTH, HEIGHT);
         this.iconDraw = guiHelper.createDrawableItemLike(ModItems.PRESSING_TUB.get());
-    }
-
-    public static List<RecipeHolder<PressingTubRecipe>> getRecipes() {
-        ClientLevel level = Minecraft.getInstance().level;
-        if (level == null) {
-            return List.of();
-        }
-        List<RecipeHolder<PressingTubRecipe>> recipes = Lists.newArrayList();
-        // recipes.addAll(level.getRecipeManager().getAllRecipesFor(ModRecipes.PRESSING_TUB_RECIPE));
-        return recipes;
     }
 
     @Override

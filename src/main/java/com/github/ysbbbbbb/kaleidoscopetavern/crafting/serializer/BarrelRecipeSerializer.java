@@ -36,10 +36,10 @@ public class BarrelRecipeSerializer {
     public static final StreamCodec<RegistryFriendlyByteBuf, BarrelRecipe> STREAM_CODEC = new StreamCodec<>() {
         @Override
         public BarrelRecipe decode(RegistryFriendlyByteBuf buf) {
-            int size = Math.min(MAX_INGREDIENTS, buf.readVarInt());
             List<Ingredient> ingredients = Lists.newArrayList();
+            int size = Math.min(MAX_INGREDIENTS, buf.readVarInt());
             for (int i = 0; i < size; i++) {
-                ingredients.set(i, Ingredient.CONTENTS_STREAM_CODEC.decode(buf));
+                ingredients.add(Ingredient.CONTENTS_STREAM_CODEC.decode(buf));
             }
             Identifier fluidId = buf.readIdentifier();
             Fluid fluid = BuiltInRegistries.FLUID.getValue(fluidId);

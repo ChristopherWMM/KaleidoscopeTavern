@@ -5,7 +5,6 @@ import com.github.ysbbbbbb.kaleidoscopetavern.KaleidoscopeTavern;
 import com.github.ysbbbbbb.kaleidoscopetavern.crafting.recipe.BarrelRecipe;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModRecipes;
-import com.google.common.collect.Lists;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -16,9 +15,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.recipe.types.IRecipeHolderType;
 import mezz.jei.api.recipe.types.IRecipeType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
@@ -33,7 +30,7 @@ public class BarrelRecipeCategory implements IRecipeCategory<RecipeHolder<Barrel
     public static final IRecipeHolderType<BarrelRecipe> TYPE = IRecipeType.create(ModRecipes.BARREL_RECIPE.get());
 
     private static final Identifier BG = KaleidoscopeTavern.modLoc("textures/gui/jei/barrel.png");
-    private static final MutableComponent TITLE = Component.translatable("block.kaleidoscope_tavern.barrel");
+    private static final MutableComponent TITLE = Component.translatable("item.kaleidoscope_tavern.barrel");
 
     public static final int WIDTH = 180;
     public static final int HEIGHT = 150;
@@ -44,16 +41,6 @@ public class BarrelRecipeCategory implements IRecipeCategory<RecipeHolder<Barrel
     public BarrelRecipeCategory(IGuiHelper guiHelper) {
         this.bgDraw = guiHelper.createDrawable(BG, 0, 0, WIDTH, HEIGHT);
         this.iconDraw = guiHelper.createDrawableItemLike(ModItems.BARREL.get());
-    }
-
-    public static List<RecipeHolder<BarrelRecipe>> getRecipes() {
-        ClientLevel level = Minecraft.getInstance().level;
-        if (level == null) {
-            return List.of();
-        }
-        List<RecipeHolder<BarrelRecipe>> recipes = Lists.newArrayList();
-        // recipes.addAll(level.getRecipeManager().getAllRecipesFor(ModRecipes.BARREL_RECIPE));
-        return recipes;
     }
 
     @Override

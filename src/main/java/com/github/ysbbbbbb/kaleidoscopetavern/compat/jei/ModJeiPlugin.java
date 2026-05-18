@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.compat.jei;
 
 import com.github.ysbbbbbb.kaleidoscopetavern.KaleidoscopeTavern;
+import com.github.ysbbbbbb.kaleidoscopetavern.client.init.ClientRecipeEvent;
 import com.github.ysbbbbbb.kaleidoscopetavern.compat.jei.category.BarrelRecipeCategory;
 import com.github.ysbbbbbb.kaleidoscopetavern.compat.jei.category.PressingTubCategory;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
@@ -24,8 +25,8 @@ public class ModJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addRecipes(BarrelRecipeCategory.TYPE, BarrelRecipeCategory.getRecipes());
-        registration.addRecipes(PressingTubCategory.TYPE, PressingTubCategory.getRecipes());
+        registration.addRecipes(BarrelRecipeCategory.TYPE, ClientRecipeEvent.BARREL_RECIPES);
+        registration.addRecipes(PressingTubCategory.TYPE, ClientRecipeEvent.PRESSING_TUB_RECIPES);
     }
 
     @Override
