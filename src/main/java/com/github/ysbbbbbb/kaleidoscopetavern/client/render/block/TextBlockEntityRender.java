@@ -46,7 +46,7 @@ public abstract class TextBlockEntityRender<T extends TextBlockEntity, S extends
                                    Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(textBlock, state, partialTicks, cameraPosition, breakProgress);
 
-        // 提取朝向（使用 ChalkboardBlock.FACING，TextBlockEntity 的子类都使用同一个属性）
+        // 提取朝向
         state.facing = textBlock.getBlockState().getValue(ChalkboardBlock.FACING);
 
         // 计算相机到方块中心的距离平方，决定是否渲染文字
@@ -64,7 +64,6 @@ public abstract class TextBlockEntityRender<T extends TextBlockEntity, S extends
         state.color = textBlock.getColor();
         state.isGlowing = textBlock.isGlowing();
         state.textAlignment = textBlock.getTextAlignment();
-        // isLarge 默认 false，子类（ChalkboardBlockEntityRender）可覆盖
         state.isLarge = false;
     }
 
@@ -139,8 +138,7 @@ public abstract class TextBlockEntityRender<T extends TextBlockEntity, S extends
         if (textColor == DyeColor.BLACK.getTextColor() && isGlowing) {
             return 0xff_f0ebcc;
         }
-        // 与 AbstractSignRenderer.getDarkColor 保持一致：暗化 0.4
-        return ARGB.scaleRGB(textColor, 0.4f);
+        return ARGB.scaleRGB(textColor, 0.6f);
     }
 
     protected boolean isOutlineVisible(S state) {
@@ -153,7 +151,6 @@ public abstract class TextBlockEntityRender<T extends TextBlockEntity, S extends
         if (player != null && mc.options.getCameraType().isFirstPerson() && player.isScoping()) {
             return true;
         }
-        // state.blockPos 由 BlockEntityRenderState 基类的 extractBase() 填充
         Entity entity = mc.getCameraEntity();
         BlockPos blockPos = state.blockPos;
         return entity != null && blockPos != null

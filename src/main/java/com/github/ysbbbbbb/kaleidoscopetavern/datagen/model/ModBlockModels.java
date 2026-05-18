@@ -263,13 +263,13 @@ public final class ModBlockModels {
                                         BlockModelGenerators.plainVariant(modLoc("block/deco/table/single")))
                                 .select(TableBlock.SINGLE, Direction.Axis.Z,
                                         BlockModelGenerators.plainVariant(modLoc("block/deco/table/single")))
-                                .select(TableBlock.LEFT, Direction.Axis.X,
-                                        BlockModelGenerators.plainVariant(modLoc("block/deco/table/left")))
-                                .select(TableBlock.LEFT, Direction.Axis.Z,
-                                        BlockModelGenerators.plainVariant(modLoc("block/deco/table/left_rot")))
                                 .select(TableBlock.RIGHT, Direction.Axis.X,
-                                        BlockModelGenerators.plainVariant(modLoc("block/deco/table/right")))
+                                        BlockModelGenerators.plainVariant(modLoc("block/deco/table/left")))
                                 .select(TableBlock.RIGHT, Direction.Axis.Z,
+                                        BlockModelGenerators.plainVariant(modLoc("block/deco/table/left_rot")))
+                                .select(TableBlock.LEFT, Direction.Axis.X,
+                                        BlockModelGenerators.plainVariant(modLoc("block/deco/table/right")))
+                                .select(TableBlock.LEFT, Direction.Axis.Z,
                                         BlockModelGenerators.plainVariant(modLoc("block/deco/table/right_rot")))
                                 .select(TableBlock.MIDDLE, Direction.Axis.X,
                                         BlockModelGenerators.plainVariant(modLoc("block/deco/table/middle")))

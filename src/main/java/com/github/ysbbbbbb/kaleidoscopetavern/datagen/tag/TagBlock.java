@@ -149,7 +149,10 @@ public class TagBlock extends BlockTagsProvider {
 
         this.tag(TagMod.GRASS_STEALTH_PLANTS).add(
                 Blocks.SHORT_GRASS,
+                Blocks.SHORT_DRY_GRASS,
                 Blocks.TALL_GRASS,
+                Blocks.TALL_DRY_GRASS,
+                Blocks.FIREFLY_BUSH,
                 Blocks.FERN,
                 Blocks.LARGE_FERN,
                 Blocks.DEAD_BUSH,

@@ -1,6 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopetavern.crafting.container;
 
-import net.minecraft.core.NonNullList;
+import com.google.common.collect.Lists;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.material.Fluid;
@@ -10,14 +10,20 @@ import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemUtil;
 import org.jspecify.annotations.NonNull;
 
+import java.util.List;
+
 public class BarrelRecipeContainer implements RecipeInput {
-    private final NonNullList<ItemStack> items;
+    private final List<ItemStack> items;
     private final Fluid fluid;
 
     public BarrelRecipeContainer(ItemStacksResourceHandler itemHandler, FluidStacksResourceHandler fluidHandler) {
-        this.items = NonNullList.withSize(itemHandler.size(), ItemStack.EMPTY);
+        this.items = Lists.newArrayList();
         for (int i = 0; i < itemHandler.size(); i++) {
-            this.items.set(i, ItemUtil.getStack(itemHandler, i));
+            ItemStack stack = ItemUtil.getStack(itemHandler, i);
+            if (stack.isEmpty()) {
+                continue;
+            }
+            this.items.add(stack);
         }
         this.fluid = fluidHandler.getResource(0).getFluid();
     }
@@ -45,7 +51,7 @@ public class BarrelRecipeContainer implements RecipeInput {
         return fluid;
     }
 
-    public NonNullList<ItemStack> getItems() {
+    public List<ItemStack> getItems() {
         return items;
     }
 

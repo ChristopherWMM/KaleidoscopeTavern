@@ -156,7 +156,7 @@ public class DrinkBlockItem extends BottleBlockItem implements IHasContainer {
         PotionContents contents = new PotionContents(Optional.empty(), Optional.empty(), instances, Optional.empty());
         stack.set(DataComponents.POTION_CONTENTS, contents);
 
-        ThrownSplashPotion potion = new ThrownSplashPotion(level, x, y, z, stack);
+        ThrownSplashPotion potion = new ThrownSplashPotion(level, x, y + 0.125, z, stack);
         if (owner instanceof LivingEntity livingEntity) {
             potion.setOwner(livingEntity);
         }
